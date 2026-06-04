@@ -3,18 +3,19 @@ Type=Application
 X-Nemo-Application-Type=silica-qt5
 Icon=harbour-exercisetimer
 Exec=harbour-exercisetimer
-Name=harbour-exercisetimer
+Name=Tempo
+Name[fi]=Piiskuri
 # translation example:
 # your app name in German locale (de)
 #
 # Remember to comment out the following line, if you do not want to use
 # a different app name in German locale (de).
-Name[de]=harbour-exercisetimer
+#Name[de]=harbour-exercisetimer
 
 [X-Sailjail]
 # Replace with your organization as a reverse domain name
-OrganizationName=org.myorg
+OrganizationName=com.appiukko
 # ApplicationName does not have to be identical to Name
-ApplicationName=exercisetimer
+ApplicationName=Tempo
 # Add the required permissions here
 Permissions=

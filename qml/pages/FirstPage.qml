@@ -1,8 +1,13 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import com.appiukko.exercisetimer 1.0
 
 Page {
     id: page
+
+    ExerciseTimer {
+        id: timer
+    }
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All

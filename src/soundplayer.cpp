@@ -1,5 +1,6 @@
 #include <QDir>
 #include <QMap>
+#include <sailfishapp.h>
 #include "soundplayer.h"
 #include "eoqttrace.h"
 
@@ -55,7 +56,7 @@ void SoundPlayer::playCountDownSound(int number)
 void SoundPlayer::setupSounds()
 {
     // Countdown sounds
-    QDir soundDir = QDir("sounds");
+    QDir soundDir = QDir(SailfishApp::pathTo("sounds").toLocalFile());
 
     mCountdownSounds[1] = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("one.wav")));
     mCountdownSounds[2] = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("two.wav")));

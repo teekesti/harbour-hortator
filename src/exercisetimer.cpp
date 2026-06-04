@@ -58,6 +58,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent) :
     connect(this, SIGNAL(countDown(int)),
             mPlayer, SLOT(playCountDownSound(int)));
     //mScreenSaver = new QSystemScreenSaver(this);
+
 }
 
 //------------------------------------------------------------------------------

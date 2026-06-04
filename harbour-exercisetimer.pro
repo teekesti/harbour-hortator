@@ -25,25 +25,10 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
     qml/pages/SecondPage.qml \
+    sounds/* \
     rpm/harbour-exercisetimer.changes.in \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \
-    sounds/61234__sapht__snes-startup.wav \
-    sounds/62176__robinhood76__00504-brass-fanfare-4.wav \
-    sounds/beep.wav \
-    sounds/boxing-bell-1.wav \
-    sounds/boxing-bell-3.wav \
-    sounds/eight.wav \
-    sounds/five.wav \
-    sounds/four.wav \
-    sounds/nine.wav \
-    sounds/one.wav \
-    sounds/seven.wav \
-    sounds/six.wav \
-    sounds/ten.wav \
-    sounds/three.wav \
-    sounds/two.wav \
-    sounds/zero.wav \
     translations/*.ts \
     harbour-exercisetimer.desktop
 
@@ -65,3 +50,12 @@ HEADERS += \
     src/exercisetimer.h \
     src/soundplayer.h \
     src/timedexercise.h
+
+# Määritetään kohdehakemisto laitteella (esim. /usr/share/harbour-exercise-timer/sounds)
+sounds.path = /usr/share/$$TARGET/sounds
+
+# Kerrotaan mitkä tiedostot lähdekoodista otetaan mukaan
+sounds.files = sounds/*
+
+# Lisätään määrittely DEPLOYMENT-muuttujaan, jotta se otetaan huomioon RPM-pakettia luodessa
+DEPLOYMENT += sounds

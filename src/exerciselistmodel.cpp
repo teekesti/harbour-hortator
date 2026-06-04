@@ -44,6 +44,7 @@ void ExerciseListModel::insertExercise(TimedExercise *exercise, int position)
         endInsertRows();
         const auto durationSeconds = exercise->durationSeconds();
         mTotalDurationSeconds += durationSeconds;
+        emit countChanged();
         emit totalDurationChanged(durationSeconds);
         connect(exercise, &TimedExercise::durationChanged, this,
                 &ExerciseListModel::exerciseDurationChanged);
@@ -60,7 +61,20 @@ void ExerciseListModel::removeExercise(int index)
         endRemoveRows();
         const auto durationSeconds = exerciseToRemove->durationSeconds();
         mTotalDurationSeconds -= durationSeconds;
-        emit totalDurationChanged(durationSeconds);
+        emit countChanged();
+        emit totalDurationChanged(-durationSeconds);
+}
+
+void ExerciseListModel::clear()
+{
+    if (mExercises.isEmpty()) return;
+    beginRemoveRows(QModelIndex(), 0, mExercises.size() - 1);
+    mExercises.clear();
+    endRemoveRows();
+    emit countChanged();
+    emit totalDurationChanged(-mTotalDurationSeconds);
+    mTotalDurationSeconds = 0;
+
 }
 
 void ExerciseListModel::exerciseDurationChanged(int durationChangeSeconds)
