@@ -1,0 +1,192 @@
+#include "timedexercise.h"
+#include "eoqttrace.h"
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+TimedExercise::TimedExercise(QString activityType, int mins,
+                             int secs, int reps, QObject *parent) :
+    QObject(parent), mActivityType(activityType), mMins(mins), mSecs(secs),
+    mReps(reps)
+{
+    updateRPM();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+int TimedExercise::mins() const
+{
+    return mMins;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+int TimedExercise::secs() const
+{
+    return mSecs;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+int TimedExercise::reps() const
+{
+    return mReps;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+double TimedExercise::rpm() const
+{
+    return mRPM;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+double TimedExercise::repSeparation() const
+{
+    return mRepSeparation;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void TimedExercise::setMins(int mins)
+{
+    if (mins != mMins)
+    {
+        int durationChangeSeconds = 60 * (mins - mMins);
+        mMins = mins;
+        emit minsChanged(mins);
+        emit durationChanged(durationChangeSeconds);
+        updateRPM();
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void TimedExercise::setSecs(int secs)
+{
+    if (secs != mSecs)
+    {
+        int durationChangeSeconds = secs - mSecs;
+        mSecs = secs;
+        emit secsChanged(mSecs);
+        emit durationChanged(durationChangeSeconds);
+        updateRPM();
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void TimedExercise::setReps(int reps)
+{
+    if (reps != mReps)
+    {
+        mReps = reps;
+        emit repsChanged(mReps);
+        updateRPM();
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+int TimedExercise::durationSeconds() const
+{
+    return mSecs + 60 * mMins;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+double TimedExercise::durationMinutes() const
+{
+    return mMins + (double)mSecs/60.0;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void TimedExercise::updateRPM()
+{
+    // repetitions per minute
+    double rpm(0);
+    // delay between reps in seconds
+    double delay(0);
+    if ((0 != durationMinutes()) && (0 != mReps))
+    {
+        rpm = mReps/durationMinutes();
+        delay = (double)durationSeconds()/mReps;
+
+    }
+    if (mRPM != rpm)
+    {
+        mRPM = rpm;
+        emit rpmChanged(mRPM);
+    }
+    if (mRepSeparation != delay)
+    {
+        mRepSeparation = delay;
+        emit repSeparationChanged(mRepSeparation);
+    }
+
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+QString TimedExercise::activityType() const
+{
+    return mActivityType;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void TimedExercise::setActivityType(QString activityType)
+{
+    if (activityType != mActivityType)
+    {
+        mActivityType = activityType;
+        emit activityTypeChanged(mActivityType);
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void TimedExercise::toggleActivityType()
+{
+    if (mActivityType == "work")
+    {
+        setActivityType("rest");
+    }
+    else
+    {
+        setActivityType("work");
+    }
+}
+
+

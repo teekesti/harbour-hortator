@@ -11,10 +11,15 @@
 
 # The name of your application
 TARGET = harbour-exercisetimer
+QT += core multimedia
 
 CONFIG += sailfishapp
 
-SOURCES += src/harbour-exercisetimer.cpp
+SOURCES += src/harbour-exercisetimer.cpp \
+    src/exerciselistmodel.cpp \
+    src/exercisetimer.cpp \
+    src/soundplayer.cpp \
+    src/timedexercise.cpp
 
 DISTFILES += qml/harbour-exercisetimer.qml \
     qml/cover/CoverPage.qml \
@@ -23,6 +28,22 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     rpm/harbour-exercisetimer.changes.in \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \
+    sounds/61234__sapht__snes-startup.wav \
+    sounds/62176__robinhood76__00504-brass-fanfare-4.wav \
+    sounds/beep.wav \
+    sounds/boxing-bell-1.wav \
+    sounds/boxing-bell-3.wav \
+    sounds/eight.wav \
+    sounds/five.wav \
+    sounds/four.wav \
+    sounds/nine.wav \
+    sounds/one.wav \
+    sounds/seven.wav \
+    sounds/six.wav \
+    sounds/ten.wav \
+    sounds/three.wav \
+    sounds/two.wav \
+    sounds/zero.wav \
     translations/*.ts \
     harbour-exercisetimer.desktop
 
@@ -37,3 +58,10 @@ CONFIG += sailfishapp_i18n
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/harbour-exercisetimer-de.ts
+
+HEADERS += \
+    src/eoqttrace.h \
+    src/exerciselistmodel.h \
+    src/exercisetimer.h \
+    src/soundplayer.h \
+    src/timedexercise.h
