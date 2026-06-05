@@ -13,7 +13,9 @@
 TARGET = harbour-exercisetimer
 QT += core multimedia
 
-CONFIG += sailfishapp
+CONFIG += sailfishapp qml_debug
+
+DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE
 
 SOURCES += src/harbour-exercisetimer.cpp \
     src/exerciselistmodel.cpp \
@@ -25,7 +27,6 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
     qml/pages/SecondPage.qml \
-    sounds/* \
     rpm/harbour-exercisetimer.changes.in \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \
@@ -51,11 +52,11 @@ HEADERS += \
     src/soundplayer.h \
     src/timedexercise.h
 
-# Määritetään kohdehakemisto laitteella (esim. /usr/share/harbour-exercise-timer/sounds)
+# Target directory for sounds on device
 sounds.path = /usr/share/$$TARGET/sounds
 
-# Kerrotaan mitkä tiedostot lähdekoodista otetaan mukaan
+# Source files for sounds
 sounds.files = sounds/*
 
-# Lisätään määrittely DEPLOYMENT-muuttujaan, jotta se otetaan huomioon RPM-pakettia luodessa
+# Add definition of sounds for RPM packaging
 DEPLOYMENT += sounds

@@ -1,5 +1,6 @@
 #include "exerciselistmodel.h"
 #include "timedexercise.h"
+#include "eoqttrace.h"
 
 ExerciseListModel::ExerciseListModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -17,7 +18,7 @@ QVariant ExerciseListModel::data(const QModelIndex &index, int role) const
     if (index.row() < 0 || index.row() >= mExercises.size())
             return QVariant();
 
-        if (role == ObjectRole)
+        if (role == ExerciseRole)
             return QVariant::fromValue(mExercises.at(index.row()));
 
         return QVariant();
@@ -26,7 +27,7 @@ QVariant ExerciseListModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> ExerciseListModel::roleNames() const
 {
     QHash<int, QByteArray> roleNames;
-    roleNames[ObjectRole] = "object";
+    roleNames[ExerciseRole] = "exercise";
     return roleNames;
 }
 
@@ -53,6 +54,7 @@ void ExerciseListModel::insertExercise(TimedExercise *exercise, int position)
 
 void ExerciseListModel::removeExercise(int index)
 {
+    FUNC_TRACE(QString("Removing exercise with index %1").arg(index));
     if (index < 0 || index >= mExercises.size()) {
             return;
         }

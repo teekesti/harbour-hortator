@@ -95,8 +95,7 @@ void ExerciseTimer::addRest(int mins, int secs)
 //
 void ExerciseTimer::removeExercise(int index)
 {
-    Q_UNUSED(index);
-    // not implemented, because the model handles it nicely with QML ui.
+    mModel->removeExercise(index);
 }
 
 //------------------------------------------------------------------------------
@@ -186,8 +185,7 @@ void ExerciseTimer::appendDefaultExercise()
     TimedExercise* ex = new TimedExercise();
     ex->setParent(this);
     mModel->appendExercise(ex);
-    connect(ex, SIGNAL(durationChanged()),
-            this, SLOT(calculateTotalDuration()));
+
 }
 
 //------------------------------------------------------------------------------

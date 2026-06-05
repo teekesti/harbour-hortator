@@ -38,6 +38,7 @@ class ExerciseTimer : public QObject
                currentProgressChanged)
     Q_PROPERTY(double totalProgress READ totalProgress NOTIFY
                totalProgressChanged)
+    //Q_PROPERTY(ExerciseListModel* exerciseListModel READ exerciseListModel)
 
 public:
     /*! Construct a new ExerciseTimer object*/

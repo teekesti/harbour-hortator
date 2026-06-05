@@ -11,11 +11,11 @@ class ExerciseListModel : public QAbstractListModel
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
 
-    enum Roles {ObjectRole = Qt::UserRole + 1};
+    enum Roles {ExerciseRole = Qt::UserRole + 1};
 
     explicit ExerciseListModel(QObject *parent = nullptr);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = ObjectRole) const override;
+    QVariant data(const QModelIndex &index, int role = ExerciseRole) const override;
     QHash<int, QByteArray> roleNames() const override;
     void appendExercise(TimedExercise *exercise);
     void insertExercise(TimedExercise *exercise, int position);

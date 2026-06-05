@@ -5,44 +5,113 @@ import com.appiukko.exercisetimer 1.0
 Page {
     id: page
 
-    ExerciseTimer {
-        id: timer
-    }
-
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
-    // To enable PullDownMenu, place our content in a SilicaFlickable
-    SilicaFlickable {
-        anchors.fill: parent
 
-        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
-        PullDownMenu {
-            MenuItem {
-                text: qsTr("Show Page 2")
-                onClicked: pageStack.animatorPush(Qt.resolvedUrl("SecondPage.qml"))
-            }
+    SilicaListView {
+        id: exerciseListView
+        width: parent.width // - margin?
+
+        anchors.top: parent.top
+        anchors.bottom: buttonRow.top
+        anchors.bottomMargin: Theme.paddingMedium
+
+        header: PageHeader {
+            title: "Configure exercises"
         }
 
-        // Tell SilicaFlickable the height of its content.
-        contentHeight: column.height
+        model: exerciseListModel
+        delegate: ListItem {
+            id: exerciseItem
+            menu: contextMenu
+            contentHeight: Theme.itemSizeMedium
+            ListView.onRemove: animateRemoval(exerciseItem)
 
-        // Place our content in a Column.  The PageHeader is always placed at the top
-        // of the page, followed by our content.
-        Column {
-            id: column
-
-            width: page.width
-            spacing: Theme.paddingLarge
-            PageHeader {
-                title: qsTr("UI Template")
+            function remove() {
+                remorseAction("Deleting", function() { exerciseTimer.removeExercise(index) })
             }
-            Label {
-                x: Theme.horizontalPageMargin
-                text: qsTr("Hello Sailors")
-                color: Theme.secondaryHighlightColor
-                font.pixelSize: Theme.fontSizeExtraLarge
+
+            Rectangle{
+                anchors {fill: parent; margins: Theme.paddingSmall}
+                radius: Theme.paddingSmall
+
+                color: {
+                    if (exerciseItem.highlighted) {
+                        return Theme.rgba(Theme.highlightColor, Theme.opacityLow)
+                    }
+
+                    return exercise.activityType === "work"
+                                ? Theme.rgba(Theme.highlightBackgroundColor, 0.25)
+                                : Theme.rgba(Theme.highlightDimmerColor)
+            }
+
+            Row {
+                anchors {fill: parent; leftMargin: Theme.horizontalPageMargin; rightMargin: Theme.horizontalPageMargin}
+                spacing: Theme.paddingMedium
+
+                Label {
+                    id: workRestLabel
+                    text: exercise.activityType
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: exercise.activityType === "work" ? Theme.primaryColor : Theme.secondaryColor
+                    font.bold: exercise.activityType === "work"
+                }
+
+                //Spacer {id: fillSpace}
+
+                Label {
+                    text: exercise.mins + "m" + exercise.secs + "s"
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: Theme.highlightColor
+                    font.pixelSize: Theme.fontSizeMedium
+                }
+                IconButton {
+                    icon.source: "image://theme/icon-m-delete?" + (pressed
+                              ? Theme.highlightColor
+                              : Theme.primaryColor)
+                    onClicked: remove()
+                }
+            }
+
+
+
+            Component {
+                id: contextMenu
+                ContextMenu {
+                    MenuItem {
+                        text: "Remove"
+                        onClicked: remove()
+                    }
+                }
             }
         }
     }
+    }
+
+    Row {
+        id: buttonRow
+        width: parent.width - 2 * Theme.horizontalPageMargin
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Theme.paddingLarge
+
+        spacing: Theme.paddingMedium
+
+        IconButton {
+            icon.source: "image://theme/icon-l-add?" + (pressed
+                      ? Theme.highlightColor
+                      : Theme.primaryColor)
+            onClicked: {
+                exerciseTimer.appendDefaultExercise()
+            }
+         }
+    }
+
+
+
+
+
 }
+
