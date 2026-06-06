@@ -65,6 +65,7 @@ void ExerciseListModel::removeExercise(int index)
         mTotalDurationSeconds -= durationSeconds;
         emit countChanged();
         emit totalDurationChanged(-durationSeconds);
+        exerciseToRemove->deleteLater();
 }
 
 void ExerciseListModel::clear()
@@ -77,6 +78,65 @@ void ExerciseListModel::clear()
     emit totalDurationChanged(-mTotalDurationSeconds);
     mTotalDurationSeconds = 0;
 
+}
+
+void ExerciseListModel::moveItems(QList<int> selectedIndices, int targetIndex)
+{
+    if (selectedIndices.isEmpty() || targetIndex < 0 || targetIndex > mExercises.count())
+            return;
+
+        // 1. Lajitellaan valitut indeksit SUURIMMASTA PIENIMPÄÄN
+        std::sort(selectedIndices.begin(), selectedIndices.end(), std::greater<int>());
+
+        // 2. Suoritetaan siirrot yksitellen turvallisessa järjestyksessä
+        for (int sourceIdx : selectedIndices) {
+            if (sourceIdx < 0 || sourceIdx >= mExercises.count() || sourceIdx == targetIndex)
+                continue;
+
+            // Qt vaatii tiedon siitä, mihin kohteeseen rivi päätyy siirron jälkeen.
+            // Jos siirretään alaspäin, kohdeindeksi kasvaa yhdellä sisäisesti Qt:n sääntöjen vuoksi.
+            int qtTarget = (sourceIdx < targetIndex) ? targetIndex + 1 : targetIndex;
+
+            // Ilmoitetaan QML-näkymälle siirron alkamisesta, jotta animaatiot toimivat oikein
+            if (beginMoveRows(QModelIndex(), sourceIdx, sourceIdx, QModelIndex(), qtTarget)) {
+
+                auto itemToMove = mExercises.takeAt(sourceIdx);
+
+                // Päivitetään kohdeindeksi, jos oma poisto vaikutti sen sijaintiin QVectorissa
+                int actualTarget = targetIndex;
+                if (sourceIdx < targetIndex) {
+                    actualTarget--;
+                }
+
+                mExercises.insert(actualTarget, itemToMove);
+                endMoveRows(); // Ilmoitetaan siirron valmistumisesta
+            }
+        }
+
+}
+
+void ExerciseListModel::copyItems(QList<int> selectedIndices, int targetIndex)
+{
+    if (selectedIndices.isEmpty() || targetIndex < 0 || targetIndex > mExercises.count())
+            return;
+
+        // 1. Lajitellaan valitut indeksit SUURIMMASTA PIENIMPÄÄN
+        std::sort(selectedIndices.begin(), selectedIndices.end(), std::greater<int>());
+
+        // 2. Suoritetaan kopioinnit yksitellen
+        for (int sourceIdx : selectedIndices) {
+            if (sourceIdx < 0 || sourceIdx >= mExercises.count())
+                continue;
+
+            // Ilmoitetaan QML-näkymälle, että uusi rivi lisätään kohdeindeksiin
+            beginInsertRows(QModelIndex(), targetIndex, targetIndex);
+
+            auto originalItem = mExercises.at(sourceIdx);
+            auto copiedItem = originalItem->clone();
+            mExercises.insert(targetIndex, copiedItem);
+
+            endInsertRows(); // Ilmoitetaan lisäyksen valmistumisesta
+        }
 }
 
 void ExerciseListModel::exerciseDurationChanged(int durationChangeSeconds)

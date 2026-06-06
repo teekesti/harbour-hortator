@@ -25,6 +25,8 @@ public:
     inline TimedExercise *at(int i) const { return mExercises.at(i); }
     inline int size() const { return mExercises.size(); }
     Q_INVOKABLE int count() const {return mExercises.count(); }
+    Q_INVOKABLE void moveItems(QList<int> selectedIndices, int targetIndex);
+    Q_INVOKABLE void copyItems(QList<int> selectedIndices, int targetIndex);
     //bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::EditRole) override;
     //flags()
 

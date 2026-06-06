@@ -27,6 +27,9 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
     qml/pages/SecondPage.qml \
+    qml/pages/components/qmldir \
+    qml/pages/components/AcceleratingIconButton.qml \
+    qml/pages/components/ValueAdjustmentHorizontal.qml \
     rpm/harbour-exercisetimer.changes.in \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \

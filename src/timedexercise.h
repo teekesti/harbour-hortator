@@ -18,6 +18,7 @@ class TimedExercise : public QObject
 public:
     explicit TimedExercise(QString activityType = "work", int mins = 0,
                            int secs = 30, int reps = 0, QObject *parent = 0);
+    TimedExercise* clone() const;
     QString activityType() const;
     /*! Return the minutes part of the duration of the exercise */
     int mins() const;

@@ -13,6 +13,17 @@ TimedExercise::TimedExercise(QString activityType, int mins,
     updateRPM();
 }
 
+TimedExercise *TimedExercise::clone() const
+{
+    TimedExercise *duplicate = new TimedExercise();
+    duplicate->setParent(this->parent());
+    duplicate->setActivityType(this->activityType());
+    duplicate->setMins(this->mins());
+    duplicate->setSecs(this->secs());
+    duplicate->setReps(this->reps());
+    return duplicate;
+}
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
