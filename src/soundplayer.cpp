@@ -9,24 +9,13 @@
 //------------------------------------------------------------------------------
 //
 SoundPlayer::SoundPlayer(QObject *parent) :
-    QMediaPlayer(parent)
+    QObject(parent)
 {
-    connect(this, SIGNAL(error(QMediaPlayer::Error)), this,
-            SLOT(errorOccurred(QMediaPlayer::Error)));
     setupSounds();
 
 
 }
 
-//------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------
-//
-void SoundPlayer::errorOccurred(QMediaPlayer::Error error)
-{
-    Q_UNUSED(error)
-    TRACE(errorString());
-}
 
 //------------------------------------------------------------------------------
 //
@@ -36,7 +25,7 @@ void SoundPlayer::playCountDownSound(int number)
 {
     if (mCountdownSounds.contains(number))
     {
-        setMedia(mCountdownSounds.value(number));
+        mCountdownSounds[number]->play();
     }
     else if (0 == number)
     {
@@ -44,9 +33,8 @@ void SoundPlayer::playCountDownSound(int number)
     }
     else
     {
-        setMedia(mDefaultSound);
+        mDefaultSound.play();
     }
-    play();
 }
 
 //------------------------------------------------------------------------------
@@ -57,22 +45,25 @@ void SoundPlayer::setupSounds()
 {
     // Countdown sounds
     QDir soundDir = QDir(SailfishApp::pathTo("sounds").toLocalFile());
-
-    mCountdownSounds[1] = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("one.wav")));
-    mCountdownSounds[2] = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("two.wav")));
-    mCountdownSounds[3] = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("three.wav")));
-    mCountdownSounds[4] =  QMediaContent(QUrl::fromLocalFile(soundDir.filePath("four.wav")));
-    mCountdownSounds[5] =  QMediaContent(QUrl::fromLocalFile(soundDir.filePath("five.wav")));
-    mCountdownSounds[6] =  QMediaContent(QUrl::fromLocalFile(soundDir.filePath("six.wav")));
-    mCountdownSounds[7] =  QMediaContent(QUrl::fromLocalFile(soundDir.filePath("seven.wav")));
-    mCountdownSounds[8] =  QMediaContent(QUrl::fromLocalFile(soundDir.filePath("eight.wav")));
-    mCountdownSounds[9] = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("nine.wav")));
-    mCountdownSounds[10] = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("ten.wav")));
-    mDefaultSound = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("beep.wav")));
-    mRoundStartSound = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("boxing-bell-1.wav")));
-    mRoundEndSound = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("boxing-bell-3.wav")));
-    mRepSound = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("61234__sapht__snes-startup.wav")));
-    mAllDoneSound = QMediaContent(QUrl::fromLocalFile(soundDir.filePath("62176__robinhood76__00504-brass-fanfare-4.wav")));
+    for (int i =  0; i < 11; i++)
+    {
+        mCountdownSounds[i] = new QSoundEffect(this);
+    }
+    mCountdownSounds[1]->setSource(QUrl::fromLocalFile(soundDir.filePath("one.wav")));
+    mCountdownSounds[2]->setSource(QUrl::fromLocalFile(soundDir.filePath("two.wav")));
+    mCountdownSounds[3]->setSource(QUrl::fromLocalFile(soundDir.filePath("three.wav")));
+    mCountdownSounds[4]->setSource(QUrl::fromLocalFile(soundDir.filePath("four.wav")));
+    mCountdownSounds[5]->setSource(QUrl::fromLocalFile(soundDir.filePath("five.wav")));
+    mCountdownSounds[6]->setSource(QUrl::fromLocalFile(soundDir.filePath("six.wav")));
+    mCountdownSounds[7]->setSource(QUrl::fromLocalFile(soundDir.filePath("seven.wav")));
+    mCountdownSounds[8]->setSource(QUrl::fromLocalFile(soundDir.filePath("eight.wav")));
+    mCountdownSounds[9]->setSource(QUrl::fromLocalFile(soundDir.filePath("nine.wav")));
+    mCountdownSounds[10]->setSource(QUrl::fromLocalFile(soundDir.filePath("ten.wav")));
+    mDefaultSound.setSource(QUrl::fromLocalFile(soundDir.filePath("beep.wav")));
+    mRoundStartSound.setSource(QUrl::fromLocalFile(soundDir.filePath("boxing-bell-1.wav")));
+    mRoundEndSound.setSource(QUrl::fromLocalFile(soundDir.filePath("boxing-bell-3.wav")));
+    mRepSound.setSource(QUrl::fromLocalFile(soundDir.filePath("61234__sapht__snes-startup.wav")));
+    mAllDoneSound.setSource(QUrl::fromLocalFile(soundDir.filePath("62176__robinhood76__00504-brass-fanfare-4.wav")));
 
 }
 
@@ -82,21 +73,18 @@ void SoundPlayer::setupSounds()
 //
 void SoundPlayer::playSound(SoundPlayer::Sound sound)
 {
-    QMediaContent content;
     switch (sound)
     {
     case RoundStartSound:
-        content = mRoundStartSound;
+        mRoundStartSound.play();
         break;
     case RoundEndSound:
-        content = mRoundEndSound;
+        mRoundEndSound.play();
         break;
     case RepSound:
-        content = mRepSound;
+        mRepSound.play();
         break;
     case AllDoneSound:
-        content = mAllDoneSound;
+        mAllDoneSound.play();
     }
-    setMedia(content);
-    play();
 }

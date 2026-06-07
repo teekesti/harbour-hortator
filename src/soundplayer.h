@@ -4,13 +4,10 @@ functionality for playing sounds specific to sportst timer events. */
 #ifndef SOUNDPLAYER_H
 #define SOUNDPLAYER_H
 
-#include <QMediaPlayer>
+#include <QSoundEffect>
 #include <QHash>
 
-//class QMediaPlaylist;
-
-
-class SoundPlayer : public QMediaPlayer
+class SoundPlayer : public QObject
 {
     Q_OBJECT
 public:
@@ -32,17 +29,16 @@ public slots:
     void playSound(Sound sound);
 
 private slots:
-    void errorOccurred(QMediaPlayer::Error error);
     void setupSounds();
 
 private: // data
 
-    QHash<int, QMediaContent> mCountdownSounds;
-    QMediaContent mDefaultSound;
-    QMediaContent mRoundStartSound;
-    QMediaContent mRoundEndSound;
-    QMediaContent mRepSound;
-    QMediaContent mAllDoneSound;
+    QHash<int, QSoundEffect*> mCountdownSounds;
+    QSoundEffect mDefaultSound;
+    QSoundEffect mRoundStartSound;
+    QSoundEffect mRoundEndSound;
+    QSoundEffect mRepSound;
+    QSoundEffect mAllDoneSound;
 
 
 };
