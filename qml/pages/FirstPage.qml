@@ -71,33 +71,27 @@ Page {
                 }
 
 
-//                Rectangle {
-//                    height: 2 * minutesAdjustment.height + Theme.paddingMedium
-//                    width: minutesAdjustment.width + Theme.paddingMedium
-//                    anchors.verticalCenter: parent.verticalCenter
-                    Flow {
-                        id: timeAdjustment
-                        flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
-                        spacing: 0.5 * Theme.paddingSmall
-                        anchors.verticalCenter: parent.verticalCenter
+                Flow {
+                    id: timeAdjustment
+                    flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
+                    spacing: 0.5 * Theme.paddingSmall
+                    anchors.verticalCenter: parent.verticalCenter
 
-                        ValueAdjustmentHorizontal {
-                            id: minutesAdjustment
-                            //anchors.horizontalCenter: parent.horizontalCenter
-                            value: exercise.mins
-                            maxValue: 99
-                            unitLabel: "m"
-                        }
+                    ValueAdjustmentHorizontal {
+                        id: minutesAdjustment
+                        //anchors.horizontalCenter: parent.horizontalCenter
+                        value: exercise.mins
+                        maxValue: 99
+                        unitLabel: "m"
+                    }
 
-                        ValueAdjustmentHorizontal {
-                            id: secondsAdjustment
-                            value: exercise.secs
-                            maxValue: 59
-                            unitLabel: "s"
-                            step: 5
-                        }
-
-                    //}
+                    ValueAdjustmentHorizontal {
+                        id: secondsAdjustment
+                        value: exercise.secs
+                        maxValue: 59
+                        unitLabel: "s"
+                        step: 5
+                    }
 
                 }
 
@@ -146,6 +140,15 @@ Page {
                       : Theme.primaryColor)
             onClicked: {
                 exerciseTimer.appendDefaultExercise()
+            }
+         }
+
+        IconButton {
+            icon.source: "image://theme/icon-l-play?" + (pressed
+                      ? Theme.highlightColor
+                      : Theme.primaryColor)
+            onClicked: {
+                exerciseTimer.start()
             }
          }
     }
