@@ -49,6 +49,10 @@ Page {
                 radius: Theme.paddingSmall
 
                 color: {
+                    if (!exercise.isValid) {
+                        return Theme.errorColor
+                    }
+
                     if (exerciseItem.highlighted) {
                         return Theme.rgba(Theme.highlightColor, Theme.opacityLow)
                     }
@@ -66,7 +70,6 @@ Page {
                     text: exercise.activityType
                     anchors.verticalCenter: parent.verticalCenter
                     color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
-                    //font.bold: exercise.activityType === "work"
                     onClicked: exercise.toggleActivityType()
                 }
 
@@ -76,25 +79,24 @@ Page {
                     flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
                     spacing: 0.5 * Theme.paddingSmall
                     anchors.verticalCenter: parent.verticalCenter
-                    Binding {target: exercise; property: "mins"; value: minutesAdjustment.value }
-                    Binding {target: exercise; property: "secs"; value: secondsAdjustment.value }
 
 
                     ValueAdjustmentHorizontal {
                         id: minutesAdjustment
-                        //anchors.horizontalCenter: parent.horizontalCenter
-                        //value: exercise.mins
+                        value: exercise.mins
                         maxValue: 99
                         unitLabel: "m"
                     }
 
                     ValueAdjustmentHorizontal {
                         id: secondsAdjustment
-                        //value: exercise.secs
+                        value:exercise.secs
                         maxValue: 59
                         unitLabel: "s"
                         step: 5
                     }
+                    Binding {target: exercise; property: "mins"; value: minutesAdjustment.value }
+                    Binding {target: exercise; property: "secs"; value: secondsAdjustment.value }
 
                 }
 

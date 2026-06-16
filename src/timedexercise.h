@@ -17,8 +17,8 @@ class TimedExercise : public QObject
                NOTIFY repSeparationChanged)
     Q_PROPERTY(bool isValid READ isValid NOTIFY validityChanged)
 public:
-    explicit TimedExercise(QString activityType = "work", int mins = 0,
-                           int secs = 30, int reps = 0, QObject *parent = 0);
+    explicit TimedExercise(QString activityType = "work", int mins = 1,
+                           int secs = 0, int reps = 0, QObject *parent = 0);
     TimedExercise* clone() const;
     QString activityType() const;
     /*! Return the minutes part of the duration of the exercise */

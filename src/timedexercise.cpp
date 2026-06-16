@@ -128,7 +128,6 @@ int TimedExercise::durationSeconds() const
 
 bool TimedExercise::isValid() const
 {
-    FUTR();
     return mMins > 0 || mSecs > 0;
 }
 
