@@ -79,6 +79,7 @@ void TimedExercise::setMins(int mins)
     {
         int durationChangeSeconds = 60 * (mins - mMins);
         mMins = mins;
+        TRACE1("New mins: %1", mMins);
         emit minsChanged(mins);
         emit durationChanged(durationChangeSeconds);
         updateRPM();
@@ -95,6 +96,7 @@ void TimedExercise::setSecs(int secs)
     {
         int durationChangeSeconds = secs - mSecs;
         mSecs = secs;
+        TRACE1("New secs: %1", mSecs);
         emit secsChanged(mSecs);
         emit durationChanged(durationChangeSeconds);
         updateRPM();
@@ -122,6 +124,12 @@ void TimedExercise::setReps(int reps)
 int TimedExercise::durationSeconds() const
 {
     return mSecs + 60 * mMins;
+}
+
+bool TimedExercise::isValid() const
+{
+    FUTR();
+    return mMins > 0 || mSecs > 0;
 }
 
 //------------------------------------------------------------------------------
@@ -158,6 +166,13 @@ void TimedExercise::updateRPM()
     {
         mRepSeparation = delay;
         emit repSeparationChanged(mRepSeparation);
+    }
+    bool valid = isValid();
+    if (mIsValid != valid)
+    {
+        mIsValid = valid;
+        emit validityChanged(mIsValid);
+        TRACE1("New validity: %1", mIsValid);
     }
 
 }

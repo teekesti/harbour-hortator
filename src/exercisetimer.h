@@ -38,6 +38,7 @@ class ExerciseTimer : public QObject
                currentProgressChanged)
     Q_PROPERTY(double totalProgress READ totalProgress NOTIFY
                totalProgressChanged)
+    Q_PROPERTY(bool allValid READ allExercisesValid NOTIFY validityChanged)
     //Q_PROPERTY(ExerciseListModel* exerciseListModel READ exerciseListModel)
 
 public:
@@ -64,6 +65,7 @@ public:
     double currentProgress() const;
     /*! Progress of total activity from 0 to 1 */
     double totalProgress() const;
+    bool allExercisesValid() const;
 
 signals:
     void totalDurationChanged(QTime duration);
@@ -86,6 +88,7 @@ signals:
     void currentActivityChanged(TimedExercise* currentActivity);
     void currentProgressChanged(double progress);
     void totalProgressChanged(double progress);
+    void validityChanged(bool allValid);
 
 public slots:
     void addExercise(TimedExercise* exercise, int pos = -1);
@@ -121,6 +124,8 @@ private slots:
     void onCurrentExerciseCloseToEnd();
     void startCountDown(int durationSeconds);
     void onCountDown();
+    void exerciseValidityChanged(bool isValid);
+    void checkOverallValidity();
 
 private: //data
 
@@ -182,6 +187,9 @@ private: //data
     double mCurrentProgress;
     /*! Progress of total activity from 0 to 1 */
     double mTotalProgress;
+    /*! Count of valid exercises to check if all are valid */
+    int mValidExerciseCount;
+    bool mAllValid;
     /*! A system screen saver object for disabling screen saver during action,
     if so desired. */
     //QSystemScreenSaver* mScreenSaver;

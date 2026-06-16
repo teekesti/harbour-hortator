@@ -147,6 +147,7 @@ Page {
             icon.source: "image://theme/icon-l-play?" + (pressed
                       ? Theme.highlightColor
                       : Theme.primaryColor)
+            enabled: exerciseTimer.allValid
             onClicked: {
                 exerciseTimer.start()
             }

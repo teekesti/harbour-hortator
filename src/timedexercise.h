@@ -15,6 +15,7 @@ class TimedExercise : public QObject
     Q_PROPERTY(double rpm READ rpm NOTIFY rpmChanged)
     Q_PROPERTY(double repSeparation READ repSeparation
                NOTIFY repSeparationChanged)
+    Q_PROPERTY(bool isValid READ isValid NOTIFY validityChanged)
 public:
     explicit TimedExercise(QString activityType = "work", int mins = 0,
                            int secs = 30, int reps = 0, QObject *parent = 0);
@@ -32,6 +33,7 @@ public:
     double repSeparation() const;
     /*! Returns the duration in seconds.*/
     int durationSeconds() const;
+    bool isValid() const;
 
 signals:
     void activityTypeChanged(QString activityType);
@@ -41,6 +43,7 @@ signals:
     void repsChanged(int reps);
     void rpmChanged(double rpm);
     void repSeparationChanged(double repSeparation);
+    void validityChanged(bool isValid);
 
 public slots:
     void setActivityType(QString activityType);
@@ -59,6 +62,7 @@ private: // data
     int mReps;
     double mRPM;
     double mRepSeparation;
+    bool mIsValid;
 
 private: // methods
 

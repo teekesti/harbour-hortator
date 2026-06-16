@@ -23,7 +23,8 @@ ExerciseTimer::ExerciseTimer(QObject *parent) :
     mRepSeparationMilliSecs(0), mCheckRepTimer(false),
     mEndNotificationTime(3),
     mSendEndNotification(false), mCountdownTracker(0),
-    mCurrentRepNumber(0), mCurrentProgress(0), mTotalProgress(0)
+    mCurrentRepNumber(0), mCurrentProgress(0), mTotalProgress(0),
+    mValidExerciseCount(0), mAllValid(false)
 {
     QSettings settings;
     if (settings.contains("start delay"))
@@ -72,6 +73,12 @@ void ExerciseTimer::addExercise(TimedExercise *exercise, int pos)
         mModel->appendExercise(exercise);
     }
     else mModel->insertExercise(exercise, pos);
+    if (exercise->isValid()){
+        mValidExerciseCount++;
+    }
+    checkOverallValidity();
+    connect(exercise, &TimedExercise::validityChanged,
+            this, &ExerciseTimer::exerciseValidityChanged);
 
 }
 
@@ -83,9 +90,9 @@ void ExerciseTimer::addRest(int mins, int secs)
 {
     FUTR();
     TimedExercise* ex = new TimedExercise("rest", mins, secs, 0, this);
-    mModel->appendExercise(ex);
-    connect(ex, SIGNAL(durationChanged()),
-            this, SLOT(calculateTotalDuration()));
+    addExercise(ex, -1);
+
+
 
 }
 
@@ -95,7 +102,13 @@ void ExerciseTimer::addRest(int mins, int secs)
 //
 void ExerciseTimer::removeExercise(int index)
 {
+    auto ex = getExercise(index);
+    if (ex->isValid())
+    {
+        mValidExerciseCount--;
+    }
     mModel->removeExercise(index);
+    checkOverallValidity();
 }
 
 //------------------------------------------------------------------------------
@@ -184,8 +197,7 @@ void ExerciseTimer::appendDefaultExercise()
     FUTR();
     TimedExercise* ex = new TimedExercise();
     ex->setParent(this);
-    mModel->appendExercise(ex);
-
+    addExercise(ex, -1);
 }
 
 //------------------------------------------------------------------------------
@@ -410,7 +422,7 @@ void ExerciseTimer::playCurrentExercise()
 //
 TimedExercise * ExerciseTimer::getExercise(int index)
 {
-    return (TimedExercise*)mModel->at(index);
+    return mModel->at(index);
 }
 
 //------------------------------------------------------------------------------
@@ -618,6 +630,24 @@ void ExerciseTimer::onCountDown()
     }
 }
 
+void ExerciseTimer::exerciseValidityChanged(bool isValid)
+{
+    FUTR();
+    mValidExerciseCount += isValid ? 1 : -1;
+    checkOverallValidity();
+}
+
+void ExerciseTimer::checkOverallValidity()
+{
+    TRACE2("Exercise count: %1 of which valid: %2", mModel->count(), mValidExerciseCount);
+    bool allValid = mValidExerciseCount > 0 && mValidExerciseCount == mModel->count();
+    if (mAllValid != allValid)
+    {
+        mAllValid = allValid;
+        emit validityChanged(mAllValid);
+    }
+}
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -686,6 +716,12 @@ double ExerciseTimer::totalProgress() const
 {
     return mTotalProgress;
 }
+
+bool ExerciseTimer::allExercisesValid() const
+{
+    return mAllValid;
+}
+
 
 //------------------------------------------------------------------------------
 //
