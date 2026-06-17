@@ -34,7 +34,8 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \
     translations/*.ts \
-    harbour-exercisetimer.desktop
+    harbour-exercisetimer.desktop \
+    translations/harbour-exercisetimer-fi.ts
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
@@ -46,7 +47,7 @@ CONFIG += sailfishapp_i18n
 # planning to localize your app, remember to comment out the
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
-TRANSLATIONS += translations/harbour-exercisetimer-de.ts
+TRANSLATIONS += translations/harbour-exercisetimer-de.ts translations/harbour-exercisetimer-fi.ts
 
 HEADERS += \
     src/eoqttrace.h \

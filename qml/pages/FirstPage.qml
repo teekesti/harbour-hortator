@@ -24,7 +24,7 @@ Page {
         anchors.bottomMargin: Theme.paddingMedium
 
         header: PageHeader {
-            title: "Configure exercises"
+            title: qsTr("Configure exercises")
         }
 
         model: exerciseListModel
@@ -67,7 +67,7 @@ Page {
                 spacing: Theme.paddingMedium
 
                 Button {
-                    text: exercise.activityType
+                    text: exercise.activityType === "work" ? qsTr("Work") : qsTr("Rest")
                     anchors.verticalCenter: parent.verticalCenter
                     color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
                     onClicked: exercise.toggleActivityType()
@@ -118,7 +118,7 @@ Page {
                 id: contextMenu
                 ContextMenu {
                     MenuItem {
-                        text: "Remove"
+                        text: qsTr("Remove")
                         onClicked: remove()
                     }
                 }
@@ -157,6 +157,12 @@ Page {
                 exerciseTimer.start()
             }
          }
+
+        Label {
+            property string labelPrefix: orientation == Orientation.Portrait ? qsTr("Total") : qsTr("Total Duration")
+            text: labelPrefix + ": " + Qt.formatTime(exerciseTimer.totalDuration, "hh:mm:ss")
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 
 
