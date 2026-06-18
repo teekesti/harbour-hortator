@@ -24,7 +24,9 @@ Page {
         anchors.bottomMargin: Theme.paddingMedium
 
         header: PageHeader {
+            width: exerciseListView.width
             title: qsTr("Configure exercises")
+
         }
 
         model: exerciseListModel
@@ -35,9 +37,14 @@ Page {
             ListView.onRemove: animateRemoval(exerciseItem)
 
             property bool isWorkout: exercise.activityType === "work"
+            property bool isChecked: false
 
             function remove() {
                 remorseDelete(function() { exerciseTimer.removeExercise(index) }, remorseTimeout)
+            }
+
+            function toggleChecked() {
+                isChecked = !isChecked
             }
 
 
@@ -62,11 +69,18 @@ Page {
                             : Theme.rgba(Theme.highlightDimmerColor, 0.10)
                 }
 
+            MouseArea {
+                anchors.fill: parent
+                onClicked: toggleChecked()
+            }
+
+
             Row {
                 anchors {fill: parent; leftMargin: Theme.horizontalPageMargin; rightMargin: Theme.horizontalPageMargin}
                 spacing: Theme.paddingMedium
 
                 Button {
+                    id: activityTypeButton
                     text: exercise.activityType === "work" ? qsTr("Work") : qsTr("Rest")
                     anchors.verticalCenter: parent.verticalCenter
                     color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
@@ -102,6 +116,15 @@ Page {
 
 
                 //Spacer {id: fillSpace}
+
+                IconButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    icon.source: "image://theme/icon-m-accept?" + (pressed
+                              ? Theme.highlightColor
+                              : Theme.primaryColor)
+                    onClicked: toggleChecked()
+                    visible: isChecked
+                }
 
                 IconButton {
                     anchors.verticalCenter: parent.verticalCenter

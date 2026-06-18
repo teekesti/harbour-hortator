@@ -15,14 +15,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Total</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Total Duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Work</source>
         <translation type="unfinished"></translation>
     </message>
@@ -32,6 +24,14 @@
     </message>
     <message>
         <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total Duration</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

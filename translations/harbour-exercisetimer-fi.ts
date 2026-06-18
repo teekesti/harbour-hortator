@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="fi_FI">
 <context>
     <name>CoverPage</name>
     <message>
@@ -12,7 +12,7 @@
     <name>FirstPage</name>
     <message>
         <source>Configure exercises</source>
-        <translation>Konfiguroi harjoitukset</translation>
+        <translation>Lisää ja muokkaa harjoituksia</translation>
     </message>
     <message>
         <source>Work</source>
@@ -23,12 +23,12 @@
         <translation>Lepo</translation>
     </message>
     <message>
-        <source>Total</source>
-        <translation>Kesto</translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Poista</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Kesto</translation>
     </message>
     <message>
         <source>Total Duration</source>
