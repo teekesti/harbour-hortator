@@ -1,6 +1,8 @@
 #include "timedexercise.h"
 #include "eoqttrace.h"
 
+#include<QTime>
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -67,6 +69,11 @@ double TimedExercise::rpm() const
 double TimedExercise::repSeparation() const
 {
     return mRepSeparation;
+}
+
+QTime TimedExercise::duration() const
+{
+    return QTime(0, mMins, mSecs);
 }
 
 //------------------------------------------------------------------------------

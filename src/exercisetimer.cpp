@@ -183,6 +183,7 @@ void ExerciseTimer::reset()
     emit totalRunningTimeChanged(mTotalRunningTime);
     mCurrentExerciseIndex = 0;
     emit currentActivityChanged(getExercise(mCurrentExerciseIndex));
+    emit currentDurationChanged(currentDuration());
     mCurrentRepNumber = 0;
     emit notifyRep(mCurrentRepNumber);
 
@@ -347,6 +348,11 @@ void ExerciseTimer::timerEvent(QTimerEvent *event)
 QTime ExerciseTimer::currentRunningTime() const
 {
     return mCurrentRunningTime;
+}
+
+QTime ExerciseTimer::currentDuration()
+{
+    return getExercise(mCurrentExerciseIndex)->duration();
 }
 
 //------------------------------------------------------------------------------

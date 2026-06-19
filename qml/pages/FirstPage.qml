@@ -37,15 +37,15 @@ Page {
             ListView.onRemove: animateRemoval(exerciseItem)
 
             property bool isWorkout: exercise.activityType === "work"
-            property bool isChecked: false
+            //property bool isChecked: false
 
             function remove() {
                 remorseDelete(function() { exerciseTimer.removeExercise(index) }, remorseTimeout)
             }
 
-            function toggleChecked() {
-                isChecked = !isChecked
-            }
+//            function toggleChecked() {
+//                isChecked = !isChecked
+//            }
 
 
 
@@ -69,10 +69,10 @@ Page {
                             : Theme.rgba(Theme.highlightDimmerColor, 0.10)
                 }
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: toggleChecked()
-            }
+//            MouseArea {
+//                anchors.fill: parent
+//                onClicked: toggleChecked()
+//            }
 
 
             Row {
@@ -117,14 +117,14 @@ Page {
 
                 //Spacer {id: fillSpace}
 
-                IconButton {
-                    anchors.verticalCenter: parent.verticalCenter
-                    icon.source: "image://theme/icon-m-accept?" + (pressed
-                              ? Theme.highlightColor
-                              : Theme.primaryColor)
-                    onClicked: toggleChecked()
-                    visible: isChecked
-                }
+//                IconButton {
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    icon.source: "image://theme/icon-m-accept?" + (pressed
+//                              ? Theme.highlightColor
+//                              : Theme.primaryColor)
+//                    onClicked: toggleChecked()
+//                    visible: isChecked
+//                }
 
                 IconButton {
                     anchors.verticalCenter: parent.verticalCenter
@@ -178,6 +178,7 @@ Page {
             enabled: exerciseTimer.allValid
             onClicked: {
                 exerciseTimer.start()
+                pageStack.animatorPush("RunPage.qml")
             }
          }
 

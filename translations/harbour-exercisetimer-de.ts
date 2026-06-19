@@ -36,14 +36,14 @@
     </message>
 </context>
 <context>
-    <name>SecondPage</name>
+    <name>RunPage</name>
     <message>
-        <source>Nested Page</source>
-        <translation>Unterseite</translation>
+        <source>Current progress</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Item</source>
-        <translation>Element</translation>
+        <source>Total progress</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

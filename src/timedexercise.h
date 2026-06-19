@@ -31,6 +31,8 @@ public:
     double rpm() const;
     /*! Return the time in seconds between repetitions */
     double repSeparation() const;
+    /*! Duration as QTime */
+    QTime duration() const;
     /*! Returns the duration in seconds.*/
     int durationSeconds() const;
     bool isValid() const;

@@ -24,6 +24,8 @@ class ExerciseTimer : public QObject
                totalDurationChanged)
     Q_PROPERTY(QTime currentRunningTime READ currentRunningTime NOTIFY
                currentRunningTimeChanged)
+    Q_PROPERTY(QTime currentDuration READ currentDuration NOTIFY
+               currentDurationChanged)
     Q_PROPERTY(bool running READ running NOTIFY runningStatusChanged)
     Q_PROPERTY(int startDelay READ startDelay WRITE setStartDelay
                NOTIFY startDelayChanged)
@@ -49,6 +51,7 @@ public:
     QTime totalDuration() const;
     /*! Running time of the current activity */
     QTime currentRunningTime() const;
+    QTime currentDuration();
     bool running() const;
     /*! Time after which the exercises really start*/
     int startDelay() const;
@@ -71,6 +74,7 @@ signals:
     void totalDurationChanged(QTime duration);
     void requestModificationOfExercise(TimedExercise* exercise);
     void currentRunningTimeChanged(QTime currentRunningTime);
+    void currentDurationChanged(QTime currentDuration);
     void runningStatusChanged(bool running);
     void currentExerciseFinished();
     void allExercisesFinished();
@@ -195,8 +199,7 @@ private: //data
     //QSystemScreenSaver* mScreenSaver;
 
 private: // methods
-    /*! Return the pointer of the exercise at index i, cast to
-    TimedExercise type */
+    /*! Return the pointer of the exercise at index i */
     TimedExercise* getExercise(int index);
 
 protected:

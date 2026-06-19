@@ -26,7 +26,7 @@ SOURCES += src/harbour-exercisetimer.cpp \
 DISTFILES += qml/harbour-exercisetimer.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
-    qml/pages/SecondPage.qml \
+    qml/pages/RunPage.qml \
     qml/pages/components/qmldir \
     qml/pages/components/AcceleratingIconButton.qml \
     qml/pages/components/ValueAdjustmentHorizontal.qml \
