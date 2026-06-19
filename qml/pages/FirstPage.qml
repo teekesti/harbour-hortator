@@ -81,7 +81,7 @@ Page {
 
                 Button {
                     id: activityTypeButton
-                    text: exercise.activityType === "work" ? qsTr("Work") : qsTr("Rest")
+                    text: isWorkout ? qsTr("Work") : qsTr("Rest")
                     anchors.verticalCenter: parent.verticalCenter
                     color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
                     onClicked: exercise.toggleActivityType()
