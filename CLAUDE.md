@@ -18,13 +18,15 @@ This is a Sailfish OS application — it's built and run via the **Sailfish SDK*
 
 `tests/tests.pro` is a standalone Qt Test (`testlib`) suite covering the C++ engine (`TimedExercise`, `ExerciseListModel`, light coverage of `ExerciseTimer` — not its wall-clock tick loop). It compiles the engine sources directly and is independent of `sailfishapp`/Silica, so the main app's `.pro`/packaging is untouched.
 
-Build and run via the Sailfish SDK's build engine (`sfdk`), using the `i486` target so the binary runs natively on the host:
+Build and run via the Sailfish SDK's build engine (`sfdk`), using the `i486` target so the binary runs natively on the host. Use a shadow build (`build-tests/`, gitignored) so generated `Makefile`/`moc_*.cpp`/`.o` files never land in `tests/`:
 
 ```
 sfdk config --global target=SailfishOS-<version>-i486   # one-time
 cd <repo root> && sfdk build-init                        # one-time, creates .sfdk/
-sfdk build-shell bash -c "cd tests && qmake && make && ./tst_engine"
+sfdk build-shell bash -c "mkdir -p build-tests && cd build-tests && qmake ../tests/tests.pro && make -j$(nproc) && ./tst_engine"
 ```
+
+Re-run just `make -j$(nproc) && ./tst_engine` inside `build-tests/` for subsequent iterations — only re-run `qmake` when `tests.pro` changes.
 
 `qt5-qttest-devel` must be installed in the target (`sfdk build-shell --maintain zypper -n install qt5-qttest-devel`) — it's not installed by default.
 

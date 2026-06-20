@@ -7,4 +7,4 @@ moc_*.cpp
 RPMS/
 documentation.list
 translations/*.qm
-tests/tst_engine
+build-tests/
