@@ -13,7 +13,7 @@
 //
 //------------------------------------------------------------------------------
 //
-ExerciseTimer::ExerciseTimer(QObject *parent) :
+ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     QObject(parent), mTotalDuration(QTime(0, 0, 0)),
     mCurrentExerciseDuration(QTime(0, 0, 0)), mCurrentExerciseIndex(0),
     mTotalRunningTime(QTime(0, 0, 0)), mCurrentRunningTime(QTime(0, 0, 0)),
@@ -51,13 +51,16 @@ ExerciseTimer::ExerciseTimer(QObject *parent) :
     connect(this, SIGNAL(notifyRep(int)), this, SLOT(doRepetition(int)));
     connect(this, SIGNAL(currentExerciseCloseToEnd()), this,
             SLOT(onCurrentExerciseCloseToEnd()));
-    mPlayer = new SoundPlayer(this);
+    mPlayer = enableSound ? new SoundPlayer(this) : nullptr;
     //mPlayer->setVolume(100);
     mCountdownTimer = new QTimer(this);
     connect(mCountdownTimer, SIGNAL(timeout()), this,
             SLOT(onCountDown()));
-    connect(this, SIGNAL(countDown(int)),
-            mPlayer, SLOT(playCountDownSound(int)));
+    if (mPlayer)
+    {
+        connect(this, SIGNAL(countDown(int)),
+                mPlayer, SLOT(playCountDownSound(int)));
+    }
     //mScreenSaver = new QSystemScreenSaver(this);
 
 }
@@ -381,7 +384,7 @@ void ExerciseTimer::playCurrentExercise()
     if (ex->activityType() == "work")
     {
         // Play the round start sound only for work periods, not for rest
-        mPlayer->playSound(SoundPlayer::RoundStartSound);
+        if (mPlayer) mPlayer->playSound(SoundPlayer::RoundStartSound);
     }
     mCurrentExerciseDuration = QTime(0, ex->mins(), ex->secs());
     if (ex->activityType() == "work" && ex->rpm() != 0)
@@ -468,7 +471,7 @@ void ExerciseTimer::onCurrentExerciseFinished()
             // play the round end sound.
             if (getExercise(mCurrentExerciseIndex)->activityType() == "rest")
             {
-                mPlayer->playSound(SoundPlayer::RoundEndSound);
+                if (mPlayer) mPlayer->playSound(SoundPlayer::RoundEndSound);
             }
             TRACE1("Switching to activity %1", mCurrentExerciseIndex + 1);
             playCurrentExercise();
@@ -505,7 +508,7 @@ void ExerciseTimer::onCurrentRunningTimeChanged(QTime runTime)
 void ExerciseTimer::onAllExercisesFinished()
 {
     FUTR();
-    mPlayer->playSound(SoundPlayer::AllDoneSound);
+    if (mPlayer) mPlayer->playSound(SoundPlayer::AllDoneSound);
     mCurrentExerciseIndex = 0;
 }
 
@@ -535,7 +538,7 @@ void ExerciseTimer::onRunningStatusChanged(bool running)
 void ExerciseTimer::doRepetition(int repNumber)
 {
     FUTR();
-    mPlayer->playSound(SoundPlayer::RepSound);
+    if (mPlayer) mPlayer->playSound(SoundPlayer::RepSound);
     FUNC_TRACE(QString("Time now: %1")
                .arg(mCurrentRunningTime.toString("mm:ss.zz")));
     TRACE1("Did rep number %1", repNumber);

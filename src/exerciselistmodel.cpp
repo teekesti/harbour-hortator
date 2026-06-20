@@ -2,7 +2,8 @@
 #include "timedexercise.h"
 #include "eoqttrace.h"
 
-ExerciseListModel::ExerciseListModel(QObject *parent) : QAbstractListModel(parent)
+ExerciseListModel::ExerciseListModel(QObject *parent) : QAbstractListModel(parent),
+    mTotalDurationSeconds(0)
 {
 
 }

@@ -11,9 +11,24 @@ Sailfish OS interval/exercise timer app (`harbour-exercisetimer`), similar in pu
 This is a Sailfish OS application — it's built and run via the **Sailfish SDK** (SailfishOS-Build-Engine + Sailfish IDE/SFDK), not a plain desktop Qt build, since it links against `sailfishapp` and `Sailfish.Silica`.
 
 - Open `harbour-exercisetimer.pro` in Sailfish IDE / Qt Creator with the Sailfish SDK kit, or build with `sfdk build` from the SDK toolchain.
-- There is no unit test suite in this repo.
 - Debug tracing is controlled via `.pro` file: `DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE` (already on) — see `src/eoqttrace.h` for the `TRACE`/`FUTR` macro family used throughout the C++ for qDebug output.
 - Translations live in `translations/*.ts` (`fi`, `de`); `CONFIG += sailfishapp_i18n` regenerates `.qm` files at build time. New translatable strings need an entry added to `TRANSLATIONS` in the `.pro` file if a new language file is introduced.
+
+## Tests
+
+`tests/tests.pro` is a standalone Qt Test (`testlib`) suite covering the C++ engine (`TimedExercise`, `ExerciseListModel`, light coverage of `ExerciseTimer` — not its wall-clock tick loop). It compiles the engine sources directly and is independent of `sailfishapp`/Silica, so the main app's `.pro`/packaging is untouched.
+
+Build and run via the Sailfish SDK's build engine (`sfdk`), using the `i486` target so the binary runs natively on the host:
+
+```
+sfdk config --global target=SailfishOS-<version>-i486   # one-time
+cd <repo root> && sfdk build-init                        # one-time, creates .sfdk/
+sfdk build-shell bash -c "cd tests && qmake && make && ./tst_engine"
+```
+
+`qt5-qttest-devel` must be installed in the target (`sfdk build-shell --maintain zypper -n install qt5-qttest-devel`) — it's not installed by default.
+
+`ExerciseTimer` has a constructor flag `ExerciseTimer(QObject *parent = 0, bool enableSound = true)` — tests pass `enableSound=false` to skip constructing a real `SoundPlayer` (which needs an audio backend); `tests/soundplayer_stub.cpp` provides link-only stub implementations of `SoundPlayer`'s methods, since the real `src/soundplayer.cpp` depends on `sailfishapp.h`.
 
 ## Architecture
 
@@ -41,5 +56,4 @@ The app splits cleanly into a C++ business-logic/model layer (registered as QML 
 
 ## Notes
 
-- The repo has a couple of in-progress/abandoned scratch files at the top level and in `qml/pages/` (e.g. files with "kopio"/"siirto-kesken" in the name — Finnish for "copy"/"transfer in progress"). These are not part of the build (`harbour-exercisetimer.pro` only lists `FirstPage.qml` and `RunPage.qml` under `DISTFILES`) and should generally be left alone unless the user is actively working on that in-progress feature.
 - `harbour-exercisetimer.pro.user` is a local Qt Creator/SDK user-environment file, not meant to be committed.

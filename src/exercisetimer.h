@@ -44,8 +44,10 @@ class ExerciseTimer : public QObject
     //Q_PROPERTY(ExerciseListModel* exerciseListModel READ exerciseListModel)
 
 public:
-    /*! Construct a new ExerciseTimer object*/
-    explicit ExerciseTimer(QObject *parent = 0);
+    /*! Construct a new ExerciseTimer object.
+    @param enableSound If false, no SoundPlayer is created. Used by tests
+    to avoid depending on an audio backend. */
+    explicit ExerciseTimer(QObject *parent = 0, bool enableSound = true);
     ExerciseListModel* exerciseListModel();
     /*! The sum of durations of all activities in the list */
     QTime totalDuration() const;
