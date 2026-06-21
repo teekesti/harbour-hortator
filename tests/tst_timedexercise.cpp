@@ -161,13 +161,46 @@ void TstTimedExercise::toggleActivityType()
 void TstTimedExercise::clone()
 {
     TimedExercise ex("rest", 3, 15, 7);
+    ex.setRounds(4);
     TimedExercise *copy = ex.clone();
 
     QCOMPARE(copy->activityType(), ex.activityType());
     QCOMPARE(copy->mins(), ex.mins());
     QCOMPARE(copy->secs(), ex.secs());
     QCOMPARE(copy->reps(), ex.reps());
+    QCOMPARE(copy->rounds(), ex.rounds());
     QVERIFY(copy != &ex);
 
     delete copy;
+}
+
+void TstTimedExercise::roundsDefaultsToOne()
+{
+    TimedExercise ex;
+    QCOMPARE(ex.rounds(), 1);
+}
+
+void TstTimedExercise::setRoundsEmitsOnChange()
+{
+    TimedExercise ex("work", 1, 0, 0);
+    QSignalSpy roundsSpy(&ex, &TimedExercise::roundsChanged);
+
+    ex.setRounds(3);
+
+    QCOMPARE(ex.rounds(), 3);
+    QCOMPARE(roundsSpy.count(), 1);
+
+    ex.setRounds(3);
+    QCOMPARE(roundsSpy.count(), 1);
+}
+
+void TstTimedExercise::setRoundsClampsBelowOne()
+{
+    TimedExercise ex("work", 1, 0, 0);
+
+    ex.setRounds(0);
+    QCOMPARE(ex.rounds(), 1);
+
+    ex.setRounds(-5);
+    QCOMPARE(ex.rounds(), 1);
 }

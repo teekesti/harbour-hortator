@@ -5,6 +5,7 @@
 
 #include "exercisetimer.h"
 #include "timedexercise.h"
+#include "exerciseset.h"
 #include "exerciselistmodel.h"
 #include "eoqttrace.h"
 #include "soundplayer.h"
@@ -24,7 +25,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     mEndNotificationTime(3),
     mSendEndNotification(false), mCountdownTracker(0),
     mCurrentRepNumber(0), mCurrentProgress(0), mTotalProgress(0),
-    mValidExerciseCount(0), mAllValid(false)
+    mAllValid(false)
 {
     QSettings settings;
     if (settings.contains("start delay"))
@@ -69,49 +70,75 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
 //
 //------------------------------------------------------------------------------
 //
-void ExerciseTimer::addExercise(TimedExercise *exercise, int pos)
+void ExerciseTimer::addSet(ExerciseSet *set, int pos)
 {
     if (-1 == pos)
     {
-        mModel->appendExercise(exercise);
+        mModel->appendSet(set);
     }
-    else mModel->insertExercise(exercise, pos);
-    if (exercise->isValid()){
-        mValidExerciseCount++;
-    }
+    else mModel->insertSet(set, pos);
+    connect(set, &ExerciseSet::validityChanged,
+            this, &ExerciseTimer::onSetValidityChanged);
     checkOverallValidity();
-    connect(exercise, &TimedExercise::validityChanged,
-            this, &ExerciseTimer::exerciseValidityChanged);
-
+    rebuildPlaySequence();
 }
 
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
 //
-void ExerciseTimer::addRest(int mins, int secs)
+void ExerciseTimer::removeSet(int index)
+{
+    mModel->removeSet(index);
+    checkOverallValidity();
+    rebuildPlaySequence();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::addExerciseToSet(int setIndex, TimedExercise *exercise, int pos)
+{
+    if (setIndex < 0 || setIndex >= mModel->count())
+    {
+        return;
+    }
+    ExerciseSet *set = mModel->at(setIndex);
+    if (-1 == pos)
+    {
+        set->appendExercise(exercise);
+    }
+    else set->insertExercise(exercise, pos);
+    checkOverallValidity();
+    rebuildPlaySequence();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::addRestToSet(int setIndex, int mins, int secs)
 {
     FUTR();
-    TimedExercise* ex = new TimedExercise("rest", mins, secs, 0, this);
-    addExercise(ex, -1);
-
-
-
+    TimedExercise* ex = new TimedExercise("rest", mins, secs, 0);
+    addExerciseToSet(setIndex, ex, -1);
 }
 
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
 //
-void ExerciseTimer::removeExercise(int index)
+void ExerciseTimer::removeExerciseFromSet(int setIndex, int exerciseIndex)
 {
-    auto ex = getExercise(index);
-    if (ex->isValid())
+    if (setIndex < 0 || setIndex >= mModel->count())
     {
-        mValidExerciseCount--;
+        return;
     }
-    mModel->removeExercise(index);
+    ExerciseSet *set = mModel->at(setIndex);
+    set->removeExercise(exerciseIndex);
     checkOverallValidity();
+    rebuildPlaySequence();
 }
 
 //------------------------------------------------------------------------------
@@ -125,7 +152,8 @@ void ExerciseTimer::start()
     {
         return;
     }
-    if (mModel->isEmpty())
+    rebuildPlaySequence();
+    if (mPlaySequence.isEmpty())
     {
         return;
     }
@@ -180,6 +208,7 @@ void ExerciseTimer::pause()
 void ExerciseTimer::reset()
 {
     pause();
+    rebuildPlaySequence();
     mCurrentRunningTime.setHMS(0, 0, 0);
     mTotalRunningTime.setHMS(0, 0, 0);
     emit currentRunningTimeChanged(mCurrentRunningTime);
@@ -196,12 +225,12 @@ void ExerciseTimer::reset()
 //
 //------------------------------------------------------------------------------
 //
-void ExerciseTimer::appendDefaultExercise()
+void ExerciseTimer::appendDefaultSet()
 {
     FUTR();
-    TimedExercise* ex = new TimedExercise();
-    ex->setParent(this);
-    addExercise(ex, -1);
+    ExerciseSet* set = new ExerciseSet();
+    set->appendExercise(new TimedExercise());
+    addSet(set, -1);
 }
 
 //------------------------------------------------------------------------------
@@ -217,11 +246,20 @@ ExerciseListModel* ExerciseTimer::exerciseListModel()
 //
 //------------------------------------------------------------------------------
 //
-void ExerciseTimer::modifyExercise(int index)
+void ExerciseTimer::modifyExerciseInSet(int setIndex, int exerciseIndex)
 {
     FUTR();
-    TRACE1("modification of exercise %1 requested", index);
-    emit requestModificationOfExercise(getExercise(index));
+    if (setIndex < 0 || setIndex >= mModel->count())
+    {
+        return;
+    }
+    ExerciseSet *set = mModel->at(setIndex);
+    if (exerciseIndex < 0 || exerciseIndex >= set->count())
+    {
+        return;
+    }
+    TRACE2("modification of exercise %1 in set %2 requested", exerciseIndex, setIndex);
+    emit requestModificationOfExercise(set->at(exerciseIndex));
 
 }
 
@@ -240,9 +278,9 @@ void ExerciseTimer::onCountChanged()
 //------------------------------------------------------------------------------
 //
 
-void ExerciseTimer::onTotalDurationChanged(int totalDurationChangeSeconds)
+void ExerciseTimer::onTotalDurationChanged(int newTotalDurationSeconds)
 {
-    mTotalDuration = mTotalDuration.addSecs(totalDurationChangeSeconds);
+    mTotalDuration = QTime(0, 0, 0).addSecs(newTotalDurationSeconds);
     emit totalDurationChanged(mTotalDuration);
 }
 
@@ -431,7 +469,43 @@ void ExerciseTimer::playCurrentExercise()
 //
 TimedExercise * ExerciseTimer::getExercise(int index)
 {
-    return mModel->at(index);
+    if (index < 0 || index >= mPlaySequence.size())
+    {
+        return 0;
+    }
+    return mPlaySequence.at(index).exercise;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::rebuildPlaySequence()
+{
+    mPlaySequence.clear();
+    int setCount = mModel->count();
+    for (int s = 0; s < setCount; ++s)
+    {
+        ExerciseSet *set = mModel->at(s);
+        for (int setRound = 0; setRound < set->rounds(); ++setRound)
+        {
+            for (int e = 0; e < set->count(); ++e)
+            {
+                TimedExercise *exercise = set->at(e);
+                for (int exerciseRound = 0; exerciseRound < exercise->rounds();
+                     ++exerciseRound)
+                {
+                    PlayItem item;
+                    item.exercise = exercise;
+                    item.setIndex = s;
+                    item.setCount = setCount;
+                    item.exerciseRoundNumber = exerciseRound + 1;
+                    item.exerciseRoundCount = exercise->rounds();
+                    mPlaySequence.append(item);
+                }
+            }
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -461,7 +535,7 @@ void ExerciseTimer::onCurrentExerciseFinished()
         mCurrentRepNumber = 0;
         emit notifyRep(mCurrentRepNumber);
         // Check if there is a next activity to perform
-        if (mModel->size() > mCurrentExerciseIndex + 1)
+        if (mPlaySequence.size() > mCurrentExerciseIndex + 1)
         {
             // There's an exercise
             mCurrentExerciseIndex += 1;
@@ -639,17 +713,24 @@ void ExerciseTimer::onCountDown()
     }
 }
 
-void ExerciseTimer::exerciseValidityChanged(bool isValid)
+void ExerciseTimer::onSetValidityChanged(bool isValid)
 {
     FUTR();
-    mValidExerciseCount += isValid ? 1 : -1;
+    Q_UNUSED(isValid);
     checkOverallValidity();
 }
 
 void ExerciseTimer::checkOverallValidity()
 {
-    TRACE2("Exercise count: %1 of which valid: %2", mModel->count(), mValidExerciseCount);
-    bool allValid = mValidExerciseCount > 0 && mValidExerciseCount == mModel->count();
+    bool allValid = mModel->count() > 0;
+    for (int i = 0; allValid && i < mModel->count(); ++i)
+    {
+        if (!mModel->at(i)->isValid())
+        {
+            allValid = false;
+        }
+    }
+    TRACE2("Set count: %1, allValid: %2", mModel->count(), allValid);
     if (mAllValid != allValid)
     {
         mAllValid = allValid;
@@ -693,14 +774,7 @@ void ExerciseTimer::setEndWarningTime(int seconds)
 //
 TimedExercise * ExerciseTimer::currentActivity()
 {
-    if (mModel->size() == 0)
-    {
-        return 0;
-    }
-    else
-    {
-        return getExercise(mCurrentExerciseIndex);
-    }
+    return getExercise(mCurrentExerciseIndex);
 }
 
 //------------------------------------------------------------------------------
@@ -729,6 +803,46 @@ double ExerciseTimer::totalProgress() const
 bool ExerciseTimer::allExercisesValid() const
 {
     return mAllValid;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+int ExerciseTimer::currentSetNumber() const
+{
+    if (mCurrentExerciseIndex < 0 || mCurrentExerciseIndex >= mPlaySequence.size())
+    {
+        return 0;
+    }
+    return mPlaySequence.at(mCurrentExerciseIndex).setIndex + 1;
+}
+
+int ExerciseTimer::currentSetCount() const
+{
+    if (mCurrentExerciseIndex < 0 || mCurrentExerciseIndex >= mPlaySequence.size())
+    {
+        return 0;
+    }
+    return mPlaySequence.at(mCurrentExerciseIndex).setCount;
+}
+
+int ExerciseTimer::currentExerciseRoundNumber() const
+{
+    if (mCurrentExerciseIndex < 0 || mCurrentExerciseIndex >= mPlaySequence.size())
+    {
+        return 0;
+    }
+    return mPlaySequence.at(mCurrentExerciseIndex).exerciseRoundNumber;
+}
+
+int ExerciseTimer::currentExerciseRoundCount() const
+{
+    if (mCurrentExerciseIndex < 0 || mCurrentExerciseIndex >= mPlaySequence.size())
+    {
+        return 0;
+    }
+    return mPlaySequence.at(mCurrentExerciseIndex).exerciseRoundCount;
 }
 
 

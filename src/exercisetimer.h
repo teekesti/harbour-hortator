@@ -10,10 +10,12 @@ methods to start and stop the activities. It notifies the ui for starting,
 
 #include <QObject>
 #include <QTime>
+#include <QVector>
 
 class QTimer;
 
 class TimedExercise;
+class ExerciseSet;
 class ExerciseListModel;
 class SoundPlayer;
 
@@ -41,6 +43,12 @@ class ExerciseTimer : public QObject
     Q_PROPERTY(double totalProgress READ totalProgress NOTIFY
                totalProgressChanged)
     Q_PROPERTY(bool allValid READ allExercisesValid NOTIFY validityChanged)
+    Q_PROPERTY(int currentSetNumber READ currentSetNumber NOTIFY currentActivityChanged)
+    Q_PROPERTY(int currentSetCount READ currentSetCount NOTIFY currentActivityChanged)
+    Q_PROPERTY(int currentExerciseRoundNumber READ currentExerciseRoundNumber
+               NOTIFY currentActivityChanged)
+    Q_PROPERTY(int currentExerciseRoundCount READ currentExerciseRoundCount
+               NOTIFY currentActivityChanged)
     //Q_PROPERTY(ExerciseListModel* exerciseListModel READ exerciseListModel)
 
 public:
@@ -71,6 +79,14 @@ public:
     /*! Progress of total activity from 0 to 1 */
     double totalProgress() const;
     bool allExercisesValid() const;
+    /*! Which set (1-based) the currently playing exercise belongs to */
+    int currentSetNumber() const;
+    /*! Total number of sets in the workout */
+    int currentSetCount() const;
+    /*! Which round (1-based) of the current exercise is currently playing */
+    int currentExerciseRoundNumber() const;
+    /*! Total number of rounds configured for the current exercise */
+    int currentExerciseRoundCount() const;
 
 signals:
     void totalDurationChanged(QTime duration);
@@ -97,11 +113,15 @@ signals:
     void validityChanged(bool allValid);
 
 public slots:
-    void addExercise(TimedExercise* exercise, int pos = -1);
-    void appendDefaultExercise();
-    void addRest(int mins = 1, int secs = 0);
-    void modifyExercise(int index);
-    void removeExercise(int index);
+    void addSet(ExerciseSet* set, int pos = -1);
+    /*! Appends a new set, pre-populated with one default exercise so it is
+    immediately valid */
+    void appendDefaultSet();
+    void removeSet(int index);
+    void addExerciseToSet(int setIndex, TimedExercise* exercise, int pos = -1);
+    void addRestToSet(int setIndex, int mins = 1, int secs = 0);
+    void removeExerciseFromSet(int setIndex, int exerciseIndex);
+    void modifyExerciseInSet(int setIndex, int exerciseIndex);
     /*! Start the exercise sequence, or resume playing if it was
     paused. */
     void start();
@@ -130,8 +150,22 @@ private slots:
     void onCurrentExerciseCloseToEnd();
     void startCountDown(int durationSeconds);
     void onCountDown();
-    void exerciseValidityChanged(bool isValid);
+    void onSetValidityChanged(bool isValid);
     void checkOverallValidity();
+
+private: // types
+
+    /*! One play of one exercise within the flattened play sequence,
+    together with the position metadata (which set, which exercise round)
+    needed to drive the RunPage position display. */
+    struct PlayItem
+    {
+        TimedExercise* exercise;
+        int setIndex;
+        int setCount;
+        int exerciseRoundNumber;
+        int exerciseRoundCount;
+    };
 
 private: //data
 
@@ -193,16 +227,20 @@ private: //data
     double mCurrentProgress;
     /*! Progress of total activity from 0 to 1 */
     double mTotalProgress;
-    /*! Count of valid exercises to check if all are valid */
-    int mValidExerciseCount;
     bool mAllValid;
+    /*! The flattened sequence of plays derived from the Set/Round tree;
+    rebuilt whenever the workout structure changes. mCurrentExerciseIndex
+    indexes into this, not directly into mModel. */
+    QVector<PlayItem> mPlaySequence;
     /*! A system screen saver object for disabling screen saver during action,
     if so desired. */
     //QSystemScreenSaver* mScreenSaver;
 
 private: // methods
-    /*! Return the pointer of the exercise at index i */
+    /*! Return the pointer of the exercise at index i in mPlaySequence */
     TimedExercise* getExercise(int index);
+    /*! Rebuild mPlaySequence by walking the Set/Round tree */
+    void rebuildPlaySequence();
 
 protected:
     void timerEvent(QTimerEvent *);

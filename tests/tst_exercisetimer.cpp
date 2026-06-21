@@ -4,7 +4,17 @@
 #include <QSettings>
 #include "exercisetimer.h"
 #include "exerciselistmodel.h"
+#include "exerciseset.h"
 #include "timedexercise.h"
+
+namespace {
+ExerciseSet *setWithOneExercise(QString activityType, int mins, int secs)
+{
+    ExerciseSet *set = new ExerciseSet();
+    set->appendExercise(new TimedExercise(activityType, mins, secs, 0));
+    return set;
+}
+}
 
 void TstExerciseTimer::init()
 {
@@ -18,12 +28,12 @@ void TstExerciseTimer::init()
 void TstExerciseTimer::durationAggregation()
 {
     ExerciseTimer timer(nullptr, false);
-    timer.addExercise(new TimedExercise("work", 1, 0, 0));  // 60 s
-    timer.addExercise(new TimedExercise("rest", 0, 30, 0)); // 30 s
+    timer.addSet(setWithOneExercise("work", 1, 0));  // 60 s
+    timer.addSet(setWithOneExercise("rest", 0, 30)); // 30 s
 
     QCOMPARE(timer.totalDuration(), QTime(0, 1, 30));
 
-    timer.removeExercise(0);
+    timer.removeSet(0);
 
     QCOMPARE(timer.totalDuration(), QTime(0, 0, 30));
 }
@@ -33,13 +43,13 @@ void TstExerciseTimer::validityReflectsExercises()
     ExerciseTimer timer(nullptr, false);
     QVERIFY(!timer.allExercisesValid());
 
-    timer.addExercise(new TimedExercise("work", 1, 0, 0)); // valid
+    timer.addSet(setWithOneExercise("work", 1, 0)); // valid
     QVERIFY(timer.allExercisesValid());
 
-    timer.addExercise(new TimedExercise("work", 0, 0, 0)); // invalid (zero duration)
+    timer.addSet(setWithOneExercise("work", 0, 0)); // invalid (zero duration)
     QVERIFY(!timer.allExercisesValid());
 
-    timer.removeExercise(1); // remove the invalid one
+    timer.removeSet(1); // remove the invalid one
     QVERIFY(timer.allExercisesValid());
 }
 
@@ -98,8 +108,8 @@ void TstExerciseTimer::endWarningTimePersists()
 void TstExerciseTimer::resetOnFreshTimer()
 {
     ExerciseTimer timer(nullptr, false);
-    timer.addExercise(new TimedExercise("work", 1, 0, 0));
-    timer.addExercise(new TimedExercise("rest", 0, 30, 0));
+    timer.addSet(setWithOneExercise("work", 1, 0));
+    timer.addSet(setWithOneExercise("rest", 0, 30));
 
     QSignalSpy activitySpy(&timer, &ExerciseTimer::currentActivityChanged);
     QSignalSpy durationSpy(&timer, &ExerciseTimer::currentDurationChanged);
@@ -110,7 +120,7 @@ void TstExerciseTimer::resetOnFreshTimer()
 
     QCOMPARE(timer.currentRunningTime(), QTime(0, 0, 0));
     QCOMPARE(timer.totalRunningTime(), QTime(0, 0, 0));
-    QCOMPARE(timer.currentActivity(), timer.exerciseListModel()->at(0));
+    QCOMPARE(timer.currentActivity(), timer.exerciseListModel()->at(0)->at(0));
     QCOMPARE(activitySpy.count(), 1);
     QCOMPARE(durationSpy.count(), 1);
     QCOMPARE(currentRunningSpy.count(), 1);
@@ -122,8 +132,8 @@ void TstExerciseTimer::currentActivityOnEmptyModel()
     ExerciseTimer timer(nullptr, false);
     QCOMPARE(timer.currentActivity(), static_cast<TimedExercise *>(nullptr));
 
-    timer.addExercise(new TimedExercise("work", 1, 0, 0));
-    QCOMPARE(timer.currentActivity(), timer.exerciseListModel()->at(0));
+    timer.addSet(setWithOneExercise("work", 1, 0));
+    QCOMPARE(timer.currentActivity(), timer.exerciseListModel()->at(0)->at(0));
 }
 
 void TstExerciseTimer::startOnEmptyModelIsNoOp()
@@ -140,7 +150,7 @@ void TstExerciseTimer::startThenPauseTransitionsRunning()
 {
     ExerciseTimer timer(nullptr, false);
     timer.setStartDelay(0); // start immediately, no countdown
-    timer.addExercise(new TimedExercise("work", 0, 1, 0));
+    timer.addSet(setWithOneExercise("work", 0, 1));
 
     QSignalSpy runningSpy(&timer, &ExerciseTimer::runningStatusChanged);
 
@@ -153,4 +163,125 @@ void TstExerciseTimer::startThenPauseTransitionsRunning()
     QCOMPARE(runningSpy.count(), 2);
     QCOMPARE(runningSpy.at(0).at(0).toBool(), true);
     QCOMPARE(runningSpy.at(1).at(0).toBool(), false);
+}
+
+void TstExerciseTimer::emptySetBlocksValidity()
+{
+    ExerciseTimer timer(nullptr, false);
+    ExerciseSet *set = new ExerciseSet(); // empty
+    timer.addSet(set);
+
+    QVERIFY(!timer.allExercisesValid());
+
+    timer.addExerciseToSet(0, new TimedExercise("work", 1, 0, 0));
+    QVERIFY(timer.allExercisesValid());
+}
+
+void TstExerciseTimer::noSetsBlocksValidity()
+{
+    ExerciseTimer timer(nullptr, false);
+    QVERIFY(!timer.allExercisesValid());
+
+    timer.addSet(setWithOneExercise("work", 1, 0));
+    QVERIFY(timer.allExercisesValid());
+
+    timer.removeSet(0);
+    QVERIFY(!timer.allExercisesValid());
+}
+
+void TstExerciseTimer::durationAccountsForSetAndExerciseRounds()
+{
+    ExerciseTimer timer(nullptr, false);
+    ExerciseSet *set = new ExerciseSet();
+    set->setRounds(2);
+    TimedExercise *a = new TimedExercise("work", 1, 0, 0); // 60 s
+    a->setRounds(3);
+    TimedExercise *b = new TimedExercise("rest", 0, 30, 0); // 30 s, 1 round
+    set->appendExercise(a);
+    set->appendExercise(b);
+    timer.addSet(set);
+
+    // (60*3 + 30) * 2 set rounds = 420 s = 7 min
+    QCOMPARE(timer.totalDuration(), QTime(0, 7, 0));
+}
+
+void TstExerciseTimer::playSequenceFlattensSetAndExerciseRounds()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(0); // start immediately, no countdown
+
+    ExerciseSet *set1 = new ExerciseSet();
+    set1->setRounds(2);
+    TimedExercise *a = new TimedExercise("work", 0, 1, 0);
+    a->setRounds(2);
+    set1->appendExercise(a);
+    timer.addSet(set1);
+
+    ExerciseSet *set2 = new ExerciseSet();
+    TimedExercise *b = new TimedExercise("work", 0, 1, 0);
+    set2->appendExercise(b);
+    timer.addSet(set2);
+
+    timer.start();
+
+    // Play 1: set1, set round 1, exercise round 1
+    QCOMPARE(timer.currentActivity(), a);
+    QCOMPARE(timer.currentSetNumber(), 1);
+    QCOMPARE(timer.currentSetCount(), 2);
+    QCOMPARE(timer.currentExerciseRoundNumber(), 1);
+    QCOMPARE(timer.currentExerciseRoundCount(), 2);
+
+    // Play 2: set1, set round 1, exercise round 2
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(timer.currentActivity(), a);
+    QCOMPARE(timer.currentExerciseRoundNumber(), 2);
+
+    // Play 3: set1, set round 2, exercise round resets to 1
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(timer.currentActivity(), a);
+    QCOMPARE(timer.currentExerciseRoundNumber(), 1);
+
+    // Play 4: set1, set round 2, exercise round 2
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(timer.currentActivity(), a);
+    QCOMPARE(timer.currentExerciseRoundNumber(), 2);
+
+    // Play 5: set2, exercise b
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(timer.currentActivity(), b);
+    QCOMPARE(timer.currentSetNumber(), 2);
+    QCOMPARE(timer.currentExerciseRoundNumber(), 1);
+    QCOMPARE(timer.currentExerciseRoundCount(), 1);
+
+    QSignalSpy finishedSpy(&timer, &ExerciseTimer::allExercisesFinished);
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(finishedSpy.count(), 1);
+}
+
+void TstExerciseTimer::positionPropertiesDuringPlayback()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.appendDefaultSet();
+
+    QCOMPARE(timer.currentSetNumber(), 1);
+    QCOMPARE(timer.currentSetCount(), 1);
+    QCOMPARE(timer.currentExerciseRoundNumber(), 1);
+    QCOMPARE(timer.currentExerciseRoundCount(), 1);
+}
+
+void TstExerciseTimer::outOfRangeSetIndexIsNoOp()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(setWithOneExercise("work", 1, 0));
+
+    QSignalSpy modifySpy(&timer, &ExerciseTimer::requestModificationOfExercise);
+
+    timer.addExerciseToSet(5, new TimedExercise("work", 1, 0, 0));
+    timer.removeExerciseFromSet(-1, 0);
+    timer.modifyExerciseInSet(5, 0);
+    timer.modifyExerciseInSet(0, 5);
+
+    QCOMPARE(timer.exerciseListModel()->count(), 1);
+    QCOMPARE(timer.exerciseListModel()->at(0)->count(), 1);
+    QCOMPARE(modifySpy.count(), 0);
 }

@@ -10,7 +10,7 @@
 TimedExercise::TimedExercise(QString activityType, int mins,
                              int secs, int reps, QObject *parent) :
     QObject(parent), mActivityType(activityType), mMins(mins), mSecs(secs),
-    mReps(reps)
+    mReps(reps), mRounds(1)
 {
     updateRPM();
 }
@@ -23,6 +23,7 @@ TimedExercise *TimedExercise::clone() const
     duplicate->setMins(this->mins());
     duplicate->setSecs(this->secs());
     duplicate->setReps(this->reps());
+    duplicate->setRounds(this->rounds());
     return duplicate;
 }
 
@@ -51,6 +52,15 @@ int TimedExercise::secs() const
 int TimedExercise::reps() const
 {
     return mReps;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+int TimedExercise::rounds() const
+{
+    return mRounds;
 }
 
 //------------------------------------------------------------------------------
@@ -121,6 +131,23 @@ void TimedExercise::setReps(int reps)
         mReps = reps;
         emit repsChanged(mReps);
         updateRPM();
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void TimedExercise::setRounds(int rounds)
+{
+    if (rounds < 1)
+    {
+        rounds = 1;
+    }
+    if (rounds != mRounds)
+    {
+        mRounds = rounds;
+        emit roundsChanged(mRounds);
     }
 }
 

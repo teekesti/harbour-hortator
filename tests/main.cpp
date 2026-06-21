@@ -3,6 +3,7 @@
 #include <QtTest>
 
 #include "tst_timedexercise.h"
+#include "tst_exerciseset.h"
 #include "tst_exerciselistmodel.h"
 #include "tst_exercisetimer.h"
 
@@ -19,6 +20,9 @@ int main(int argc, char *argv[])
 
     TstTimedExercise timedExerciseTest;
     result |= QTest::qExec(&timedExerciseTest, argc, argv);
+
+    TstExerciseSet exerciseSetTest;
+    result |= QTest::qExec(&exerciseSetTest, argc, argv);
 
     TstExerciseListModel exerciseListModelTest;
     result |= QTest::qExec(&exerciseListModelTest, argc, argv);
