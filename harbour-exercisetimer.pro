@@ -19,6 +19,7 @@ DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE
 
 SOURCES += src/harbour-exercisetimer.cpp \
     src/exerciselistmodel.cpp \
+    src/exerciseset.cpp \
     src/exercisetimer.cpp \
     src/soundplayer.cpp \
     src/timedexercise.cpp
@@ -52,6 +53,7 @@ TRANSLATIONS += translations/harbour-exercisetimer-de.ts translations/harbour-ex
 HEADERS += \
     src/eoqttrace.h \
     src/exerciselistmodel.h \
+    src/exerciseset.h \
     src/exercisetimer.h \
     src/soundplayer.h \
     src/timedexercise.h

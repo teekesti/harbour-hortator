@@ -118,6 +118,16 @@ void ExerciseTimer::addExerciseToSet(int setIndex, TimedExercise *exercise, int 
 //
 //------------------------------------------------------------------------------
 //
+void ExerciseTimer::addDefaultExerciseToSet(int setIndex)
+{
+    FUTR();
+    addExerciseToSet(setIndex, new TimedExercise(), -1);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
 void ExerciseTimer::addRestToSet(int setIndex, int mins, int secs)
 {
     FUTR();

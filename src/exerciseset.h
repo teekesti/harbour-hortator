@@ -13,12 +13,14 @@ class ExerciseSet : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int rounds READ rounds WRITE setRounds NOTIFY roundsChanged)
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(bool isValid READ isValid NOTIFY validityChanged)
 public:
     explicit ExerciseSet(QObject *parent = 0);
     int rounds() const;
     int count() const;
     bool isEmpty() const;
-    TimedExercise *at(int i) const;
+    Q_INVOKABLE TimedExercise *at(int i) const;
     bool isValid() const;
     int totalDurationSeconds() const;
     ExerciseSet *clone() const;
@@ -30,6 +32,7 @@ public:
 
 signals:
     void roundsChanged(int rounds);
+    void countChanged();
     /*! Emitted with the new absolute total (not a delta) whenever this
     set's totalDurationSeconds() changes, for any reason: an exercise is
     added/removed, or a child exercise's duration or rounds changes. */

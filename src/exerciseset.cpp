@@ -97,6 +97,7 @@ void ExerciseSet::insertExercise(TimedExercise *exercise, int position)
             this, &ExerciseSet::onChildDurationOrRoundsChanged);
     connect(exercise, &TimedExercise::validityChanged,
             this, &ExerciseSet::onChildValidityChanged);
+    emit countChanged();
     emit totalDurationChanged(totalDurationSeconds());
     onChildValidityChanged();
 }
@@ -109,6 +110,7 @@ void ExerciseSet::removeExercise(int index)
     }
     auto exerciseToRemove = mExercises.takeAt(index);
     exerciseToRemove->deleteLater();
+    emit countChanged();
     emit totalDurationChanged(totalDurationSeconds());
     onChildValidityChanged();
 }

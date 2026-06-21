@@ -119,6 +119,9 @@ public slots:
     void appendDefaultSet();
     void removeSet(int index);
     void addExerciseToSet(int setIndex, TimedExercise* exercise, int pos = -1);
+    /*! Adds a new default (work, 1 min) exercise to the given set; used by
+    the set's own "+" button in the editor */
+    void addDefaultExerciseToSet(int setIndex);
     void addRestToSet(int setIndex, int mins = 1, int secs = 0);
     void removeExerciseFromSet(int setIndex, int exerciseIndex);
     void modifyExerciseInSet(int setIndex, int exerciseIndex);

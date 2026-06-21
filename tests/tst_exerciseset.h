@@ -27,6 +27,7 @@ private slots:
     void validityChangedOnAppendAndRemove();
     void validityChangedPropagatesFromChild();
     void copiedExerciseDurationChangePropagates();
+    void countChangedOnAppendAndRemove();
 };
 
 #endif // TST_EXERCISESET_H

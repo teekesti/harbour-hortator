@@ -245,3 +245,17 @@ void TstExerciseSet::copiedExerciseDurationChangePropagates()
     QCOMPARE(durationSpy.count(), 1);
     QCOMPARE(durationSpy.at(0).at(0).toInt(), 180);
 }
+
+void TstExerciseSet::countChangedOnAppendAndRemove()
+{
+    ExerciseSet set;
+    QSignalSpy countSpy(&set, &ExerciseSet::countChanged);
+
+    set.appendExercise(new TimedExercise("work", 1, 0, 0));
+    QCOMPARE(countSpy.count(), 1);
+    QCOMPARE(set.count(), 1);
+
+    set.removeExercise(0);
+    QCOMPARE(countSpy.count(), 2);
+    QCOMPARE(set.count(), 0);
+}

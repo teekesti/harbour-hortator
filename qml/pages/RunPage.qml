@@ -83,6 +83,25 @@ Page {
         Column {
             spacing: Theme.paddingMedium
 
+            Label {
+                id: positionLabel
+                width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryColor
+                visible: text.length > 0
+                text: {
+                    var parts = []
+                    if (exerciseTimer.currentSetCount > 1) {
+                        parts.push(qsTr("Set %1/%2").arg(exerciseTimer.currentSetNumber).arg(exerciseTimer.currentSetCount))
+                    }
+                    if (exerciseTimer.currentExerciseRoundCount > 1) {
+                        parts.push(qsTr("Round %1/%2").arg(exerciseTimer.currentExerciseRoundNumber).arg(exerciseTimer.currentExerciseRoundCount))
+                    }
+                    return parts.join(" · ")
+                }
+            }
+
             Rectangle {
                 width: countDownRect.width - 2 * Theme.horizontalPageMargin
                 height: Theme.itemSizeExtraLarge

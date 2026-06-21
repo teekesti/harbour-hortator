@@ -8,3 +8,4 @@ RPMS/
 documentation.list
 translations/*.qm
 build-tests/
+build-app/
