@@ -49,7 +49,6 @@ class ExerciseTimer : public QObject
                NOTIFY currentActivityChanged)
     Q_PROPERTY(int currentExerciseRoundCount READ currentExerciseRoundCount
                NOTIFY currentActivityChanged)
-    //Q_PROPERTY(ExerciseListModel* exerciseListModel READ exerciseListModel)
 
 public:
     /*! Construct a new ExerciseTimer object.
@@ -235,9 +234,6 @@ private: //data
     rebuilt whenever the workout structure changes. mCurrentExerciseIndex
     indexes into this, not directly into mModel. */
     QVector<PlayItem> mPlaySequence;
-    /*! A system screen saver object for disabling screen saver during action,
-    if so desired. */
-    //QSystemScreenSaver* mScreenSaver;
 
 private: // methods
     /*! Return the pointer of the exercise at index i in mPlaySequence */

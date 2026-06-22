@@ -23,16 +23,24 @@
         <translation>Lepo</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Poista</translation>
-    </message>
-    <message>
         <source>Total</source>
         <translation>Kesto</translation>
     </message>
     <message>
         <source>Total Duration</source>
         <translation>Kokonaiskesto</translation>
+    </message>
+    <message>
+        <source>Set %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>rounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove set</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -43,6 +51,14 @@
     </message>
     <message>
         <source>Total progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set %1/%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Round %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
