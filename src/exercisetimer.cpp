@@ -53,7 +53,6 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     connect(this, SIGNAL(currentExerciseCloseToEnd()), this,
             SLOT(onCurrentExerciseCloseToEnd()));
     mPlayer = enableSound ? new SoundPlayer(this) : nullptr;
-    //mPlayer->setVolume(100);
     mCountdownTimer = new QTimer(this);
     connect(mCountdownTimer, SIGNAL(timeout()), this,
             SLOT(onCountDown()));
