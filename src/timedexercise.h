@@ -12,6 +12,7 @@ class TimedExercise : public QObject
     Q_PROPERTY(int mins READ mins WRITE setMins NOTIFY minsChanged)
     Q_PROPERTY(int secs READ secs WRITE setSecs NOTIFY secsChanged)
     Q_PROPERTY(int reps READ reps WRITE setReps NOTIFY repsChanged)
+    Q_PROPERTY(int rounds READ rounds WRITE setRounds NOTIFY roundsChanged)
     Q_PROPERTY(double rpm READ rpm NOTIFY rpmChanged)
     Q_PROPERTY(double repSeparation READ repSeparation
                NOTIFY repSeparationChanged)
@@ -27,6 +28,8 @@ public:
     int secs() const;
     /*! Return the planned number of repetitions */
     int reps() const;
+    /*! Return how many times this exercise is replayed before moving on */
+    int rounds() const;
     /*! Return the number of repetitions per minute */
     double rpm() const;
     /*! Return the time in seconds between repetitions */
@@ -43,6 +46,7 @@ signals:
     void secsChanged(int secs);
     void durationChanged(int durationChangeSeconds);
     void repsChanged(int reps);
+    void roundsChanged(int rounds);
     void rpmChanged(double rpm);
     void repSeparationChanged(double repSeparation);
     void validityChanged(bool isValid);
@@ -53,6 +57,7 @@ public slots:
     void setMins(int mins);
     void setSecs(int secs);
     void setReps(int reps);
+    void setRounds(int rounds);
 
 private slots:
     void updateRPM();
@@ -62,6 +67,7 @@ private: // data
     int mMins;
     int mSecs;
     int mReps;
+    int mRounds;
     double mRPM;
     double mRepSeparation;
     bool mIsValid;

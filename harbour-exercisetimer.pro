@@ -19,6 +19,7 @@ DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE
 
 SOURCES += src/harbour-exercisetimer.cpp \
     src/exerciselistmodel.cpp \
+    src/exerciseset.cpp \
     src/exercisetimer.cpp \
     src/soundplayer.cpp \
     src/timedexercise.cpp
@@ -30,6 +31,7 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     qml/pages/components/qmldir \
     qml/pages/components/AcceleratingIconButton.qml \
     qml/pages/components/ValueAdjustmentHorizontal.qml \
+    qml/pages/components/RoundCountAdjustment.qml \
     rpm/harbour-exercisetimer.changes.in \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \
@@ -52,6 +54,7 @@ TRANSLATIONS += translations/harbour-exercisetimer-de.ts translations/harbour-ex
 HEADERS += \
     src/eoqttrace.h \
     src/exerciselistmodel.h \
+    src/exerciseset.h \
     src/exercisetimer.h \
     src/soundplayer.h \
     src/timedexercise.h

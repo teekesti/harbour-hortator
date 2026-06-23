@@ -20,6 +20,13 @@ private slots:
     void currentActivityOnEmptyModel();
     void startOnEmptyModelIsNoOp();
     void startThenPauseTransitionsRunning();
+
+    void emptySetBlocksValidity();
+    void noSetsBlocksValidity();
+    void durationAccountsForSetAndExerciseRounds();
+    void playSequenceFlattensSetAndExerciseRounds();
+    void positionPropertiesDuringPlayback();
+    void outOfRangeSetIndexIsNoOp();
 };
 
 #endif // TST_EXERCISETIMER_H

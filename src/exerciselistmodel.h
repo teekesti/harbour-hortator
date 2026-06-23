@@ -3,7 +3,7 @@
 #include <QAbstractListModel>
 #include <QTime>
 
-class TimedExercise;
+class ExerciseSet;
 
 class ExerciseListModel : public QAbstractListModel
 {
@@ -11,35 +11,36 @@ class ExerciseListModel : public QAbstractListModel
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
 
-    enum Roles {ExerciseRole = Qt::UserRole + 1};
+    enum Roles {SetRole = Qt::UserRole + 1};
 
     explicit ExerciseListModel(QObject *parent = nullptr);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = ExerciseRole) const override;
+    QVariant data(const QModelIndex &index, int role = SetRole) const override;
     QHash<int, QByteArray> roleNames() const override;
-    void appendExercise(TimedExercise *exercise);
-    void insertExercise(TimedExercise *exercise, int position);
-    Q_INVOKABLE void removeExercise(int index);
+    void appendSet(ExerciseSet *set);
+    void insertSet(ExerciseSet *set, int position);
+    Q_INVOKABLE void removeSet(int index);
     Q_INVOKABLE void clear();
-    inline bool isEmpty() const { return mExercises.isEmpty(); }
-    inline TimedExercise *at(int i) const { return mExercises.at(i); }
-    inline int size() const { return mExercises.size(); }
-    Q_INVOKABLE int count() const {return mExercises.count(); }
+    inline bool isEmpty() const { return mSets.isEmpty(); }
+    inline ExerciseSet *at(int i) const { return mSets.at(i); }
+    inline int size() const { return mSets.size(); }
+    Q_INVOKABLE int count() const {return mSets.count(); }
     Q_INVOKABLE void moveItems(QList<int> selectedIndices, int targetIndex);
     Q_INVOKABLE void copyItems(QList<int> selectedIndices, int targetIndex);
-    //bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::EditRole) override;
-    //flags()
 
 signals:
-    void totalDurationChanged(int durationChangeSeconds);
+    /*! Emitted with the new absolute total (not a delta) whenever the
+    workout's grand total duration changes, for any reason. */
+    void totalDurationChanged(int newTotalDurationSeconds);
     void countChanged();
 
 private slots:
-    void exerciseDurationChanged(int durationChangeSeconds);
+    void onSetChanged();
 
 private:
-   int mTotalDurationSeconds;
-   QVector<TimedExercise*> mExercises;
+    int totalDurationSeconds() const;
+
+private:
+   QVector<ExerciseSet*> mSets;
 
 };
-

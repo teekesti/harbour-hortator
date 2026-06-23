@@ -4,6 +4,7 @@
 
 #include <sailfishapp.h>
 #include "timedexercise.h"
+#include "exerciseset.h"
 #include "exerciselistmodel.h"
 #include "exercisetimer.h"
 #include "eoqttrace.h"
@@ -22,13 +23,15 @@ int main(int argc, char *argv[])
     qmlRegisterType<ExerciseTimer>("com.appiukko.exercisetimer", 1, 0, "ExerciseTimer");
     qmlRegisterType<ExerciseListModel>("com.appiukko.exercisetimer", 1, 0, "ExerciseListModel");
     qmlRegisterType<TimedExercise>("com.appiukko.exercisetimer", 1, 0, "TimedExercise");
+    qmlRegisterUncreatableType<ExerciseSet>("com.appiukko.exercisetimer", 1, 0, "ExerciseSet",
+            "ExerciseSet instances are created by ExerciseTimer, not from QML");
     auto app = SailfishApp::application(argc, argv);
     auto view = SailfishApp::createView();
     QDir qmlDir = QDir(SailfishApp::pathTo("qml").toLocalFile());
     view->setSource(QUrl::fromLocalFile(qmlDir.filePath("harbour-exercisetimer.qml")));
     QQmlContext *context = view->rootContext();
     ExerciseTimer *exerciseTimer = new ExerciseTimer(app);
-    exerciseTimer->appendDefaultExercise();
+    exerciseTimer->appendDefaultSet();
     ExerciseListModel *model = exerciseTimer->exerciseListModel();
     TRACE1("model contains %1 items", model->size());
     context->setContextProperty("exerciseTimer", exerciseTimer);

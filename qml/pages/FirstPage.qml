@@ -16,7 +16,7 @@ Page {
 
 
     SilicaListView {
-        id: exerciseListView
+        id: setListView
         width: parent.width // - margin?
 
         anchors.top: parent.top
@@ -24,132 +24,198 @@ Page {
         anchors.bottomMargin: Theme.paddingMedium
 
         header: PageHeader {
-            width: exerciseListView.width
+            width: setListView.width
             title: qsTr("Configure exercises")
 
         }
 
         model: exerciseListModel
         delegate: ListItem {
-            id: exerciseItem
-            menu: contextMenu
-            contentHeight: timeAdjustment.height
-            ListView.onRemove: animateRemoval(exerciseItem)
+            id: setItem
+            menu: setContextMenu
+            contentHeight: setColumn.height + Theme.paddingMedium
+            ListView.onRemove: animateRemoval(setItem)
 
-            property bool isWorkout: exercise.activityType === "work"
-            //property bool isChecked: false
+            // Captured so nested Repeater delegates (which have their own
+            // "index") can still refer to this set's position in the
+            // top-level list.
+            property int setIndex: index
 
-            function remove() {
-                remorseDelete(function() { exerciseTimer.removeExercise(index) }, remorseTimeout)
+            function removeSet() {
+                remorseDelete(function() { exerciseTimer.removeSet(setIndex) }, remorseTimeout)
             }
 
-//            function toggleChecked() {
-//                isChecked = !isChecked
-//            }
+            Column {
+                id: setColumn
+                width: parent.width
+                anchors.top: parent.top
+                anchors.topMargin: Theme.paddingSmall
+                spacing: Theme.paddingSmall
 
+                Rectangle {
+                    id: setHeaderBackground
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: setHeaderRow.height + Theme.paddingMedium
+                    radius: Theme.paddingSmall
 
-
-
-
-            Rectangle{
-                anchors {fill: parent; margins: Theme.paddingSmall}
-                radius: Theme.paddingSmall
-
-                color: {
-                    if (!exercise.isValid) {
-                        return Theme.errorColor
+                    color: {
+                        if (!set.isValid) {
+                            return Theme.errorColor
+                        }
+                        if (setItem.highlighted) {
+                            return Theme.rgba(Theme.highlightColor, Theme.opacityLow)
+                        }
+                        return Theme.rgba(Theme.highlightBackgroundColor, 0.4)
                     }
 
-                    if (exerciseItem.highlighted) {
-                        return Theme.rgba(Theme.highlightColor, Theme.opacityLow)
-                    }
+                    Row {
+                        id: setHeaderRow
+                        anchors {
+                            left: parent.left; right: parent.right
+                            verticalCenter: parent.verticalCenter
+                            leftMargin: Theme.horizontalPageMargin
+                            rightMargin: Theme.horizontalPageMargin
+                        }
+                        spacing: Theme.paddingMedium
 
-                    return isWorkout
-                            ? Theme.rgba(Theme.highlightBackgroundColor, 0.25)
-                            : Theme.rgba(Theme.highlightDimmerColor, 0.10)
+                        Label {
+                            text: qsTr("Set %1").arg(setIndex + 1)
+                            font.bold: true
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        RoundCountAdjustment {
+                            id: setRoundsAdjustment
+                            value: set.rounds
+                            minValue: 1
+                            maxValue: 99
+                        }
+                        Binding { target: set; property: "rounds"; value: setRoundsAdjustment.value }
+
+                        IconButton {
+                            anchors.verticalCenter: parent.verticalCenter
+                            icon.source: "image://theme/icon-m-add?" + (pressed
+                                      ? Theme.highlightColor
+                                      : Theme.primaryColor)
+                            onClicked: exerciseTimer.addDefaultExerciseToSet(setIndex)
+                        }
+                    }
                 }
 
-//            MouseArea {
-//                anchors.fill: parent
-//                onClicked: toggleChecked()
-//            }
+                Repeater {
+                    id: exerciseRepeater
+                    width: parent.width
+                    model: set.count
+
+                    delegate: Item {
+                        id: exerciseRow
+                        width: exerciseRepeater.width
+                        height: exerciseContentRow.height
+
+                        property int exerciseIndex: index
+                        property var exercise: set.at(exerciseIndex)
+                        property bool isWorkout: exercise.activityType === "work"
+
+                        Rectangle {
+                            height: setHeaderBackground.height
+                            anchors { fill: parent; margins: Theme.paddingSmall }
+                            radius: Theme.paddingSmall
+
+                            color: {
+                                if (!exercise.isValid) {
+                                    return Theme.errorColor
+                                }
+                                return isWorkout
+                                        ? Theme.rgba(Theme.highlightBackgroundColor, 0.25)
+                                        : Theme.rgba(Theme.highlightDimmerColor, 0.10)
+                            }
+
+                            Row {
+                                id: exerciseContentRow
+                                anchors {
+                                    left: parent.left; right: parent.right
+                                    leftMargin: Theme.horizontalPageMargin
+                                    rightMargin: Theme.horizontalPageMargin
+                                }
+                                spacing: Theme.paddingMedium
 
 
-            Row {
-                anchors {fill: parent; leftMargin: Theme.horizontalPageMargin; rightMargin: Theme.horizontalPageMargin}
-                spacing: Theme.paddingMedium
+                                Flow {
+                                    flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
+                                    anchors.verticalCenter: parent.verticalCenter
 
-                Button {
-                    id: activityTypeButton
-                    text: isWorkout ? qsTr("Work") : qsTr("Rest")
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
-                    onClicked: exercise.toggleActivityType()
-                }
+                                    Button {
+                                        id: activityTypeButton
+                                        text: isWorkout ? qsTr("Work") : qsTr("Rest")
+                                        color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
+                                        onClicked: exercise.toggleActivityType()
+                                    }
+
+                                    RoundCountAdjustment {
+                                        id: roundsAdjustment
+                                        value: exercise.rounds
+                                        minValue: 1
+                                        maxValue: 99
+                                    }
+
+                                    Binding { target: exercise; property: "rounds"; value: roundsAdjustment.value }
+                                }
 
 
-                Flow {
-                    id: timeAdjustment
-                    flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
-                    spacing: 0.5 * Theme.paddingSmall
-                    anchors.verticalCenter: parent.verticalCenter
+
+                                Flow {
+                                    id: timeAdjustment
+                                    flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
+                                    spacing: 0.5 * Theme.paddingSmall
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    ValueAdjustmentHorizontal {
+                                        id: minutesAdjustment
+                                        value: exercise.mins
+                                        maxValue: 99
+                                        unitLabel: "m"
+                                    }
+
+                                    ValueAdjustmentHorizontal {
+                                        id: secondsAdjustment
+                                        value: exercise.secs
+                                        maxValue: 59
+                                        unitLabel: "s"
+                                        step: 5
+                                    }
 
 
-                    ValueAdjustmentHorizontal {
-                        id: minutesAdjustment
-                        value: exercise.mins
-                        maxValue: 99
-                        unitLabel: "m"
+                                    Binding { target: exercise; property: "mins"; value: minutesAdjustment.value }
+                                    Binding { target: exercise; property: "secs"; value: secondsAdjustment.value }   
+
+                                }
+
+                                IconButton {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    icon.source: "image://theme/icon-m-delete?" + (pressed
+                                              ? Theme.highlightColor
+                                              : Theme.primaryColor)
+                                    onClicked: exerciseTimer.removeExerciseFromSet(setItem.setIndex, exerciseIndex)
+                                }
+                            }
+                        }
                     }
-
-                    ValueAdjustmentHorizontal {
-                        id: secondsAdjustment
-                        value:exercise.secs
-                        maxValue: 59
-                        unitLabel: "s"
-                        step: 5
-                    }
-                    Binding {target: exercise; property: "mins"; value: minutesAdjustment.value }
-                    Binding {target: exercise; property: "secs"; value: secondsAdjustment.value }
-
-                }
-
-
-                //Spacer {id: fillSpace}
-
-//                IconButton {
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    icon.source: "image://theme/icon-m-accept?" + (pressed
-//                              ? Theme.highlightColor
-//                              : Theme.primaryColor)
-//                    onClicked: toggleChecked()
-//                    visible: isChecked
-//                }
-
-                IconButton {
-                    anchors.verticalCenter: parent.verticalCenter
-                    icon.source: "image://theme/icon-m-delete?" + (pressed
-                              ? Theme.highlightColor
-                              : Theme.primaryColor)
-                    onClicked: remove()
                 }
             }
-
-
 
             Component {
-                id: contextMenu
+                id: setContextMenu
                 ContextMenu {
                     MenuItem {
-                        text: qsTr("Remove")
-                        onClicked: remove()
+                        text: qsTr("Remove set")
+                        onClicked: removeSet()
                     }
                 }
             }
 
 
         }
-    }
     }
 
     Row {
@@ -167,7 +233,7 @@ Page {
                       ? Theme.highlightColor
                       : Theme.primaryColor)
             onClicked: {
-                exerciseTimer.appendDefaultExercise()
+                exerciseTimer.appendDefaultSet()
             }
          }
 
@@ -194,4 +260,3 @@ Page {
 
 
 }
-

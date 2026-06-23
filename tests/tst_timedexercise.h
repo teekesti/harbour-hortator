@@ -23,6 +23,9 @@ private slots:
     void setActivityTypeEmitsOnChange();
     void toggleActivityType();
     void clone();
+    void roundsDefaultsToOne();
+    void setRoundsEmitsOnChange();
+    void setRoundsClampsBelowOne();
 };
 
 #endif // TST_TIMEDEXERCISE_H

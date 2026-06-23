@@ -11,14 +11,13 @@ Page {
     property bool isWorkout: exerciseTimer.currentActivity.activityType === "work"
 
     DisplayBlanking {
-            // Keeps screen awake ONLY when page is active AND timer is ticking
             preventBlanking: runPage.status === PageStatus.Active && exerciseTimer.running
         }
 
-        KeepAlive {
-            // Keeps CPU awake so background audio/timers work if screen turns off
-            enabled: exerciseTimer.running
-        }
+    KeepAlive {
+        // Keeps CPU awake so background audio/timers work if screen turns off
+        enabled: exerciseTimer.running
+    }
 
     Flow {
         flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
@@ -43,14 +42,13 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     // Only shown during countdown
                     opacity: 0
-                    // Disabled animations because they ate too much CPU from sounds
-                    //SequentialAnimation  {
-                    // id: flashCountdownNumber
-                    //            NumberAnimation {id: showAnimation; target: countdownNumber;
-                    //                property: "opacity"; easing.type: Easing.InOutExpo; to: 60; duration: 200 }
-                    //            NumberAnimation {id: hideAnimation; target: countdownNumber;
-                    //                property: "opacity"; easing.type: Easing.InOutExpo; to: 0; duration: 500 }
-                    //        //}
+                    SequentialAnimation  {
+                    id: flashCountdownNumber
+                    NumberAnimation {id: showAnimation; target: countdownNumber;
+                        property: "opacity"; easing.type: Easing.InOutExpo; to: 60; duration: 200 }
+                    NumberAnimation {id: hideAnimation; target: countdownNumber;
+                        property: "opacity"; easing.type: Easing.InOutExpo; to: 0; duration: 500 }
+                    }
 
                 }
 
@@ -60,20 +58,11 @@ Page {
                         if (number > 0)
                         {
                             countdownNumber.text = number // number from signal parameter
-                            countdownNumber.opacity = 60
-            //                playButton.enabled = false
-            //                resetButton.enabled = false
-            //                backToListButton.enabled = false
-            //                settingsButton.enabled = false
+                            flashCountdownNumber.start()
                         }
                         else
                         {
-                            // hide the number when countdown is ready
                             countdownNumber.opacity = 0
-            //                playButton.enabled = true
-            //                resetButton.enabled = true
-            //                backToListButton.enabled = !exerciseTimer.running
-            //                settingsButton.enabled = true
                         }
                     }
                 }
@@ -82,6 +71,25 @@ Page {
 
         Column {
             spacing: Theme.paddingMedium
+
+            Label {
+                id: positionLabel
+                width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryColor
+                visible: text.length > 0
+                text: {
+                    var parts = []
+                    if (exerciseTimer.currentSetCount > 1) {
+                        parts.push(qsTr("Set %1/%2").arg(exerciseTimer.currentSetNumber).arg(exerciseTimer.currentSetCount))
+                    }
+                    if (exerciseTimer.currentSetRoundCount > 1) {
+                        parts.push(qsTr("Set round %1/%2").arg(exerciseTimer.currentSetRoundNumber).arg(exerciseTimer.currentSetRoundCount))
+                    } 
+                    return parts.join(" · ")
+                }
+            }
 
             Rectangle {
                 width: countDownRect.width - 2 * Theme.horizontalPageMargin
@@ -99,7 +107,13 @@ Page {
                     maximumValue: 1
                     enabled: false
                     value: exerciseTimer.currentProgress
-                    label: qsTr("Current progress")
+                    label: {
+                        var parts = [qsTr("Current exercise")]
+                        if (exerciseTimer.currentExerciseRoundCount > 1) {
+                            parts.push(qsTr("Round %1/%2").arg(exerciseTimer.currentExerciseRoundNumber).arg(exerciseTimer.currentExerciseRoundCount))
+                        }
+                        return parts.join(" · ")
+                    }
                     valueText: Qt.formatTime(exerciseTimer.currentRunningTime, "mm:ss") + "/" +
                                Qt.formatTime(exerciseTimer.currentDuration, "mm:ss")
 

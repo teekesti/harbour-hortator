@@ -12,18 +12,22 @@ INCLUDEPATH += ../src
 SOURCES += \
     main.cpp \
     tst_timedexercise.cpp \
+    tst_exerciseset.cpp \
     tst_exerciselistmodel.cpp \
     tst_exercisetimer.cpp \
     ../src/timedexercise.cpp \
+    ../src/exerciseset.cpp \
     ../src/exerciselistmodel.cpp \
     ../src/exercisetimer.cpp \
     soundplayer_stub.cpp
 
 HEADERS += \
     tst_timedexercise.h \
+    tst_exerciseset.h \
     tst_exerciselistmodel.h \
     tst_exercisetimer.h \
     ../src/timedexercise.h \
+    ../src/exerciseset.h \
     ../src/exerciselistmodel.h \
     ../src/exercisetimer.h \
     ../src/soundplayer.h \

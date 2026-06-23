@@ -10,6 +10,7 @@ class TstExerciseListModel : public QObject
 private slots:
     void appendIncreasesCount();
     void insertAtPosition();
+    void insertOutOfRangeIsNoOp();
     void dataReturnsExercisePointer();
     void roleNamesMapping();
     void totalDurationChangedOnInsert();
@@ -18,6 +19,7 @@ private slots:
     void clearEmptiesModel();
     void clearOnEmptyIsNoOp();
     void exerciseDurationChangePropagates();
+    void setRoundsChangePropagates();
     void moveItemsSingleDown();
     void moveItemsSingleUp();
     void moveItemsMultiSelect();

@@ -23,10 +23,6 @@
         <translation>Lepo</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Poista</translation>
-    </message>
-    <message>
         <source>Total</source>
         <translation>Kesto</translation>
     </message>
@@ -34,16 +30,37 @@
         <source>Total Duration</source>
         <translation>Kokonaiskesto</translation>
     </message>
+    <message>
+        <source>Set %1</source>
+        <translatorcomment>Jokainen harjoitus tai lepo kuuuluu täsmälleen yhteen sarjaan</translatorcomment>
+        <translation>Sarja %1</translation>
+    </message>
+    <message>
+        <source>Remove set</source>
+        <translation>Poista sarja</translation>
+    </message>
 </context>
 <context>
     <name>RunPage</name>
     <message>
-        <source>Current progress</source>
-        <translation type="unfinished"></translation>
+        <source>Set %1/%2</source>
+        <translation>Sarja %1/%2</translation>
+    </message>
+    <message>
+        <source>Round %1/%2</source>
+        <translation>Kierros %1/%2</translation>
     </message>
     <message>
         <source>Total progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Kokonaisedistyminen</translation>
+    </message>
+    <message>
+        <source>Set round %1/%2</source>
+        <translation>Sarjan kierros %1/%2</translation>
+    </message>
+    <message>
+        <source>Current exercise</source>
+        <translation>Nykyinen harjoitus</translation>
     </message>
 </context>
 </TS>
