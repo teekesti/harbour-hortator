@@ -228,28 +228,35 @@ void TstExerciseTimer::playSequenceFlattensSetAndExerciseRounds()
     QCOMPARE(timer.currentActivity(), a);
     QCOMPARE(timer.currentSetNumber(), 1);
     QCOMPARE(timer.currentSetCount(), 2);
+    QCOMPARE(timer.currentSetRoundNumber(), 1);
+    QCOMPARE(timer.currentSetRoundCount(), 2);
     QCOMPARE(timer.currentExerciseRoundNumber(), 1);
     QCOMPARE(timer.currentExerciseRoundCount(), 2);
 
     // Play 2: set1, set round 1, exercise round 2
     QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
     QCOMPARE(timer.currentActivity(), a);
+    QCOMPARE(timer.currentSetRoundNumber(), 1);
     QCOMPARE(timer.currentExerciseRoundNumber(), 2);
 
     // Play 3: set1, set round 2, exercise round resets to 1
     QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
     QCOMPARE(timer.currentActivity(), a);
+    QCOMPARE(timer.currentSetRoundNumber(), 2);
     QCOMPARE(timer.currentExerciseRoundNumber(), 1);
 
     // Play 4: set1, set round 2, exercise round 2
     QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
     QCOMPARE(timer.currentActivity(), a);
+    QCOMPARE(timer.currentSetRoundNumber(), 2);
     QCOMPARE(timer.currentExerciseRoundNumber(), 2);
 
     // Play 5: set2, exercise b
     QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
     QCOMPARE(timer.currentActivity(), b);
     QCOMPARE(timer.currentSetNumber(), 2);
+    QCOMPARE(timer.currentSetRoundNumber(), 1);
+    QCOMPARE(timer.currentSetRoundCount(), 1);
     QCOMPARE(timer.currentExerciseRoundNumber(), 1);
     QCOMPARE(timer.currentExerciseRoundCount(), 1);
 
@@ -265,6 +272,8 @@ void TstExerciseTimer::positionPropertiesDuringPlayback()
 
     QCOMPARE(timer.currentSetNumber(), 1);
     QCOMPARE(timer.currentSetCount(), 1);
+    QCOMPARE(timer.currentSetRoundNumber(), 1);
+    QCOMPARE(timer.currentSetRoundCount(), 1);
     QCOMPARE(timer.currentExerciseRoundNumber(), 1);
     QCOMPARE(timer.currentExerciseRoundCount(), 1);
 }

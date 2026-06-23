@@ -11,14 +11,13 @@ Page {
     property bool isWorkout: exerciseTimer.currentActivity.activityType === "work"
 
     DisplayBlanking {
-            // Keeps screen awake ONLY when page is active AND timer is ticking
             preventBlanking: runPage.status === PageStatus.Active && exerciseTimer.running
         }
 
-        KeepAlive {
-            // Keeps CPU awake so background audio/timers work if screen turns off
-            enabled: exerciseTimer.running
-        }
+    KeepAlive {
+        // Keeps CPU awake so background audio/timers work if screen turns off
+        enabled: exerciseTimer.running
+    }
 
     Flow {
         flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
@@ -84,6 +83,9 @@ Page {
                     var parts = []
                     if (exerciseTimer.currentSetCount > 1) {
                         parts.push(qsTr("Set %1/%2").arg(exerciseTimer.currentSetNumber).arg(exerciseTimer.currentSetCount))
+                    }
+                    if (exerciseTimer.currentSetRoundCount > 1) {
+                        parts.push(qsTr("Set round %1/%2").arg(exerciseTimer.currentSetRoundNumber).arg(exerciseTimer.currentSetRoundCount))
                     }
                     if (exerciseTimer.currentExerciseRoundCount > 1) {
                         parts.push(qsTr("Round %1/%2").arg(exerciseTimer.currentExerciseRoundNumber).arg(exerciseTimer.currentExerciseRoundCount))

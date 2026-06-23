@@ -508,6 +508,8 @@ void ExerciseTimer::rebuildPlaySequence()
                     item.exercise = exercise;
                     item.setIndex = s;
                     item.setCount = setCount;
+                    item.setRoundNumber = setRound + 1;
+                    item.setRoundCount = set->rounds();
                     item.exerciseRoundNumber = exerciseRound + 1;
                     item.exerciseRoundCount = exercise->rounds();
                     mPlaySequence.append(item);
@@ -834,6 +836,24 @@ int ExerciseTimer::currentSetCount() const
         return 0;
     }
     return mPlaySequence.at(mCurrentExerciseIndex).setCount;
+}
+
+int ExerciseTimer::currentSetRoundNumber() const
+{
+    if (mCurrentExerciseIndex < 0 || mCurrentExerciseIndex >= mPlaySequence.size())
+    {
+        return 0;
+    }
+    return mPlaySequence.at(mCurrentExerciseIndex).setRoundNumber;
+}
+
+int ExerciseTimer::currentSetRoundCount() const
+{
+    if (mCurrentExerciseIndex < 0 || mCurrentExerciseIndex >= mPlaySequence.size())
+    {
+        return 0;
+    }
+    return mPlaySequence.at(mCurrentExerciseIndex).setRoundCount;
 }
 
 int ExerciseTimer::currentExerciseRoundNumber() const

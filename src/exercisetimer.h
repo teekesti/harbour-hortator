@@ -45,6 +45,10 @@ class ExerciseTimer : public QObject
     Q_PROPERTY(bool allValid READ allExercisesValid NOTIFY validityChanged)
     Q_PROPERTY(int currentSetNumber READ currentSetNumber NOTIFY currentActivityChanged)
     Q_PROPERTY(int currentSetCount READ currentSetCount NOTIFY currentActivityChanged)
+    Q_PROPERTY(int currentSetRoundNumber READ currentSetRoundNumber
+               NOTIFY currentActivityChanged)
+    Q_PROPERTY(int currentSetRoundCount READ currentSetRoundCount
+               NOTIFY currentActivityChanged)
     Q_PROPERTY(int currentExerciseRoundNumber READ currentExerciseRoundNumber
                NOTIFY currentActivityChanged)
     Q_PROPERTY(int currentExerciseRoundCount READ currentExerciseRoundCount
@@ -82,6 +86,10 @@ public:
     int currentSetNumber() const;
     /*! Total number of sets in the workout */
     int currentSetCount() const;
+    /*! Which round (1-based) of the current set is currently playing */
+    int currentSetRoundNumber() const;
+    /*! Total number of rounds configured for the current set */
+    int currentSetRoundCount() const;
     /*! Which round (1-based) of the current exercise is currently playing */
     int currentExerciseRoundNumber() const;
     /*! Total number of rounds configured for the current exercise */
@@ -165,6 +173,8 @@ private: // types
         TimedExercise* exercise;
         int setIndex;
         int setCount;
+        int setRoundNumber;
+        int setRoundCount;
         int exerciseRoundNumber;
         int exerciseRoundCount;
     };
