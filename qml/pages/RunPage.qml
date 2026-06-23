@@ -43,14 +43,13 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     // Only shown during countdown
                     opacity: 0
-                    // Disabled animations because they ate too much CPU from sounds
-                    //SequentialAnimation  {
-                    // id: flashCountdownNumber
-                    //            NumberAnimation {id: showAnimation; target: countdownNumber;
-                    //                property: "opacity"; easing.type: Easing.InOutExpo; to: 60; duration: 200 }
-                    //            NumberAnimation {id: hideAnimation; target: countdownNumber;
-                    //                property: "opacity"; easing.type: Easing.InOutExpo; to: 0; duration: 500 }
-                    //        //}
+                    SequentialAnimation  {
+                    id: flashCountdownNumber
+                    NumberAnimation {id: showAnimation; target: countdownNumber;
+                        property: "opacity"; easing.type: Easing.InOutExpo; to: 60; duration: 200 }
+                    NumberAnimation {id: hideAnimation; target: countdownNumber;
+                        property: "opacity"; easing.type: Easing.InOutExpo; to: 0; duration: 500 }
+                    }
 
                 }
 
@@ -60,20 +59,11 @@ Page {
                         if (number > 0)
                         {
                             countdownNumber.text = number // number from signal parameter
-                            countdownNumber.opacity = 60
-            //                playButton.enabled = false
-            //                resetButton.enabled = false
-            //                backToListButton.enabled = false
-            //                settingsButton.enabled = false
+                            flashCountdownNumber.start()
                         }
                         else
                         {
-                            // hide the number when countdown is ready
                             countdownNumber.opacity = 0
-            //                playButton.enabled = true
-            //                resetButton.enabled = true
-            //                backToListButton.enabled = !exerciseTimer.running
-            //                settingsButton.enabled = true
                         }
                     }
                 }

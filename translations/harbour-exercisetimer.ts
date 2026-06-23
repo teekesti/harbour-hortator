@@ -35,10 +35,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>rounds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove set</source>
         <translation type="unfinished"></translation>
     </message>

@@ -31,6 +31,7 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     qml/pages/components/qmldir \
     qml/pages/components/AcceleratingIconButton.qml \
     qml/pages/components/ValueAdjustmentHorizontal.qml \
+    qml/pages/components/RoundCountAdjustment.qml \
     rpm/harbour-exercisetimer.changes.in \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \

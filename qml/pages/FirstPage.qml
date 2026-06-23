@@ -53,6 +53,7 @@ Page {
                 spacing: Theme.paddingSmall
 
                 Rectangle {
+                    id: setHeaderBackground
                     width: parent.width - 2 * Theme.horizontalPageMargin
                     anchors.horizontalCenter: parent.horizontalCenter
                     height: setHeaderRow.height + Theme.paddingMedium
@@ -84,12 +85,11 @@ Page {
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
-                        ValueAdjustmentHorizontal {
+                        RoundCountAdjustment {
                             id: setRoundsAdjustment
                             value: set.rounds
                             minValue: 1
                             maxValue: 99
-                            unitLabel: qsTr("rounds")
                         }
                         Binding { target: set; property: "rounds"; value: setRoundsAdjustment.value }
 
@@ -118,6 +118,7 @@ Page {
                         property bool isWorkout: exercise.activityType === "work"
 
                         Rectangle {
+                            height: setHeaderBackground.height
                             anchors { fill: parent; margins: Theme.paddingSmall }
                             radius: Theme.paddingSmall
 
@@ -139,13 +140,29 @@ Page {
                                 }
                                 spacing: Theme.paddingMedium
 
-                                Button {
-                                    id: activityTypeButton
-                                    text: isWorkout ? qsTr("Work") : qsTr("Rest")
+
+                                Flow {
+                                    flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
                                     anchors.verticalCenter: parent.verticalCenter
-                                    color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
-                                    onClicked: exercise.toggleActivityType()
+
+                                    Button {
+                                        id: activityTypeButton
+                                        text: isWorkout ? qsTr("Work") : qsTr("Rest")
+                                        color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
+                                        onClicked: exercise.toggleActivityType()
+                                    }
+
+                                    RoundCountAdjustment {
+                                        id: roundsAdjustment
+                                        value: exercise.rounds
+                                        minValue: 1
+                                        maxValue: 99
+                                    }
+
+                                    Binding { target: exercise; property: "rounds"; value: roundsAdjustment.value }
                                 }
+
+
 
                                 Flow {
                                     id: timeAdjustment
@@ -168,16 +185,9 @@ Page {
                                         step: 5
                                     }
 
-                                    ValueAdjustmentHorizontal {
-                                        id: roundsAdjustment
-                                        value: exercise.rounds
-                                        minValue: 1
-                                        maxValue: 99
-                                        unitLabel: "x"
-                                    }
+
                                     Binding { target: exercise; property: "mins"; value: minutesAdjustment.value }
-                                    Binding { target: exercise; property: "secs"; value: secondsAdjustment.value }
-                                    Binding { target: exercise; property: "rounds"; value: roundsAdjustment.value }
+                                    Binding { target: exercise; property: "secs"; value: secondsAdjustment.value }   
 
                                 }
 

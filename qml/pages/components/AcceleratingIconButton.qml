@@ -4,12 +4,11 @@ import Sailfish.Silica 1.0
 MouseArea {
     id: root
 
-    // Julkiset ominaisuudet
     property url iconSource: ""
-    property int baseInterval: 300   // Aloitusnopeus (millisekuntia per klikkaus)
-    property int minInterval: 50     // Maksiminopeus (kuinka nopeaksi toisto voi mennä)
-    property int stepDecrease: 40    // Kuinka paljon interval lyhenee per askel
-    property int delay: 450          // Viive ennen kuin automaattinen toisto alkaa
+    property int baseInterval: 300   // starting speed (ms per repeat)
+    property int minInterval: 50     // fastest the repeat can accelerate to
+    property int stepDecrease: 40    // how much interval shrinks per step
+    property int delay: 450          // delay before auto-repeat starts
 
     signal triggered()
 
@@ -17,7 +16,6 @@ MouseArea {
     height: Theme.itemSizeSmall
     opacity: pressed ? 0.6 : 1.0
 
-    // SailfishOS:n oma Icon-tyyppi hoitaa värityksen automaattisesti teeman mukaan
     Icon {
         anchors.centerIn: parent
         source: root.iconSource
@@ -25,32 +23,29 @@ MouseArea {
         height: Theme.iconSizeMedium
     }
 
-    // Toistoajastin dynaamisella intervallilla
     Timer {
         id: repeatTimer
         repeat: true
         onTriggered: {
             root.triggered()
-            // Nopeutetaan toistoa pienentämällä intervallia askel kerrallaan
             if (interval > root.minInterval) {
                 interval = Math.max(root.minInterval, interval - root.stepDecrease)
             }
         }
     }
 
-    // Viiveajastin ennen toiston alkamista
     Timer {
         id: initialDelayTimer
         interval: root.delay
         repeat: false
         onTriggered: {
-            repeatTimer.interval = root.baseInterval // Nollataan aloitusnopeus
+            repeatTimer.interval = root.baseInterval
             repeatTimer.start()
         }
     }
 
     onPressed: {
-        root.triggered() // Ensimmäinen klikkaus heti painettaessa
+        root.triggered()
         initialDelayTimer.start()
     }
 

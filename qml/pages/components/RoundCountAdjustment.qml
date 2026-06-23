@@ -3,11 +3,10 @@ import Sailfish.Silica 1.0
 
 Rectangle {
     id: root
-    property int value: 0
-    property int minValue: 0
+    property int value: 1
+    property int minValue: 1
     property int maxValue: 100
     property int step: 1
-    property string unitLabel: ""
 
     width: contentRow.width + 2 * Theme.paddingSmall
     height: contentRow.height + Theme.paddingSmall
@@ -27,10 +26,25 @@ Rectangle {
             onTriggered: root.value = Math.max(root.value - root.step, root.minValue)
         }
 
-        Label {
-           text: root.value.toString() + " " + root.unitLabel
-           font.pixelSize: Theme.fontSizeMedium
-           anchors.verticalCenter: parent.verticalCenter
+        Item {
+            id: roundIndicator
+            property real iconScaleFactor: 1.3
+            property real labelScaleFactor: 1.0
+            anchors.verticalCenter: parent.verticalCenter
+            width: Theme.iconSizeMedium * iconScaleFactor
+            height: Theme.iconSizeMedium * iconScaleFactor
+
+            Icon {
+                anchors.fill: parent
+                source: "image://theme/icon-m-repeat"
+            }
+
+            Label {
+                anchors.centerIn: parent
+                text: root.value.toString()
+                font.pixelSize: Theme.fontSizeExtraSmall * roundIndicator.labelScaleFactor
+                color: Theme.primaryColor
+            }
         }
 
         AcceleratingIconButton {
