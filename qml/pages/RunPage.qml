@@ -86,10 +86,7 @@ Page {
                     }
                     if (exerciseTimer.currentSetRoundCount > 1) {
                         parts.push(qsTr("Set round %1/%2").arg(exerciseTimer.currentSetRoundNumber).arg(exerciseTimer.currentSetRoundCount))
-                    }
-                    if (exerciseTimer.currentExerciseRoundCount > 1) {
-                        parts.push(qsTr("Round %1/%2").arg(exerciseTimer.currentExerciseRoundNumber).arg(exerciseTimer.currentExerciseRoundCount))
-                    }
+                    } 
                     return parts.join(" · ")
                 }
             }
@@ -110,7 +107,13 @@ Page {
                     maximumValue: 1
                     enabled: false
                     value: exerciseTimer.currentProgress
-                    label: qsTr("Current progress")
+                    label: {
+                        var parts = [qsTr("Current exercise")]
+                        if (exerciseTimer.currentExerciseRoundCount > 1) {
+                            parts.push(qsTr("Round %1/%2").arg(exerciseTimer.currentExerciseRoundNumber).arg(exerciseTimer.currentExerciseRoundCount))
+                        }
+                        return parts.join(" · ")
+                    }
                     valueText: Qt.formatTime(exerciseTimer.currentRunningTime, "mm:ss") + "/" +
                                Qt.formatTime(exerciseTimer.currentDuration, "mm:ss")
 

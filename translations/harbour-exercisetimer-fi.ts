@@ -32,30 +32,35 @@
     </message>
     <message>
         <source>Set %1</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Jokainen harjoitus tai lepo kuuuluu täsmälleen yhteen sarjaan</translatorcomment>
+        <translation>Sarja %1</translation>
     </message>
     <message>
         <source>Remove set</source>
-        <translation type="unfinished"></translation>
+        <translation>Poista sarja</translation>
     </message>
 </context>
 <context>
     <name>RunPage</name>
     <message>
         <source>Set %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Sarja %1/%2</translation>
     </message>
     <message>
         <source>Round %1/%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Kierros %1/%2</translation>
     </message>
     <message>
         <source>Total progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Kokonaisedistyminen</translation>
+    </message>
+    <message>
+        <source>Set round %1/%2</source>
+        <translation>Sarjan kierros %1/%2</translation>
+    </message>
+    <message>
+        <source>Current exercise</source>
+        <translation>Nykyinen harjoitus</translation>
     </message>
 </context>
 </TS>

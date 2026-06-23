@@ -42,10 +42,6 @@
 <context>
     <name>RunPage</name>
     <message>
-        <source>Current progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Total progress</source>
         <translation type="unfinished"></translation>
     </message>
@@ -55,6 +51,14 @@
     </message>
     <message>
         <source>Round %1/%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set round %1/%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current exercise</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
