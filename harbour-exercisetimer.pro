@@ -22,17 +22,22 @@ SOURCES += src/harbour-exercisetimer.cpp \
     src/exerciseset.cpp \
     src/exercisetimer.cpp \
     src/soundplayer.cpp \
-    src/timedexercise.cpp
+    src/timedexercise.cpp \
+    src/workouthistory.cpp
 
 DISTFILES += qml/harbour-exercisetimer.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
     qml/pages/RunPage.qml \
     qml/pages/SettingsPage.qml \
+    qml/pages/HistoryPage.qml \
+    qml/pages/SaveWorkoutDialog.qml \
+    qml/pages/ConfirmReplaceDraftDialog.qml \
     qml/pages/components/qmldir \
     qml/pages/components/AcceleratingIconButton.qml \
     qml/pages/components/ValueAdjustmentHorizontal.qml \
     qml/pages/components/RoundCountAdjustment.qml \
+    qml/pages/components/SummaryBar.qml \
     rpm/harbour-exercisetimer.changes.in \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \
@@ -58,7 +63,8 @@ HEADERS += \
     src/exerciseset.h \
     src/exercisetimer.h \
     src/soundplayer.h \
-    src/timedexercise.h
+    src/timedexercise.h \
+    src/workouthistory.h
 
 # Target directory for sounds on device
 sounds.path = /usr/share/$$TARGET/sounds

@@ -2,6 +2,7 @@
 #include "timedexercise.h"
 
 #include <algorithm>
+#include <QJsonArray>
 
 ExerciseSet::ExerciseSet(QObject *parent) : QObject(parent), mRounds(1),
     mWasValid(false)
@@ -128,6 +129,19 @@ void ExerciseSet::onChildValidityChanged()
         mWasValid = valid;
         emit validityChanged(mWasValid);
     }
+}
+
+QJsonObject ExerciseSet::toJson() const
+{
+    QJsonObject json;
+    json["rounds"] = mRounds;
+    QJsonArray exercises;
+    for (auto exercise : mExercises)
+    {
+        exercises.append(exercise->toJson());
+    }
+    json["exercises"] = exercises;
+    return json;
 }
 
 void ExerciseSet::moveItems(QList<int> selectedIndices, int targetIndex)

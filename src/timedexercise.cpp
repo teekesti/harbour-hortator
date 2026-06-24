@@ -248,4 +248,34 @@ void TimedExercise::toggleActivityType()
     }
 }
 
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+QJsonObject TimedExercise::toJson() const
+{
+    QJsonObject json;
+    json["activityType"] = mActivityType;
+    json["mins"] = mMins;
+    json["secs"] = mSecs;
+    json["reps"] = mReps;
+    json["rounds"] = mRounds;
+    return json;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+TimedExercise *TimedExercise::fromJson(const QJsonObject &json)
+{
+    TimedExercise *exercise = new TimedExercise(
+        json.value("activityType").toString("work"),
+        json.value("mins").toInt(1),
+        json.value("secs").toInt(0),
+        json.value("reps").toInt(0));
+    exercise->setRounds(json.value("rounds").toInt(1));
+    return exercise;
+}
+
 

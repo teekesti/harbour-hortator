@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fi_FI">
 <context>
+    <name>ConfirmReplaceDraftDialog</name>
+    <message>
+        <source>Replace</source>
+        <translation>Korvaa</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Peruuta</translation>
+    </message>
+    <message>
+        <source>Replace the current unsaved workout with this one?</source>
+        <translation>Korvataanko nykyinen tallentamaton harjoitus tällä?</translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>My Cover</source>
@@ -43,6 +58,37 @@
         <source>Settings</source>
         <translation>Asetukset</translation>
     </message>
+    <message>
+        <source>History</source>
+        <translation>Historia</translation>
+    </message>
+    <message>
+        <source>Save workout</source>
+        <translation>Tallenna harjoitus</translation>
+    </message>
+</context>
+<context>
+    <name>HistoryPage</name>
+    <message>
+        <source>History</source>
+        <translation>Historia</translation>
+    </message>
+    <message>
+        <source>No saved workouts yet</source>
+        <translation>Ei tallennettuja harjoituksia</translation>
+    </message>
+    <message>
+        <source>Save a valid workout from the pull-down menu to see it here</source>
+        <translation>Tallenna kelvollinen harjoitus vetovalikosta nähdäksesi sen tässä</translation>
+    </message>
+    <message>
+        <source>Open in editor</source>
+        <translation>Avaa muokkaimessa</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Poista</translation>
+    </message>
 </context>
 <context>
     <name>RunPage</name>
@@ -65,6 +111,21 @@
     <message>
         <source>Current exercise</source>
         <translation>Nykyinen harjoitus</translation>
+    </message>
+</context>
+<context>
+    <name>SaveWorkoutDialog</name>
+    <message>
+        <source>Save</source>
+        <translation>Tallenna</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Peruuta</translation>
+    </message>
+    <message>
+        <source>Workout name</source>
+        <translation>Harjoituksen nimi</translation>
     </message>
 </context>
 <context>

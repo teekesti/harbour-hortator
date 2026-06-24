@@ -2,6 +2,12 @@
 #include <QTimerEvent>
 #include <QTimer>
 #include <QSettings>
+#include <QStandardPaths>
+#include <QDir>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QVariantMap>
 
 #include "exercisetimer.h"
 #include "timedexercise.h"
@@ -9,6 +15,7 @@
 #include "exerciselistmodel.h"
 #include "eoqttrace.h"
 #include "soundplayer.h"
+#include "workouthistory.h"
 
 //------------------------------------------------------------------------------
 //
@@ -64,6 +71,20 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
             this, SLOT(onCountDownForSound(int)));
     //mScreenSaver = new QSystemScreenSaver(this);
 
+    mHistory = new WorkoutHistory(this);
+
+    mDraftSaveTimer = new QTimer(this);
+    mDraftSaveTimer->setSingleShot(true);
+    mDraftSaveTimer->setInterval(300);
+    connect(mDraftSaveTimer, &QTimer::timeout, this, &ExerciseTimer::saveDraftNow);
+
+    QFile draftFile(draftFilePath());
+    if (draftFile.open(QIODevice::ReadOnly))
+    {
+        QJsonDocument doc = QJsonDocument::fromJson(draftFile.readAll());
+        loadModelFromJson(doc.array());
+    }
+    markDraftSynced();
 }
 
 //------------------------------------------------------------------------------
@@ -110,8 +131,14 @@ void ExerciseTimer::addExerciseToSet(int setIndex, TimedExercise *exercise, int 
         set->appendExercise(exercise);
     }
     else set->insertExercise(exercise, pos);
+    connect(exercise, &TimedExercise::activityTypeChanged,
+            this, &ExerciseTimer::onExerciseChangedForDraft);
+    connect(exercise, &TimedExercise::repsChanged,
+            this, &ExerciseTimer::onExerciseChangedForDraft);
     checkOverallValidity();
     rebuildPlaySequence();
+    emit playSequenceChanged();
+    scheduleDraftSave();
 }
 
 //------------------------------------------------------------------------------
@@ -292,6 +319,13 @@ void ExerciseTimer::onTotalDurationChanged(int newTotalDurationSeconds)
 {
     mTotalDuration = QTime(0, 0, 0).addSecs(newTotalDurationSeconds);
     emit totalDurationChanged(mTotalDuration);
+    // This signal fires on every structural and duration/rounds-affecting
+    // edit (add/remove, mins/secs/rounds changes at either level), making
+    // it the one reliable place to keep the play sequence fresh even for
+    // plain field edits that don't go through addSet()/removeSet().
+    rebuildPlaySequence();
+    emit playSequenceChanged();
+    scheduleDraftSave();
 }
 
 
@@ -815,6 +849,167 @@ void ExerciseTimer::onCountDownForSound(int number)
     {
         mPlayer->playCountDownSound(number);
     }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+WorkoutHistory *ExerciseTimer::history() const
+{
+    return mHistory;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+QString ExerciseTimer::serializedDraft() const
+{
+    return QString::fromUtf8(
+        QJsonDocument(mModel->toJson()).toJson(QJsonDocument::Compact));
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+bool ExerciseTimer::isDraftDirty() const
+{
+    return serializedDraft() != mLastSyncedDraftJson;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::markDraftSynced()
+{
+    bool wasDirty = isDraftDirty();
+    mLastSyncedDraftJson = serializedDraft();
+    if (wasDirty)
+    {
+        emit draftDirtyChanged(false);
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+QVariantList ExerciseTimer::playSequenceSummary() const
+{
+    QVariantList sequence;
+    for (const PlayItem &item : mPlaySequence)
+    {
+        QVariantMap occurrence;
+        occurrence["activityType"] = item.exercise->activityType();
+        occurrence["durationSeconds"] = item.exercise->durationSeconds();
+        sequence.append(occurrence);
+    }
+    return sequence;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+QString ExerciseTimer::draftFilePath()
+{
+    QString dir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDir().mkpath(dir);
+    return QDir(dir).filePath("draft.json");
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::loadModelFromJson(const QJsonArray &workoutJson)
+{
+    mModel->clear();
+    mPlaySequence.clear();
+    for (const QJsonValue &setVal : workoutJson)
+    {
+        QJsonObject setObj = setVal.toObject();
+        ExerciseSet *set = new ExerciseSet();
+        set->setRounds(setObj.value("rounds").toInt(1));
+        addSet(set, -1);
+        int setIndex = mModel->count() - 1;
+        QJsonArray exercisesJson = setObj.value("exercises").toArray();
+        for (const QJsonValue &exVal : exercisesJson)
+        {
+            addExerciseToSet(setIndex, TimedExercise::fromJson(exVal.toObject()), -1);
+        }
+    }
+    checkOverallValidity();
+    rebuildPlaySequence();
+    emit playSequenceChanged();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::onExerciseChangedForDraft()
+{
+    emit playSequenceChanged();
+    scheduleDraftSave();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::scheduleDraftSave()
+{
+    mDraftSaveTimer->start();
+    bool dirty = isDraftDirty();
+    emit draftDirtyChanged(dirty);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::saveDraftNow()
+{
+    QFile file(draftFilePath());
+    if (file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+    {
+        file.write(QJsonDocument(mModel->toJson()).toJson(QJsonDocument::Compact));
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+bool ExerciseTimer::saveDraftToHistory(const QString &name)
+{
+    if (!mAllValid)
+    {
+        return false;
+    }
+    mHistory->addEntry(name, mModel->toJson());
+    markDraftSynced();
+    return true;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::loadHistoryEntry(const QString &id)
+{
+    QJsonArray workoutJson = mHistory->workoutJson(id);
+    if (workoutJson.isEmpty())
+    {
+        return;
+    }
+    loadModelFromJson(workoutJson);
+    markDraftSynced();
+    saveDraftNow();
 }
 
 //------------------------------------------------------------------------------

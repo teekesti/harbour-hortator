@@ -2,10 +2,12 @@
 
 #include <QtTest>
 #include <QSettings>
+#include <QFile>
 #include "exercisetimer.h"
 #include "exerciselistmodel.h"
 #include "exerciseset.h"
 #include "timedexercise.h"
+#include "workouthistory.h"
 
 namespace {
 ExerciseSet *setWithOneExercise(QString activityType, int mins, int secs)
@@ -23,6 +25,11 @@ void TstExerciseTimer::init()
     // deterministic and tests don't leak settings into one another.
     // tests/main.cpp sets a dedicated, test-mode QSettings namespace.
     QSettings().clear();
+    // Likewise for the Draft/History JSON files: tests/main.cpp puts
+    // QStandardPaths in test mode, but that redirects to one shared
+    // location for the whole test run, not a fresh one per test.
+    QFile::remove(ExerciseTimer::draftFilePath());
+    QFile::remove(WorkoutHistory::defaultStorageFilePath());
 }
 
 void TstExerciseTimer::durationAggregation()
@@ -293,6 +300,94 @@ void TstExerciseTimer::positionPropertiesDuringPlayback()
     QCOMPARE(timer.currentSetRoundCount(), 1);
     QCOMPARE(timer.currentExerciseRoundNumber(), 1);
     QCOMPARE(timer.currentExerciseRoundCount(), 1);
+}
+
+void TstExerciseTimer::draftPersistsAcrossRestart()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(setWithOneExercise("work", 2, 15));
+    QMetaObject::invokeMethod(&timer, "saveDraftNow");
+
+    ExerciseTimer freshTimer(nullptr, false);
+    QCOMPARE(freshTimer.exerciseListModel()->count(), 1);
+    QCOMPARE(freshTimer.exerciseListModel()->at(0)->count(), 1);
+    TimedExercise *restored = freshTimer.exerciseListModel()->at(0)->at(0);
+    QCOMPARE(restored->activityType(), QString("work"));
+    QCOMPARE(restored->mins(), 2);
+    QCOMPARE(restored->secs(), 15);
+}
+
+void TstExerciseTimer::draftDirtyTracksEdits()
+{
+    ExerciseTimer timer(nullptr, false);
+    QVERIFY(!timer.isDraftDirty()); // freshly constructed, empty, synced
+
+    timer.addSet(setWithOneExercise("work", 1, 0));
+    QVERIFY(timer.isDraftDirty());
+}
+
+void TstExerciseTimer::saveDraftToHistoryRequiresValidity()
+{
+    ExerciseTimer timer(nullptr, false);
+    ExerciseSet *invalidSet = new ExerciseSet(); // empty, invalid
+    timer.addSet(invalidSet);
+    QVERIFY(!timer.allExercisesValid());
+
+    QVERIFY(!timer.saveDraftToHistory("Leg day"));
+    QCOMPARE(timer.history()->count(), 0);
+}
+
+void TstExerciseTimer::saveDraftToHistorySucceedsAndClearsDirty()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(setWithOneExercise("work", 1, 0));
+    QVERIFY(timer.isDraftDirty());
+
+    QVERIFY(timer.saveDraftToHistory("Leg day"));
+    QCOMPARE(timer.history()->count(), 1);
+    QVERIFY(!timer.isDraftDirty());
+
+    // The draft itself is untouched by saving (ADR-0006) - still there,
+    // still editable.
+    QCOMPARE(timer.exerciseListModel()->count(), 1);
+}
+
+void TstExerciseTimer::loadHistoryEntryReplacesDraftAndMarksDirtyClean()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(setWithOneExercise("work", 3, 0));
+    QVERIFY(timer.saveDraftToHistory("Original"));
+    QString entryId = timer.history()->data(timer.history()->index(0),
+                                             WorkoutHistory::IdRole).toString();
+
+    // Diverge the draft from what was saved.
+    timer.addSet(setWithOneExercise("rest", 0, 20));
+    QVERIFY(timer.isDraftDirty());
+
+    timer.loadHistoryEntry(entryId);
+
+    QVERIFY(!timer.isDraftDirty());
+    QCOMPARE(timer.exerciseListModel()->count(), 1);
+    QCOMPARE(timer.exerciseListModel()->at(0)->at(0)->mins(), 3);
+}
+
+void TstExerciseTimer::historySortsMostRecentlyPlayedFirst()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(setWithOneExercise("work", 1, 0));
+    QVERIFY(timer.saveDraftToHistory("First"));
+    QString firstId = timer.history()->data(timer.history()->index(0),
+                                             WorkoutHistory::IdRole).toString();
+
+    QVERIFY(timer.saveDraftToHistory("Second"));
+    QCOMPARE(timer.history()->count(), 2);
+
+    // Marking the entry created first as played moves it ahead of the
+    // never-played entry, regardless of creation order (ADR-0015).
+    timer.history()->markPlayed(firstId);
+    QCOMPARE(timer.history()->data(timer.history()->index(0),
+                                    WorkoutHistory::NameRole).toString(),
+             QString("First"));
 }
 
 void TstExerciseTimer::outOfRangeSetIndexIsNoOp()

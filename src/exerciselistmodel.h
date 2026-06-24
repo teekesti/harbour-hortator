@@ -2,6 +2,7 @@
 
 #include <QAbstractListModel>
 #include <QTime>
+#include <QJsonArray>
 
 class ExerciseSet;
 
@@ -27,6 +28,9 @@ public:
     Q_INVOKABLE int count() const {return mSets.count(); }
     Q_INVOKABLE void moveItems(QList<int> selectedIndices, int targetIndex);
     Q_INVOKABLE void copyItems(QList<int> selectedIndices, int targetIndex);
+    /*! Serializes the full Set/Exercise tree to JSON, for the
+    Draft/History stores. */
+    QJsonArray toJson() const;
 
 signals:
     /*! Emitted with the new absolute total (not a delta) whenever the

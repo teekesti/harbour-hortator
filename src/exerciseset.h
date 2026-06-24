@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector>
 #include <QList>
+#include <QJsonObject>
 
 class TimedExercise;
 
@@ -29,6 +30,9 @@ public:
     void removeExercise(int index);
     void moveItems(QList<int> selectedIndices, int targetIndex);
     void copyItems(QList<int> selectedIndices, int targetIndex);
+    /*! Serializes this set's rounds and exercises to JSON, for the
+    Draft/History stores. */
+    QJsonObject toJson() const;
 
 signals:
     void roundsChanged(int rounds);

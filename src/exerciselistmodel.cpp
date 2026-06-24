@@ -43,6 +43,16 @@ int ExerciseListModel::totalDurationSeconds() const
     return total;
 }
 
+QJsonArray ExerciseListModel::toJson() const
+{
+    QJsonArray array;
+    for (auto set : mSets)
+    {
+        array.append(set->toJson());
+    }
+    return array;
+}
+
 void ExerciseListModel::appendSet(ExerciseSet *set)
 {
     insertSet(set, mSets.size());

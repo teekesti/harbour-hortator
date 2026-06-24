@@ -20,7 +20,7 @@ Page {
         width: parent.width // - margin?
 
         anchors.top: parent.top
-        anchors.bottom: buttonRow.top
+        anchors.bottom: summaryBar.top
         anchors.bottomMargin: Theme.paddingMedium
 
         header: PageHeader {
@@ -35,6 +35,15 @@ Page {
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
+            MenuItem {
+                text: qsTr("History")
+                onClicked: pageStack.push(Qt.resolvedUrl("HistoryPage.qml"))
+            }
+            MenuItem {
+                text: qsTr("Save workout")
+                enabled: exerciseTimer.allValid
+                onClicked: pageStack.push(Qt.resolvedUrl("SaveWorkoutDialog.qml"))
             }
         }
 
@@ -224,6 +233,15 @@ Page {
 
 
         }
+    }
+
+    SummaryBar {
+        id: summaryBar
+        width: parent.width - 2 * Theme.horizontalPageMargin
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: buttonRow.top
+        anchors.bottomMargin: Theme.paddingMedium
+        playSequence: exerciseTimer.playSequenceSummary
     }
 
     Row {

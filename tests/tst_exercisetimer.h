@@ -17,6 +17,12 @@ private slots:
     void endWarningTimeBounds();
     void endWarningTimePersists();
     void muteSoundsToggleAndPersists();
+    void draftPersistsAcrossRestart();
+    void draftDirtyTracksEdits();
+    void saveDraftToHistoryRequiresValidity();
+    void saveDraftToHistorySucceedsAndClearsDirty();
+    void loadHistoryEntryReplacesDraftAndMarksDirtyClean();
+    void historySortsMostRecentlyPlayedFirst();
     void resetOnFreshTimer();
     void currentActivityOnEmptyModel();
     void startOnEmptyModelIsNoOp();

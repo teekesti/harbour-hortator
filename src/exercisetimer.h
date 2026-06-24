@@ -11,6 +11,8 @@ methods to start and stop the activities. It notifies the ui for starting,
 #include <QObject>
 #include <QTime>
 #include <QVector>
+#include <QJsonArray>
+#include <QVariantList>
 
 class QTimer;
 
@@ -18,6 +20,7 @@ class TimedExercise;
 class ExerciseSet;
 class ExerciseListModel;
 class SoundPlayer;
+class WorkoutHistory;
 
 class ExerciseTimer : public QObject
 {
@@ -55,6 +58,14 @@ class ExerciseTimer : public QObject
                NOTIFY currentActivityChanged)
     Q_PROPERTY(int currentExerciseRoundCount READ currentExerciseRoundCount
                NOTIFY currentActivityChanged)
+    Q_PROPERTY(WorkoutHistory* history READ history CONSTANT)
+    /*! True when the Draft differs from its own last-saved/loaded
+    History state (see ADR-0011). */
+    Q_PROPERTY(bool draftDirty READ isDraftDirty NOTIFY draftDirtyChanged)
+    /*! The Draft's play sequence flattened to one entry per Exercise
+    occurrence, for the editor's Summary Bar (see ADR-0013). */
+    Q_PROPERTY(QVariantList playSequenceSummary READ playSequenceSummary
+               NOTIFY playSequenceChanged)
 
 public:
     /*! Construct a new ExerciseTimer object.
@@ -99,6 +110,12 @@ public:
     int currentExerciseRoundNumber() const;
     /*! Total number of rounds configured for the current exercise */
     int currentExerciseRoundCount() const;
+    WorkoutHistory* history() const;
+    bool isDraftDirty() const;
+    QVariantList playSequenceSummary() const;
+    /*! Path the Draft is auto-persisted to. Exposed so tests can isolate
+    themselves from the real per-user draft file. */
+    static QString draftFilePath();
 
 signals:
     void totalDurationChanged(QTime duration);
@@ -124,6 +141,8 @@ signals:
     void currentProgressChanged(double progress);
     void totalProgressChanged(double progress);
     void validityChanged(bool allValid);
+    void draftDirtyChanged(bool dirty);
+    void playSequenceChanged();
 
 public slots:
     void addSet(ExerciseSet* set, int pos = -1);
@@ -150,6 +169,21 @@ public slots:
     void setStartDelay(int seconds);
     void setEndWarningTime(int seconds);
     void setMuteSounds(bool mute);
+    /*! Saves a snapshot of the Draft into History under the given name.
+    Requires the Draft to currently be allValid (ADR-0012); returns false
+    and does nothing otherwise. On success, the Draft is marked as
+    synced with the new entry (draftDirty becomes false) but is
+    otherwise left open and unchanged (ADR-0006). */
+    bool saveDraftToHistory(const QString &name);
+    /*! Replaces the Draft with the given History entry's workout
+    (ADR-0011). No-op if no such entry exists. */
+    void loadHistoryEntry(const QString &id);
+    /*! Marks the Draft's current state as the synced baseline draftDirty
+    compares against - i.e. "no unsaved changes from here". Called
+    internally after loading/saving the Draft; also called by main()
+    after seeding a brand new install's default Set, so a never-touched
+    fresh install doesn't read as dirty. */
+    void markDraftSynced();
 
 
 private slots:
@@ -171,6 +205,12 @@ private slots:
     void checkOverallValidity();
     /*! Forwards countDown to the SoundPlayer, unless sounds are muted */
     void onCountDownForSound(int number);
+    /*! Connected to any per-Exercise change that doesn't already flow
+    through mModel's totalDurationChanged (activityType, reps): keeps
+    the Draft's play-sequence summary and on-disk copy in sync. */
+    void onExerciseChangedForDraft();
+    /*! Debounced write of the Draft to draftFilePath() */
+    void saveDraftNow();
 
 private: // types
 
@@ -255,12 +295,31 @@ private: //data
     rebuilt whenever the workout structure changes. mCurrentExerciseIndex
     indexes into this, not directly into mModel. */
     QVector<PlayItem> mPlaySequence;
+    /*! The persisted workout History (ADR-0005/0006) */
+    WorkoutHistory* mHistory;
+    /*! Compact JSON serialization of the Draft as of the last time it
+    was loaded, saved, or otherwise made to match a known History state.
+    isDraftDirty() compares the Draft's current serialization against
+    this. */
+    QString mLastSyncedDraftJson;
+    /*! Debounces saveDraftNow() so rapid edits don't write to disk on
+    every keystroke. */
+    QTimer* mDraftSaveTimer;
 
 private: // methods
     /*! Return the pointer of the exercise at index i in mPlaySequence */
     TimedExercise* getExercise(int index);
     /*! Rebuild mPlaySequence by walking the Set/Round tree */
     void rebuildPlaySequence();
+    /*! Replaces the Draft's entire Set/Exercise tree from JSON produced
+    by ExerciseListModel::toJson(), reusing addSet()/addExerciseToSet()
+    so all the usual wiring (validity, play sequence, draft-save
+    connections) is set up identically to interactive edits. */
+    void loadModelFromJson(const QJsonArray &workoutJson);
+    /*! Compact JSON serialization of the Draft's current state. */
+    QString serializedDraft() const;
+    /*! (Re)starts the debounce timer that calls saveDraftNow(). */
+    void scheduleDraftSave();
 
 protected:
     void timerEvent(QTimerEvent *);

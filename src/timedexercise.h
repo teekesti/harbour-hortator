@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMetaType>
+#include <QJsonObject>
 
 class TimedExercise : public QObject
 {
@@ -39,6 +40,13 @@ public:
     /*! Returns the duration in seconds.*/
     int durationSeconds() const;
     bool isValid() const;
+    /*! Serializes this exercise's persisted fields (activity type,
+    duration, reps, rounds) to JSON, for the Draft/History stores. */
+    QJsonObject toJson() const;
+    /*! Constructs a new TimedExercise from JSON previously produced by
+    toJson(). Missing fields fall back to the same defaults as the
+    default constructor. */
+    static TimedExercise *fromJson(const QJsonObject &json);
 
 signals:
     void activityTypeChanged(QString activityType);

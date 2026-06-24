@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de">
 <context>
+    <name>ConfirmReplaceDraftDialog</name>
+    <message>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace the current unsaved workout with this one?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>My Cover</source>
@@ -42,6 +57,37 @@
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save workout</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>HistoryPage</name>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No saved workouts yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save a valid workout from the pull-down menu to see it here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open in editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RunPage</name>
@@ -63,6 +109,21 @@
     </message>
     <message>
         <source>Current exercise</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SaveWorkoutDialog</name>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Workout name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
