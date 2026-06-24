@@ -9,14 +9,13 @@ Dialog {
     id: dialog
 
     acceptDestinationAction: PageStackAction.Pop
-    acceptText: qsTr("Replace")
 
     Column {
         width: parent.width
         spacing: Theme.paddingLarge
 
         DialogHeader {
-            acceptText: dialog.acceptText
+            acceptText: qsTr("Replace")
         }
 
         Label {
