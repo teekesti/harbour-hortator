@@ -105,6 +105,23 @@ void TstExerciseTimer::endWarningTimePersists()
     QCOMPARE(freshTimer.endWarningTime(), 12);
 }
 
+void TstExerciseTimer::muteSoundsToggleAndPersists()
+{
+    ExerciseTimer timer(nullptr, false);
+    QCOMPARE(timer.muteSounds(), false);
+
+    QSignalSpy spy(&timer, &ExerciseTimer::muteSoundsChanged);
+    timer.setMuteSounds(true);
+    QCOMPARE(timer.muteSounds(), true);
+    QCOMPARE(spy.count(), 1);
+
+    timer.setMuteSounds(true);
+    QCOMPARE(spy.count(), 1);
+
+    ExerciseTimer freshTimer(nullptr, false);
+    QCOMPARE(freshTimer.muteSounds(), true);
+}
+
 void TstExerciseTimer::resetOnFreshTimer()
 {
     ExerciseTimer timer(nullptr, false);

@@ -39,6 +39,10 @@
         <source>Remove set</source>
         <translation>Poista sarja</translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation>Asetukset</translation>
+    </message>
 </context>
 <context>
     <name>RunPage</name>
@@ -61,6 +65,25 @@
     <message>
         <source>Current exercise</source>
         <translation>Nykyinen harjoitus</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <translation>Asetukset</translation>
+    </message>
+    <message>
+        <source>Start delay</source>
+        <translation>Aloitusviive</translation>
+    </message>
+    <message>
+        <source>End-of-exercise warning</source>
+        <translation>Varoitus harjoituksen lopusta</translation>
+    </message>
+    <message>
+        <source>Mute all sounds</source>
+        <translation>Mykistä kaikki äänet</translation>
     </message>
 </context>
 </TS>

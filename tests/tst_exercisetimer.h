@@ -16,6 +16,7 @@ private slots:
     void startDelayPersists();
     void endWarningTimeBounds();
     void endWarningTimePersists();
+    void muteSoundsToggleAndPersists();
     void resetOnFreshTimer();
     void currentActivityOnEmptyModel();
     void startOnEmptyModelIsNoOp();

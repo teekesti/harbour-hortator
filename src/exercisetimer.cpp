@@ -22,7 +22,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     mStartDelay(5), mRunning(false), mWaitingToStart(false),
     mNotifyReps(false),
     mRepSeparationMilliSecs(0), mCheckRepTimer(false),
-    mEndNotificationTime(3),
+    mEndNotificationTime(3), mMuteSounds(false),
     mSendEndNotification(false), mCountdownTracker(0),
     mCurrentRepNumber(0), mCurrentProgress(0), mTotalProgress(0),
     mAllValid(false)
@@ -35,6 +35,10 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     if (settings.contains("end notification time"))
     {
         mEndNotificationTime = settings.value("end notification time").toInt();
+    }
+    if (settings.contains("mute sounds"))
+    {
+        mMuteSounds = settings.value("mute sounds").toBool();
     }
     mModel = new ExerciseListModel(this);
     connect(mModel, &ExerciseListModel::totalDurationChanged,
@@ -56,11 +60,8 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     mCountdownTimer = new QTimer(this);
     connect(mCountdownTimer, SIGNAL(timeout()), this,
             SLOT(onCountDown()));
-    if (mPlayer)
-    {
-        connect(this, SIGNAL(countDown(int)),
-                mPlayer, SLOT(playCountDownSound(int)));
-    }
+    connect(this, SIGNAL(countDown(int)),
+            this, SLOT(onCountDownForSound(int)));
     //mScreenSaver = new QSystemScreenSaver(this);
 
 }
@@ -431,7 +432,7 @@ void ExerciseTimer::playCurrentExercise()
     if (ex->activityType() == "work")
     {
         // Play the round start sound only for work periods, not for rest
-        if (mPlayer) mPlayer->playSound(SoundPlayer::RoundStartSound);
+        if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RoundStartSound);
     }
     mCurrentExerciseDuration = QTime(0, ex->mins(), ex->secs());
     if (ex->activityType() == "work" && ex->rpm() != 0)
@@ -556,7 +557,7 @@ void ExerciseTimer::onCurrentExerciseFinished()
             // play the round end sound.
             if (getExercise(mCurrentExerciseIndex)->activityType() == "rest")
             {
-                if (mPlayer) mPlayer->playSound(SoundPlayer::RoundEndSound);
+                if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RoundEndSound);
             }
             TRACE1("Switching to activity %1", mCurrentExerciseIndex + 1);
             playCurrentExercise();
@@ -593,7 +594,7 @@ void ExerciseTimer::onCurrentRunningTimeChanged(QTime runTime)
 void ExerciseTimer::onAllExercisesFinished()
 {
     FUTR();
-    if (mPlayer) mPlayer->playSound(SoundPlayer::AllDoneSound);
+    if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::AllDoneSound);
     mCurrentExerciseIndex = 0;
 }
 
@@ -623,7 +624,7 @@ void ExerciseTimer::onRunningStatusChanged(bool running)
 void ExerciseTimer::doRepetition(int repNumber)
 {
     FUTR();
-    if (mPlayer) mPlayer->playSound(SoundPlayer::RepSound);
+    if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RepSound);
     FUNC_TRACE(QString("Time now: %1")
                .arg(mCurrentRunningTime.toString("mm:ss.zz")));
     TRACE1("Did rep number %1", repNumber);
@@ -777,6 +778,43 @@ void ExerciseTimer::setEndWarningTime(int seconds)
 
     }
 
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+bool ExerciseTimer::muteSounds() const
+{
+    return mMuteSounds;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::setMuteSounds(bool mute)
+{
+    FUTR();
+    if (mute != mMuteSounds)
+    {
+        mMuteSounds = mute;
+        emit muteSoundsChanged(mMuteSounds);
+        QSettings settings;
+        settings.setValue("mute sounds", mMuteSounds);
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::onCountDownForSound(int number)
+{
+    if (mPlayer && !mMuteSounds)
+    {
+        mPlayer->playCountDownSound(number);
+    }
 }
 
 //------------------------------------------------------------------------------

@@ -38,6 +38,10 @@
         <source>Remove set</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RunPage</name>
@@ -59,6 +63,25 @@
     </message>
     <message>
         <source>Current exercise</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start delay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>End-of-exercise warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute all sounds</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

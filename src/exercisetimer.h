@@ -33,6 +33,8 @@ class ExerciseTimer : public QObject
                NOTIFY startDelayChanged)
     Q_PROPERTY(int endWarningTime READ endWarningTime WRITE setEndWarningTime
                NOTIFY endWarningTimeChanged)
+    Q_PROPERTY(bool muteSounds READ muteSounds WRITE setMuteSounds
+               NOTIFY muteSoundsChanged)
     Q_PROPERTY(QTime totalRunningTime READ totalRunningTime NOTIFY
                totalRunningTimeChanged)
     Q_PROPERTY(TimedExercise* currentActivity READ currentActivity NOTIFY
@@ -71,6 +73,9 @@ public:
     /*! Time, in seconds, when a warning before the end of the activity is
     sent*/
     int endWarningTime() const;
+    /*! True if all sound effects (countdown, round-start/end, rep,
+    all-done) are suppressed */
+    bool muteSounds() const;
     /*! The cumulative running time of all activities*/
     QTime totalRunningTime() const;
     /*! Return a pointer to the current activity */
@@ -107,6 +112,7 @@ signals:
     void notifyRep(int repetitionNumber);
     void startDelayChanged(int seconds);
     void endWarningTimeChanged(int seconds);
+    void muteSoundsChanged(bool muted);
     /*! Emitted when the current activity is close to its end,
     according to mEndNotificationTime */
     void currentExerciseCloseToEnd();
@@ -143,6 +149,7 @@ public slots:
     /*! Set the  number of seconds for a countdown timer */
     void setStartDelay(int seconds);
     void setEndWarningTime(int seconds);
+    void setMuteSounds(bool mute);
 
 
 private slots:
@@ -162,6 +169,8 @@ private slots:
     void onCountDown();
     void onSetValidityChanged(bool isValid);
     void checkOverallValidity();
+    /*! Forwards countDown to the SoundPlayer, unless sounds are muted */
+    void onCountDownForSound(int number);
 
 private: // types
 
@@ -221,6 +230,8 @@ private: //data
     /*! How many seconds before the end of the exercise a notification is
     dispatched (which results in e.g. playing a sound). Default 3 seconds. */
     int mEndNotificationTime;
+    /*! True if all sound effects are suppressed */
+    bool mMuteSounds;
     /*! The duration after starting the current exercise, after which
     the end notification should be sent*/
     QTime mCurrentExerciseEndNotificationTime;
