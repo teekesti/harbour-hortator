@@ -134,8 +134,16 @@ Page {
                             icon.source: "image://theme/icon-m-add?" + (pressed
                                       ? Theme.highlightColor
                                       : Theme.primaryColor)
-                            onClicked: pageStack.push(Qt.resolvedUrl("PickExerciseTemplateDialog.qml"),
-                                                       {setIndex: setIndex})
+
+                            property bool longPressed: false
+
+                            onPressed: longPressed = false
+                            onPressAndHold: {
+                                longPressed = true
+                                pageStack.push(Qt.resolvedUrl("PickExerciseTemplateDialog.qml"),
+                                               {setIndex: setIndex})
+                            }
+                            onClicked: if (!longPressed) exerciseTimer.addDefaultExerciseToSet(setIndex)
                         }
                     }
                 }
