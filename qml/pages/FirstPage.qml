@@ -60,7 +60,7 @@ Page {
                     radius: Theme.paddingSmall
 
                     color: {
-                        if (!set.isValid) {
+                        if (!set || !set.isValid) {
                             return Theme.errorColor
                         }
                         if (setItem.highlighted) {
@@ -87,7 +87,7 @@ Page {
 
                         RoundCountAdjustment {
                             id: setRoundsAdjustment
-                            value: set.rounds
+                            value: set ? set.rounds : 1
                             minValue: 1
                             maxValue: 99
                         }
@@ -106,7 +106,7 @@ Page {
                 Repeater {
                     id: exerciseRepeater
                     width: parent.width
-                    model: set.count
+                    model: set ? set.count : 0
 
                     delegate: Item {
                         id: exerciseRow
@@ -114,8 +114,8 @@ Page {
                         height: exerciseContentRow.height
 
                         property int exerciseIndex: index
-                        property var exercise: set.at(exerciseIndex)
-                        property bool isWorkout: exercise.activityType === "work"
+                        property var exercise: set ? set.at(exerciseIndex) : null
+                        property bool isWorkout: exercise ? exercise.activityType === "work" : false
 
                         Rectangle {
                             height: setHeaderBackground.height
@@ -123,7 +123,7 @@ Page {
                             radius: Theme.paddingSmall
 
                             color: {
-                                if (!exercise.isValid) {
+                                if (!exercise || !exercise.isValid) {
                                     return Theme.errorColor
                                 }
                                 return isWorkout
@@ -149,12 +149,12 @@ Page {
                                         id: activityTypeButton
                                         text: isWorkout ? qsTr("Work") : qsTr("Rest")
                                         color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
-                                        onClicked: exercise.toggleActivityType()
+                                        onClicked: if (exercise) exercise.toggleActivityType()
                                     }
 
                                     RoundCountAdjustment {
                                         id: roundsAdjustment
-                                        value: exercise.rounds
+                                        value: exercise ? exercise.rounds : 1
                                         minValue: 1
                                         maxValue: 99
                                     }
@@ -172,14 +172,14 @@ Page {
 
                                     ValueAdjustmentHorizontal {
                                         id: minutesAdjustment
-                                        value: exercise.mins
+                                        value: exercise ? exercise.mins : 0
                                         maxValue: 99
                                         unitLabel: "m"
                                     }
 
                                     ValueAdjustmentHorizontal {
                                         id: secondsAdjustment
-                                        value: exercise.secs
+                                        value: exercise ? exercise.secs : 0
                                         maxValue: 59
                                         unitLabel: "s"
                                         step: 5
