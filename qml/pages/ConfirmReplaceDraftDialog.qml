@@ -10,7 +10,6 @@ Dialog {
 
     acceptDestinationAction: PageStackAction.Pop
     acceptText: qsTr("Replace")
-    cancelText: qsTr("Cancel")
 
     Column {
         width: parent.width
@@ -18,7 +17,6 @@ Dialog {
 
         DialogHeader {
             acceptText: dialog.acceptText
-            cancelText: dialog.cancelText
         }
 
         Label {

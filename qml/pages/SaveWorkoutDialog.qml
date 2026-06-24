@@ -21,7 +21,6 @@ Dialog {
 
         DialogHeader {
             acceptText: qsTr("Save")
-            cancelText: qsTr("Cancel")
         }
 
         TextField {

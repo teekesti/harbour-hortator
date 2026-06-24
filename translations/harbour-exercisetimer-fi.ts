@@ -8,10 +8,6 @@
         <translation>Korvaa</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Peruuta</translation>
-    </message>
-    <message>
         <source>Discard your unsaved changes to the current workout?</source>
         <translation>Hylätäänkö tallentamattomat muutokset nykyiseen harjoitukseen?</translation>
     </message>
@@ -168,10 +164,6 @@
     <message>
         <source>Save</source>
         <translation>Tallenna</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Peruuta</translation>
     </message>
     <message>
         <source>Workout name</source>
