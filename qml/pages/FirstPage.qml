@@ -164,8 +164,8 @@ Page {
 
                         menu: ContextMenu {
                             MenuItem {
-                                text: qsTr("Name exercise")
-                                onClicked: pageStack.push(Qt.resolvedUrl("NameExerciseDialog.qml"),
+                                text: qsTr("Edit exercise")
+                                onClicked: pageStack.push(Qt.resolvedUrl("EditExerciseDialog.qml"),
                                                            {exercise: exercise})
                             }
                         }

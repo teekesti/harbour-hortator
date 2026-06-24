@@ -35,6 +35,7 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     qml/pages/SaveWorkoutDialog.qml \
     qml/pages/ConfirmReplaceDraftDialog.qml \
     qml/pages/PickExerciseTemplateDialog.qml \
+    qml/pages/EditExerciseDialog.qml \
     qml/pages/ExerciseLibraryPage.qml \
     qml/pages/components/qmldir \
     qml/pages/components/AcceleratingIconButton.qml \

@@ -169,6 +169,30 @@ void TstExerciseTimer::renamingExerciseDoesNotTouchOldTemplate()
     QVERIFY(timer.templateLibrary()->hasTemplate("A"));
 }
 
+void TstExerciseTimer::invalidExerciseDoesNotUpsertTemplate()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(new ExerciseSet());
+    timer.addExerciseToSet(0, new TimedExercise("work", 0, 0, 0));
+    TimedExercise *exercise = timer.exerciseListModel()->at(0)->at(0);
+
+    // Naming a zero-duration (invalid) Exercise must not persist a
+    // zero-duration template.
+    exercise->setName("Plank");
+    QVERIFY(!timer.templateLibrary()->hasTemplate("Plank"));
+
+    // Becoming valid afterwards upserts normally.
+    exercise->setSecs(30);
+    QVERIFY(timer.templateLibrary()->hasTemplate("Plank"));
+    QCOMPARE(timer.templateLibrary()->templateByName("Plank").value("secs").toInt(), 30);
+
+    // Driving an already-templated Exercise back to invalid must not
+    // overwrite the existing template with invalid values.
+    exercise->setSecs(0);
+    QVERIFY(timer.templateLibrary()->hasTemplate("Plank"));
+    QCOMPARE(timer.templateLibrary()->templateByName("Plank").value("secs").toInt(), 30);
+}
+
 void TstExerciseTimer::addExerciseFromTemplateCopiesByValue()
 {
     ExerciseTimer timer(nullptr, false);

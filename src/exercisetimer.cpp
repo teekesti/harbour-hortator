@@ -888,7 +888,7 @@ ExerciseTemplateLibrary *ExerciseTimer::templateLibrary() const
 void ExerciseTimer::onExerciseChangedForTemplate()
 {
     TimedExercise *exercise = qobject_cast<TimedExercise *>(sender());
-    if (!exercise || exercise->name().isEmpty())
+    if (!exercise || exercise->name().isEmpty() || !exercise->isValid())
     {
         return;
     }

@@ -27,6 +27,7 @@ private slots:
     void renamingExerciseDoesNotTouchOldTemplate();
     void addExerciseFromTemplateCopiesByValue();
     void removingTemplateDoesNotAffectExistingExercise();
+    void invalidExerciseDoesNotUpsertTemplate();
     void resetDraftToDefaultClearsAndSyncs();
     void resetOnFreshTimer();
     void currentActivityOnEmptyModel();

@@ -20,6 +20,33 @@
     </message>
 </context>
 <context>
+    <name>EditExerciseDialog</name>
+    <message>
+        <source>Done</source>
+        <translation>Valmis</translation>
+    </message>
+    <message>
+        <source>Exercise name</source>
+        <translation>Harjoituksen nimi</translation>
+    </message>
+    <message>
+        <source>Name (optional)</source>
+        <translation>Nimi (vapaaehtoinen)</translation>
+    </message>
+    <message>
+        <source>Work</source>
+        <translation>Työ</translation>
+    </message>
+    <message>
+        <source>Rest</source>
+        <translation>Lepo</translation>
+    </message>
+    <message>
+        <source>reps</source>
+        <translation>Toistot</translation>
+    </message>
+</context>
+<context>
     <name>ExerciseLibraryPage</name>
     <message>
         <source>Exercise names</source>
@@ -90,8 +117,8 @@
         <translation>Uusi harjoitus</translation>
     </message>
     <message>
-        <source>Name exercise</source>
-        <translation type="unfinished"></translation>
+        <source>Edit exercise</source>
+        <translation>Muokkaa harjoitusta</translation>
     </message>
 </context>
 <context>
@@ -115,21 +142,6 @@
     <message>
         <source>Delete</source>
         <translation>Poista</translation>
-    </message>
-</context>
-<context>
-    <name>NameExerciseDialog</name>
-    <message>
-        <source>Done</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exercise name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name (optional)</source>
-        <translation type="unfinished">Nimi (vapaaehtoinen)</translation>
     </message>
 </context>
 <context>
