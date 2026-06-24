@@ -12,6 +12,17 @@ Page {
     allowedOrientations: Orientation.All
     property int remorseTimeout: 2000 // milliseconds
 
+    function newWorkout() {
+        if (exerciseTimer.draftDirty) {
+            var dialog = pageStack.push(Qt.resolvedUrl("ConfirmReplaceDraftDialog.qml"))
+            dialog.accepted.connect(function() {
+                exerciseTimer.resetDraftToDefault()
+            })
+        } else {
+            exerciseTimer.resetDraftToDefault()
+        }
+    }
+
 
 
 
@@ -32,6 +43,10 @@ Page {
         model: exerciseListModel
 
         PullDownMenu {
+            MenuItem {
+                text: qsTr("New workout")
+                onClicked: newWorkout()
+            }
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))

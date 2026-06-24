@@ -12,7 +12,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Replace the current unsaved workout with this one?</source>
+        <source>Discard your unsaved changes to the current workout?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -90,6 +90,10 @@
     </message>
     <message>
         <source>Name (optional)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New workout</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

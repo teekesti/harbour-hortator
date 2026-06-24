@@ -25,7 +25,7 @@ Dialog {
             x: Theme.horizontalPageMargin
             width: parent.width - 2 * Theme.horizontalPageMargin
             wrapMode: Text.Wrap
-            text: qsTr("Replace the current unsaved workout with this one?")
+            text: qsTr("Discard your unsaved changes to the current workout?")
         }
     }
 }

@@ -185,6 +185,10 @@ public slots:
     /*! Replaces the Draft with the given History entry's workout
     (ADR-0011). No-op if no such entry exists. */
     void loadHistoryEntry(const QString &id);
+    /*! Resets the Draft to the same one-Set/one-Exercise default a fresh
+    install starts with (see appendDefaultSet()). Callers should use
+    draftDirty to decide whether to confirm with the user first (#9). */
+    void resetDraftToDefault();
     /*! Marks the Draft's current state as the synced baseline draftDirty
     compares against - i.e. "no unsaved changes from here". Called
     internally after loading/saving the Draft; also called by main()

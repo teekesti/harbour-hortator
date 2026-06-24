@@ -208,6 +208,26 @@ void TstExerciseTimer::removingTemplateDoesNotAffectExistingExercise()
     QCOMPARE(copy->mins(), 1);
 }
 
+void TstExerciseTimer::resetDraftToDefaultClearsAndSyncs()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(setWithOneExercise("work", 1, 0));
+    timer.addSet(setWithOneExercise("rest", 0, 30));
+    QVERIFY(timer.isDraftDirty());
+
+    timer.resetDraftToDefault();
+
+    QCOMPARE(timer.exerciseListModel()->count(), 1);
+    QCOMPARE(timer.exerciseListModel()->at(0)->count(), 1);
+    TimedExercise *defaultExercise = timer.exerciseListModel()->at(0)->at(0);
+    QCOMPARE(defaultExercise->activityType(), QString("work"));
+    QCOMPARE(defaultExercise->mins(), 1);
+    QCOMPARE(defaultExercise->secs(), 0);
+    // Resetting re-syncs the Draft - no confirmation needed if reset again
+    // with no further edits.
+    QVERIFY(!timer.isDraftDirty());
+}
+
 void TstExerciseTimer::resetOnFreshTimer()
 {
     ExerciseTimer timer(nullptr, false);

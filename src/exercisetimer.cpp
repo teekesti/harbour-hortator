@@ -1084,6 +1084,18 @@ void ExerciseTimer::loadHistoryEntry(const QString &id)
 //
 //------------------------------------------------------------------------------
 //
+void ExerciseTimer::resetDraftToDefault()
+{
+    mModel->clear();
+    appendDefaultSet();
+    markDraftSynced();
+    saveDraftNow();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
 TimedExercise * ExerciseTimer::currentActivity()
 {
     return getExercise(mCurrentExerciseIndex);

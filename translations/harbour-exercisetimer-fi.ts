@@ -12,8 +12,8 @@
         <translation>Peruuta</translation>
     </message>
     <message>
-        <source>Replace the current unsaved workout with this one?</source>
-        <translation>Korvataanko nykyinen tallentamaton harjoitus tällä?</translation>
+        <source>Discard your unsaved changes to the current workout?</source>
+        <translation>Hylätäänkö tallentamattomat muutokset nykyiseen harjoitukseen?</translation>
     </message>
 </context>
 <context>
@@ -92,6 +92,10 @@
     <message>
         <source>Name (optional)</source>
         <translation>Nimi (vapaaehtoinen)</translation>
+    </message>
+    <message>
+        <source>New workout</source>
+        <translation>Uusi harjoitus</translation>
     </message>
 </context>
 <context>
