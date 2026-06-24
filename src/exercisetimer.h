@@ -21,6 +21,7 @@ class ExerciseSet;
 class ExerciseListModel;
 class SoundPlayer;
 class WorkoutHistory;
+class ExerciseTemplateLibrary;
 
 class ExerciseTimer : public QObject
 {
@@ -59,6 +60,7 @@ class ExerciseTimer : public QObject
     Q_PROPERTY(int currentExerciseRoundCount READ currentExerciseRoundCount
                NOTIFY currentActivityChanged)
     Q_PROPERTY(WorkoutHistory* history READ history CONSTANT)
+    Q_PROPERTY(ExerciseTemplateLibrary* templateLibrary READ templateLibrary CONSTANT)
     /*! True when the Draft differs from its own last-saved/loaded
     History state (see ADR-0011). */
     Q_PROPERTY(bool draftDirty READ isDraftDirty NOTIFY draftDirtyChanged)
@@ -111,6 +113,7 @@ public:
     /*! Total number of rounds configured for the current exercise */
     int currentExerciseRoundCount() const;
     WorkoutHistory* history() const;
+    ExerciseTemplateLibrary* templateLibrary() const;
     bool isDraftDirty() const;
     QVariantList playSequenceSummary() const;
     /*! Path the Draft is auto-persisted to. Exposed so tests can isolate
@@ -155,6 +158,10 @@ public slots:
     the set's own "+" button in the editor */
     void addDefaultExerciseToSet(int setIndex);
     void addRestToSet(int setIndex, int mins = 1, int secs = 0);
+    /*! Adds a new Exercise to the given Set, copying its initial
+    name/duration/reps by value from the named template (ADR-0008). If
+    no such template exists, behaves like addDefaultExerciseToSet(). */
+    void addExerciseToSetFromTemplate(int setIndex, const QString &templateName);
     void removeExerciseFromSet(int setIndex, int exerciseIndex);
     void modifyExerciseInSet(int setIndex, int exerciseIndex);
     /*! Start the exercise sequence, or resume playing if it was
@@ -209,6 +216,10 @@ private slots:
     through mModel's totalDurationChanged (activityType, reps): keeps
     the Draft's play-sequence summary and on-disk copy in sync. */
     void onExerciseChangedForDraft();
+    /*! Connected to a per-Exercise name/duration/reps change: upserts
+    the exercise template library entry matching the exercise's current
+    name (ADR-0009). No-op if the exercise is currently unnamed. */
+    void onExerciseChangedForTemplate();
     /*! Debounced write of the Draft to draftFilePath() */
     void saveDraftNow();
 
@@ -297,6 +308,8 @@ private: //data
     QVector<PlayItem> mPlaySequence;
     /*! The persisted workout History (ADR-0005/0006) */
     WorkoutHistory* mHistory;
+    /*! The persisted exercise template library (ADR-0008) */
+    ExerciseTemplateLibrary* mTemplateLibrary;
     /*! Compact JSON serialization of the Draft as of the last time it
     was loaded, saved, or otherwise made to match a known History state.
     isDraftDirty() compares the Draft's current serialization against

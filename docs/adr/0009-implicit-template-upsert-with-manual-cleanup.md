@@ -1,0 +1,5 @@
+# Naming an exercise implicitly upserts a library template; a separate page allows manual deletion
+
+Giving a `TimedExercise` a non-empty name automatically creates or updates (upserts, matched by name) a corresponding entry in the exercise template library (ADR-0008) — no separate "save to library" step. A simple library page lets the user delete templates directly, independent of any workout. The alternative was a fully explicit library, managed only through its own dedicated add/edit/delete UI, with naming an exercise in a workout never touching it.
+
+Picked implicit upsert because it matches the issue's framing — naming an exercise should just make it reusable, as a side effect, not a separate chore — while manual deletion exists so one-off typos or abandoned names don't accumulate forever with no way to prune them. Renaming an exercise instance does not rename or delete the old template entry; it upserts a new one under the new name, leaving the old template (now possibly orphaned) for the user to delete if unwanted.

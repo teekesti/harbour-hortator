@@ -16,6 +16,7 @@
 #include "eoqttrace.h"
 #include "soundplayer.h"
 #include "workouthistory.h"
+#include "exercisetemplatelibrary.h"
 
 //------------------------------------------------------------------------------
 //
@@ -72,6 +73,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     //mScreenSaver = new QSystemScreenSaver(this);
 
     mHistory = new WorkoutHistory(this);
+    mTemplateLibrary = new ExerciseTemplateLibrary(this);
 
     mDraftSaveTimer = new QTimer(this);
     mDraftSaveTimer->setSingleShot(true);
@@ -133,8 +135,18 @@ void ExerciseTimer::addExerciseToSet(int setIndex, TimedExercise *exercise, int 
     else set->insertExercise(exercise, pos);
     connect(exercise, &TimedExercise::activityTypeChanged,
             this, &ExerciseTimer::onExerciseChangedForDraft);
+    connect(exercise, &TimedExercise::nameChanged,
+            this, &ExerciseTimer::onExerciseChangedForDraft);
     connect(exercise, &TimedExercise::repsChanged,
             this, &ExerciseTimer::onExerciseChangedForDraft);
+    connect(exercise, &TimedExercise::nameChanged,
+            this, &ExerciseTimer::onExerciseChangedForTemplate);
+    connect(exercise, &TimedExercise::minsChanged,
+            this, &ExerciseTimer::onExerciseChangedForTemplate);
+    connect(exercise, &TimedExercise::secsChanged,
+            this, &ExerciseTimer::onExerciseChangedForTemplate);
+    connect(exercise, &TimedExercise::repsChanged,
+            this, &ExerciseTimer::onExerciseChangedForTemplate);
     checkOverallValidity();
     rebuildPlaySequence();
     emit playSequenceChanged();
@@ -858,6 +870,62 @@ void ExerciseTimer::onCountDownForSound(int number)
 WorkoutHistory *ExerciseTimer::history() const
 {
     return mHistory;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+ExerciseTemplateLibrary *ExerciseTimer::templateLibrary() const
+{
+    return mTemplateLibrary;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::onExerciseChangedForTemplate()
+{
+    TimedExercise *exercise = qobject_cast<TimedExercise *>(sender());
+    if (!exercise || exercise->name().isEmpty())
+    {
+        return;
+    }
+    mTemplateLibrary->upsertTemplate(exercise->name(), exercise->mins(),
+                                      exercise->secs(), exercise->reps());
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void ExerciseTimer::addExerciseToSetFromTemplate(int setIndex, const QString &templateName)
+{
+    QVariantMap tmpl = mTemplateLibrary->templateByName(templateName);
+    TimedExercise *exercise;
+    if (tmpl.isEmpty())
+    {
+        exercise = new TimedExercise();
+    }
+    else
+    {
+        exercise = new TimedExercise("work", tmpl.value("mins").toInt(),
+                                      tmpl.value("secs").toInt(),
+                                      tmpl.value("reps").toInt());
+        exercise->setName(templateName);
+    }
+    addExerciseToSet(setIndex, exercise, -1);
+    // The copy is detached from here on (ADR-0008): its own later
+    // duration/reps edits must never retroactively change the template
+    // it was copied from. Renaming it is still a normal naming action
+    // (e.g. under a different name, it upserts a new template).
+    disconnect(exercise, &TimedExercise::minsChanged,
+               this, &ExerciseTimer::onExerciseChangedForTemplate);
+    disconnect(exercise, &TimedExercise::secsChanged,
+               this, &ExerciseTimer::onExerciseChangedForTemplate);
+    disconnect(exercise, &TimedExercise::repsChanged,
+               this, &ExerciseTimer::onExerciseChangedForTemplate);
 }
 
 //------------------------------------------------------------------------------

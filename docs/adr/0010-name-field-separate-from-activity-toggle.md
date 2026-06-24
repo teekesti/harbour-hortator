@@ -1,0 +1,5 @@
+# Exercise name is its own label, separate from the work/rest toggle button
+
+The work/rest toggle button keeps showing "Work"/"Rest" text (plus its existing color coding) as the sole at-a-glance indicator of activity type. The exercise's name, when set, is displayed as its own label on the row rather than replacing the toggle button's text. There is a single name field — no separate short/long variants — since Silica's text elements already elide or wrap long text as needed. The alternative (from the original request) was using a short name to replace the button's "Work"/"Rest" label, with a separate long name shown elsewhere.
+
+Picked keeping the button's text fixed because the activity-type signal matters for usability (color alone is not a reliable signal, e.g. for colorblind users) and shouldn't be sacrificed to make room for a name. A single name field avoids the maintenance burden of keeping a short and long variant of the same string in sync, and naturally satisfies the original requirement that toggling work/rest and back does not lose the custom name — the name is independent of the button's label entirely.

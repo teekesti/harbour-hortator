@@ -10,6 +10,9 @@ class TimedExercise : public QObject
     Q_OBJECT
     Q_PROPERTY(QString activityType READ activityType WRITE setActivityType
                NOTIFY activityTypeChanged)
+    /*! Optional display name, independent of activityType (ADR-0010);
+    naming an Exercise upserts a template by that name (ADR-0008/0009). */
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(int mins READ mins WRITE setMins NOTIFY minsChanged)
     Q_PROPERTY(int secs READ secs WRITE setSecs NOTIFY secsChanged)
     Q_PROPERTY(int reps READ reps WRITE setReps NOTIFY repsChanged)
@@ -23,6 +26,8 @@ public:
                            int secs = 0, int reps = 0, QObject *parent = 0);
     TimedExercise* clone() const;
     QString activityType() const;
+    /*! Optional display name; empty if unset. */
+    QString name() const;
     /*! Return the minutes part of the duration of the exercise */
     int mins() const;
     /*! Return the seconds part of the duration of the exercise */
@@ -50,6 +55,7 @@ public:
 
 signals:
     void activityTypeChanged(QString activityType);
+    void nameChanged(QString name);
     void minsChanged(int mins);
     void secsChanged(int secs);
     void durationChanged(int durationChangeSeconds);
@@ -61,6 +67,7 @@ signals:
 
 public slots:
     void setActivityType(QString activityType);
+    void setName(QString name);
     void toggleActivityType();
     void setMins(int mins);
     void setSecs(int secs);
@@ -72,6 +79,7 @@ private slots:
 
 private: // data
     QString mActivityType;
+    QString mName;
     int mMins;
     int mSecs;
     int mReps;

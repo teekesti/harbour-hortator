@@ -24,6 +24,25 @@
     </message>
 </context>
 <context>
+    <name>ExerciseLibraryPage</name>
+    <message>
+        <source>Exercise names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No saved exercise names yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name an exercise in the editor to see it here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FirstPage</name>
     <message>
         <source>Configure exercises</source>
@@ -65,6 +84,14 @@
         <source>Save workout</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Exercise names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name (optional)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HistoryPage</name>
@@ -86,6 +113,25 @@
     </message>
     <message>
         <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PickExerciseTemplateDialog</name>
+    <message>
+        <source>Add exercise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No saved exercise names yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name an exercise in the editor to reuse it here later</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

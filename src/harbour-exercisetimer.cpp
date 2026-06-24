@@ -8,6 +8,7 @@
 #include "exerciselistmodel.h"
 #include "exercisetimer.h"
 #include "workouthistory.h"
+#include "exercisetemplatelibrary.h"
 #include "eoqttrace.h"
 
 int main(int argc, char *argv[])
@@ -28,6 +29,8 @@ int main(int argc, char *argv[])
             "ExerciseSet instances are created by ExerciseTimer, not from QML");
     qmlRegisterUncreatableType<WorkoutHistory>("com.appiukko.exercisetimer", 1, 0, "WorkoutHistory",
             "WorkoutHistory is created by ExerciseTimer, not from QML");
+    qmlRegisterUncreatableType<ExerciseTemplateLibrary>("com.appiukko.exercisetimer", 1, 0,
+            "ExerciseTemplateLibrary", "ExerciseTemplateLibrary is created by ExerciseTimer, not from QML");
     auto app = SailfishApp::application(argc, argv);
     auto view = SailfishApp::createView();
     QDir qmlDir = QDir(SailfishApp::pathTo("qml").toLocalFile());

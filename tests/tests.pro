@@ -20,6 +20,7 @@ SOURCES += \
     ../src/exerciselistmodel.cpp \
     ../src/exercisetimer.cpp \
     ../src/workouthistory.cpp \
+    ../src/exercisetemplatelibrary.cpp \
     soundplayer_stub.cpp
 
 HEADERS += \
@@ -33,4 +34,5 @@ HEADERS += \
     ../src/exercisetimer.h \
     ../src/soundplayer.h \
     ../src/workouthistory.h \
+    ../src/exercisetemplatelibrary.h \
     ../src/eoqttrace.h

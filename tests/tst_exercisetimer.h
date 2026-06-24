@@ -23,6 +23,10 @@ private slots:
     void saveDraftToHistorySucceedsAndClearsDirty();
     void loadHistoryEntryReplacesDraftAndMarksDirtyClean();
     void historySortsMostRecentlyPlayedFirst();
+    void namingExerciseUpsertsTemplate();
+    void renamingExerciseDoesNotTouchOldTemplate();
+    void addExerciseFromTemplateCopiesByValue();
+    void removingTemplateDoesNotAffectExistingExercise();
     void resetOnFreshTimer();
     void currentActivityOnEmptyModel();
     void startOnEmptyModelIsNoOp();

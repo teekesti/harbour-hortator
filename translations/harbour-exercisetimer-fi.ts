@@ -24,6 +24,25 @@
     </message>
 </context>
 <context>
+    <name>ExerciseLibraryPage</name>
+    <message>
+        <source>Exercise names</source>
+        <translation>Harjoitusten nimet</translation>
+    </message>
+    <message>
+        <source>No saved exercise names yet</source>
+        <translation>Ei tallennettuja harjoitusten nimiä</translation>
+    </message>
+    <message>
+        <source>Name an exercise in the editor to see it here</source>
+        <translation>Nimeä harjoitus muokkaimessa nähdäksesi sen tässä</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Poista</translation>
+    </message>
+</context>
+<context>
     <name>FirstPage</name>
     <message>
         <source>Configure exercises</source>
@@ -66,6 +85,14 @@
         <source>Save workout</source>
         <translation>Tallenna harjoitus</translation>
     </message>
+    <message>
+        <source>Exercise names</source>
+        <translation>Harjoitusten nimet</translation>
+    </message>
+    <message>
+        <source>Name (optional)</source>
+        <translation>Nimi (vapaaehtoinen)</translation>
+    </message>
 </context>
 <context>
     <name>HistoryPage</name>
@@ -88,6 +115,25 @@
     <message>
         <source>Delete</source>
         <translation>Poista</translation>
+    </message>
+</context>
+<context>
+    <name>PickExerciseTemplateDialog</name>
+    <message>
+        <source>Add exercise</source>
+        <translation>Lisää harjoitus</translation>
+    </message>
+    <message>
+        <source>Blank</source>
+        <translation>Tyhjä</translation>
+    </message>
+    <message>
+        <source>No saved exercise names yet</source>
+        <translation>Ei tallennettuja harjoitusten nimiä</translation>
+    </message>
+    <message>
+        <source>Name an exercise in the editor to reuse it here later</source>
+        <translation>Nimeä harjoitus muokkaimessa käyttääksesi sitä myöhemmin uudelleen</translation>
     </message>
 </context>
 <context>

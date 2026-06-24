@@ -20,6 +20,7 @@ TimedExercise *TimedExercise::clone() const
     TimedExercise *duplicate = new TimedExercise();
     duplicate->setParent(this->parent());
     duplicate->setActivityType(this->activityType());
+    duplicate->setName(this->name());
     duplicate->setMins(this->mins());
     duplicate->setSecs(this->secs());
     duplicate->setReps(this->reps());
@@ -236,6 +237,28 @@ void TimedExercise::setActivityType(QString activityType)
 //
 //------------------------------------------------------------------------------
 //
+QString TimedExercise::name() const
+{
+    return mName;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+void TimedExercise::setName(QString name)
+{
+    if (name != mName)
+    {
+        mName = name;
+        emit nameChanged(mName);
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
 void TimedExercise::toggleActivityType()
 {
     if (mActivityType == "work")
@@ -256,6 +279,7 @@ QJsonObject TimedExercise::toJson() const
 {
     QJsonObject json;
     json["activityType"] = mActivityType;
+    json["name"] = mName;
     json["mins"] = mMins;
     json["secs"] = mSecs;
     json["reps"] = mReps;
@@ -274,6 +298,7 @@ TimedExercise *TimedExercise::fromJson(const QJsonObject &json)
         json.value("mins").toInt(1),
         json.value("secs").toInt(0),
         json.value("reps").toInt(0));
+    exercise->setName(json.value("name").toString());
     exercise->setRounds(json.value("rounds").toInt(1));
     return exercise;
 }

@@ -31,3 +31,7 @@ _Avoid_: Saved workout (use "History entry"), Library (reserved for Exercise Tem
 **Summary Bar**:
 A shared visual component: a horizontal bar of work/rest-colored sub-rectangles, one per Exercise occurrence, widthed proportionally to duration. Shown both in the editor (near total duration) and per-row in the History list, alongside a one-line text summary. See ADR-0013.
 _Avoid_: Timeline, Progress bar (reserved for playback progress in RunPage)
+
+**Exercise Template**:
+A named, reusable starting point — `{name, default duration, default reps}` — kept in a flat library independent of any Workout. Copied **by value** into a new Exercise when picked; later edits to either side never propagate. Naming an Exercise implicitly upserts a template by that name (ADR-0009); templates can also be deleted directly from a library page. See ADR-0008, ADR-0009.
+_Avoid_: Library item (use "Exercise Template"), Preset

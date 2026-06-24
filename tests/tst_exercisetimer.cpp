@@ -3,11 +3,13 @@
 #include <QtTest>
 #include <QSettings>
 #include <QFile>
+#include <QVariantMap>
 #include "exercisetimer.h"
 #include "exerciselistmodel.h"
 #include "exerciseset.h"
 #include "timedexercise.h"
 #include "workouthistory.h"
+#include "exercisetemplatelibrary.h"
 
 namespace {
 ExerciseSet *setWithOneExercise(QString activityType, int mins, int secs)
@@ -30,6 +32,7 @@ void TstExerciseTimer::init()
     // location for the whole test run, not a fresh one per test.
     QFile::remove(ExerciseTimer::draftFilePath());
     QFile::remove(WorkoutHistory::defaultStorageFilePath());
+    QFile::remove(ExerciseTemplateLibrary::defaultStorageFilePath());
 }
 
 void TstExerciseTimer::durationAggregation()
@@ -127,6 +130,82 @@ void TstExerciseTimer::muteSoundsToggleAndPersists()
 
     ExerciseTimer freshTimer(nullptr, false);
     QCOMPARE(freshTimer.muteSounds(), true);
+}
+
+void TstExerciseTimer::namingExerciseUpsertsTemplate()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(new ExerciseSet());
+    timer.addExerciseToSet(0, new TimedExercise("work", 2, 30, 0));
+    TimedExercise *exercise = timer.exerciseListModel()->at(0)->at(0);
+
+    QVERIFY(!timer.templateLibrary()->hasTemplate("Push-ups"));
+    exercise->setName("Push-ups");
+
+    QVERIFY(timer.templateLibrary()->hasTemplate("Push-ups"));
+    QVariantMap tmpl = timer.templateLibrary()->templateByName("Push-ups");
+    QCOMPARE(tmpl.value("mins").toInt(), 2);
+    QCOMPARE(tmpl.value("secs").toInt(), 30);
+
+    // Editing the named exercise's duration re-upserts the template.
+    exercise->setMins(5);
+    tmpl = timer.templateLibrary()->templateByName("Push-ups");
+    QCOMPARE(tmpl.value("mins").toInt(), 5);
+}
+
+void TstExerciseTimer::renamingExerciseDoesNotTouchOldTemplate()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(new ExerciseSet());
+    timer.addExerciseToSet(0, new TimedExercise("work", 1, 0, 0));
+    TimedExercise *exercise = timer.exerciseListModel()->at(0)->at(0);
+
+    exercise->setName("A");
+    QVERIFY(timer.templateLibrary()->hasTemplate("A"));
+
+    exercise->setName("B");
+    QVERIFY(timer.templateLibrary()->hasTemplate("B"));
+    // Renaming doesn't rename or remove the old template (ADR-0009).
+    QVERIFY(timer.templateLibrary()->hasTemplate("A"));
+}
+
+void TstExerciseTimer::addExerciseFromTemplateCopiesByValue()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(new ExerciseSet());
+    timer.addExerciseToSet(0, new TimedExercise("work", 3, 0, 0));
+    timer.exerciseListModel()->at(0)->at(0)->setName("Squats");
+
+    timer.addExerciseToSetFromTemplate(0, "Squats");
+    QCOMPARE(timer.exerciseListModel()->at(0)->count(), 2);
+    TimedExercise *copy = timer.exerciseListModel()->at(0)->at(1);
+    QCOMPARE(copy->name(), QString("Squats"));
+    QCOMPARE(copy->mins(), 3);
+
+    // Editing the copy doesn't change the template...
+    copy->setMins(10);
+    QCOMPARE(timer.templateLibrary()->templateByName("Squats").value("mins").toInt(), 3);
+
+    // ...and editing the template (via the original) doesn't retroactively
+    // change the copy.
+    timer.exerciseListModel()->at(0)->at(0)->setMins(7);
+    QCOMPARE(copy->mins(), 10);
+}
+
+void TstExerciseTimer::removingTemplateDoesNotAffectExistingExercise()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.addSet(new ExerciseSet());
+    timer.addExerciseToSet(0, new TimedExercise("work", 1, 0, 0));
+    timer.exerciseListModel()->at(0)->at(0)->setName("Lunges");
+    timer.addExerciseToSetFromTemplate(0, "Lunges");
+
+    timer.templateLibrary()->removeTemplate("Lunges");
+    QVERIFY(!timer.templateLibrary()->hasTemplate("Lunges"));
+
+    TimedExercise *copy = timer.exerciseListModel()->at(0)->at(1);
+    QCOMPARE(copy->name(), QString("Lunges"));
+    QCOMPARE(copy->mins(), 1);
 }
 
 void TstExerciseTimer::resetOnFreshTimer()
