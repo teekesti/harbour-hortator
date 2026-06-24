@@ -86,12 +86,12 @@
         <translation>Harjoitusten nimet</translation>
     </message>
     <message>
-        <source>Name (optional)</source>
-        <translation>Nimi (vapaaehtoinen)</translation>
-    </message>
-    <message>
         <source>New workout</source>
         <translation>Uusi harjoitus</translation>
+    </message>
+    <message>
+        <source>Name exercise</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -115,6 +115,21 @@
     <message>
         <source>Delete</source>
         <translation>Poista</translation>
+    </message>
+</context>
+<context>
+    <name>NameExerciseDialog</name>
+    <message>
+        <source>Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exercise name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name (optional)</source>
+        <translation type="unfinished">Nimi (vapaaehtoinen)</translation>
     </message>
 </context>
 <context>

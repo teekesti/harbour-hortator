@@ -145,14 +145,22 @@ Page {
                     width: parent.width
                     model: set ? set.count : 0
 
-                    delegate: Item {
+                    delegate: ListItem {
                         id: exerciseRow
                         width: exerciseRepeater.width
-                        height: exerciseContentColumn.height
+                        contentHeight: exerciseContentColumn.height
 
                         property int exerciseIndex: index
                         property var exercise: set ? set.at(exerciseIndex) : null
                         property bool isWorkout: exercise ? exercise.activityType === "work" : false
+
+                        menu: ContextMenu {
+                            MenuItem {
+                                text: qsTr("Name exercise")
+                                onClicked: pageStack.push(Qt.resolvedUrl("NameExerciseDialog.qml"),
+                                                           {exercise: exercise})
+                            }
+                        }
 
                         Rectangle {
                             height: setHeaderBackground.height
@@ -177,14 +185,12 @@ Page {
                                 }
                                 spacing: 0
 
-                                TextField {
-                                    id: nameField
+                                Label {
                                     width: parent.width
-                                    placeholderText: qsTr("Name (optional)")
-                                    label: ""
+                                    visible: exercise && exercise.name.length > 0
                                     text: exercise ? exercise.name : ""
+                                    truncationMode: TruncationMode.Fade
                                 }
-                                Binding { target: exercise; property: "name"; value: nameField.text }
 
                                 Row {
                                     id: exerciseContentRow

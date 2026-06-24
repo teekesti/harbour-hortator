@@ -85,11 +85,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name (optional)</source>
+        <source>New workout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New workout</source>
+        <source>Name exercise</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -113,6 +113,21 @@
     </message>
     <message>
         <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NameExerciseDialog</name>
+    <message>
+        <source>Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exercise name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name (optional)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
