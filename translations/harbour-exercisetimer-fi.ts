@@ -15,8 +15,16 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>My Cover</source>
-        <translation>Kansilehti</translation>
+        <source>Exercise Timer</source>
+        <translation>Harjoitusajastin</translation>
+    </message>
+    <message>
+        <source>Current</source>
+        <translation>Nykyinen</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Yhteensä</translation>
     </message>
 </context>
 <context>
