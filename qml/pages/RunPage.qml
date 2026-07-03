@@ -5,6 +5,7 @@ import Nemo.KeepAlive 1.2 // To prevent screen blanking
 
 Page {
     id: runPage
+    objectName: "runPage"
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All

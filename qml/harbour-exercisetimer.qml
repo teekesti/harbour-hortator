@@ -7,4 +7,14 @@ ApplicationWindow {
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
+
+    Connections {
+        target: Qt.application
+        onActiveChanged: {
+            if (Qt.application.active && exerciseTimer.running
+                    && pageStack.currentPage.objectName !== "runPage") {
+                pageStack.push(Qt.resolvedUrl("pages/RunPage.qml"))
+            }
+        }
+    }
 }
