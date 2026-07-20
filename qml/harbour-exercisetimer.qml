@@ -7,6 +7,8 @@ ApplicationWindow {
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
+    background.image: Qt.resolvedUrl("images/kettlebell_stopwatch_with_background.png")
+    background.filter: "none"
 
     Connections {
         target: Qt.application

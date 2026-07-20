@@ -15,15 +15,11 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>Exercise Timer</source>
+        <source>Current Exercise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Current</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Total</source>
+        <source>Total Progress</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -15,16 +15,12 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>Exercise Timer</source>
-        <translation>Harjoitusajastin</translation>
+        <source>Current Exercise</source>
+        <translation>Nykyinen harjoitus</translation>
     </message>
     <message>
-        <source>Current</source>
-        <translation>Nykyinen</translation>
-    </message>
-    <message>
-        <source>Total</source>
-        <translation>Yhteensä</translation>
+        <source>Total Progress</source>
+        <translation>Kokonaisedistyminen</translation>
     </message>
 </context>
 <context>

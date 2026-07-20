@@ -2,6 +2,11 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
+    Image {
+        source: Qt.resolvedUrl("../images/kettlebell_stopwatch_with_background.png")
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+    }
     Column {
         anchors {
             left: parent.left
@@ -13,7 +18,7 @@ CoverBackground {
 
         Label {
             width: parent.width
-            text: qsTr("Exercise Timer")
+            text: qsTr(applicationDisplayName)
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.primaryColor
             truncationMode: TruncationMode.Fade
@@ -26,7 +31,7 @@ CoverBackground {
             Label {
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryColor
-                text: qsTr("Current")
+                text: qsTr("Current Exercise")
             }
 
             Rectangle {
@@ -51,7 +56,7 @@ CoverBackground {
             Label {
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryColor
-                text: qsTr("Total")
+                text: qsTr("Total Progress")
             }
 
             Rectangle {

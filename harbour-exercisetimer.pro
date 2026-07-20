@@ -42,6 +42,7 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     qml/pages/components/ValueAdjustmentHorizontal.qml \
     qml/pages/components/RoundCountAdjustment.qml \
     qml/pages/components/SummaryBar.qml \
+    qml/images/kettlebell_stopwatch_with_background.png \
     rpm/harbour-exercisetimer.changes.in \
     rpm/harbour-exercisetimer.changes.run.in \
     rpm/harbour-exercisetimer.spec \
