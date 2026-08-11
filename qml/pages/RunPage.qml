@@ -10,7 +10,6 @@ Page {
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
-    property bool isWorkout: exerciseTimer.currentActivity.activityType === "work"
 
     DisplayBlanking {
             preventBlanking: runPage.status === PageStatus.Active && exerciseTimer.running
@@ -98,74 +97,19 @@ Page {
                     }
                 }
 
-                Rectangle {
+                ActivityProgressBar {
                     width: countDownRect.width - 2 * Theme.horizontalPageMargin
-                    height: Theme.itemSizeExtraLarge
-                    radius: Theme.paddingSmall
-                    color: isWorkout
-                           ? UIConstants.workColor
-                           : UIConstants.restColor
-
-                    ProgressBar {
-                        id: currentProgress
-                        //width: countDownRect.width // - 2 * Theme.horizontalPageMargin
-                        anchors.fill: parent
-                        leftMargin: 0
-                        rightMargin: 0
-                        minimumValue: 0
-                        maximumValue: 1
-                        enabled: false
-                        value: exerciseTimer.currentProgress
-                        label: {
-                            var parts = []
-                            if (exerciseTimer.currentExerciseRoundCount > 1) {
-                                parts.push(qsTr("Round %1/%2").arg(exerciseTimer.currentExerciseRoundNumber).arg(exerciseTimer.currentExerciseRoundCount))
-                            }
-                            return parts.join(" · ")
-                        }
-                        valueText: Qt.formatTime(exerciseTimer.currentRunningTime, "mm:ss") + "/" +
-                                   Qt.formatTime(exerciseTimer.currentDuration, "mm:ss")
-
-
-                    }
-
                 }
 
-                Item {
-
+                TotalProgressBar {
                     width: countDownRect.width - 2 * Theme.horizontalPageMargin
-                    height: Theme.itemSizeExtraLarge
-
-                    SummaryBar {
-                        id: summaryBar
-                        width: parent.width
-                        anchors.fill: parent
-                        playSequence: exerciseTimer.playSequenceSummary
-                        barHeight: parent.height
-                    }
-
-
-                    ProgressBar {
-                        id: totalProgress
-                        anchors.fill: parent
-                        leftMargin: 0
-                        rightMargin: 0
-                        minimumValue: 0
-                        maximumValue: 1
-                        enabled: false
-                        value: exerciseTimer.totalProgress
-                        label: UIConstants.totalProgressLabel
-                        valueText: Qt.formatTime(exerciseTimer.totalRunningTime, "hh:mm:ss") + "/" +
-                                   Qt.formatTime(exerciseTimer.totalDuration, "hh:mm:ss")
-
-                    }
                 }
 
                 RowLayout {
 
                     id: playControls
                     spacing: Theme.paddingLarge
-                    width: currentProgress.width
+                    width: countDownRect.width - 2 * Theme.horizontalPageMargin
 
                     IconButton {
                         icon.source: "image://theme/icon-l-play?" + (pressed

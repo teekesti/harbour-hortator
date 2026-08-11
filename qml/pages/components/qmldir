@@ -3,4 +3,6 @@
  AcceleratingIconButton 1.0 AcceleratingIconButton.qml
  RoundCountAdjustment 1.0 RoundCountAdjustment.qml
  SummaryBar 1.0 SummaryBar.qml
+ ActivityProgressBar 1.0 ActivityProgressBar.qml
+ TotalProgressBar 1.0 TotalProgressBar.qml
 

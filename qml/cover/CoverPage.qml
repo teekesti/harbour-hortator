@@ -35,44 +35,13 @@ CoverBackground {
                 text: UIConstants.currentActivityLabel
             }
 
-            Rectangle {
+            ActivityProgressBar {
                 width: parent.width
-                height: Theme.paddingSmall
-                color: Theme.rgba(Theme.primaryColor, 0.2)
-                radius: height / 2
-
-                Rectangle {
-                    width: parent.width * exerciseTimer.currentProgress
-                    height: parent.height
-                    color: Theme.highlightColor
-                    radius: parent.radius
-                }
             }
         }
 
-        Column {
+        TotalProgressBar {
             width: parent.width
-            spacing: Theme.paddingSmall / 2
-
-            Label {
-                font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
-                text: UIConstants.totalProgressLabel
-            }
-
-            Rectangle {
-                width: parent.width
-                height: Theme.paddingSmall
-                color: Theme.rgba(Theme.primaryColor, 0.2)
-                radius: height / 2
-
-                Rectangle {
-                    width: parent.width * exerciseTimer.totalProgress
-                    height: parent.height
-                    color: Theme.primaryColor
-                    radius: parent.radius
-                }
-            }
         }
     }
 

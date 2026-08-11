@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fi_FI">
 <context>
+    <name>ActivityProgressBar</name>
+    <message>
+        <source>Round %1/%2</source>
+        <translation>Kierros %1/%2</translation>
+    </message>
+</context>
+<context>
     <name>ConfirmReplaceDraftDialog</name>
     <message>
         <source>Replace</source>
@@ -161,10 +168,6 @@
     <message>
         <source>Set %1/%2</source>
         <translation>Sarja %1/%2</translation>
-    </message>
-    <message>
-        <source>Round %1/%2</source>
-        <translation>Kierros %1/%2</translation>
     </message>
     <message>
         <source>Set round %1/%2</source>
