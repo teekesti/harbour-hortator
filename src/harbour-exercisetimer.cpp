@@ -11,6 +11,7 @@
 #include "exercisetemplatelibrary.h"
 #include "eoqttrace.h"
 
+
 int main(int argc, char *argv[])
 {
     // SailfishApp::main() will display "qml/harbour-exercisetimer.qml", if you need more
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
     auto app = SailfishApp::application(argc, argv);
     auto view = SailfishApp::createView();
     QDir qmlDir = QDir(SailfishApp::pathTo("qml").toLocalFile());
+    view->engine()->addImportPath(qmlDir.path());
     view->setSource(QUrl::fromLocalFile(qmlDir.filePath("harbour-exercisetimer.qml")));
     QQmlContext *context = view->rootContext();
     ExerciseTimer *exerciseTimer = new ExerciseTimer(app);
@@ -50,6 +52,7 @@ int main(int argc, char *argv[])
     TRACE1("model contains %1 items", model->size());
     context->setContextProperty("exerciseTimer", exerciseTimer);
     context->setContextProperty("exerciseListModel", model);
+    context->setContextProperty("applicationDisplayName", app->applicationDisplayName());
     //return SailfishApp::main(argc, argv);
     view->show();
     return app->exec();

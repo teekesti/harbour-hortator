@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "./"
 
 // A horizontal bar of work/rest-colored sub-rectangles, one per Exercise
 // occurrence, sized proportionally to that occurrence's duration. Used in
@@ -41,9 +42,8 @@ Item {
                 width: root.totalDurationSeconds > 0
                        ? root.width * (modelData.durationSeconds / root.totalDurationSeconds)
                        : 0
-                color: modelData.activityType === "work"
-                       ? Theme.rgba(Theme.highlightBackgroundColor, 0.25)
-                       : Theme.rgba(Theme.highlightDimmerColor, 0.10)
+                color: modelData.activityType === "work" ? UIConstants.workColor
+                       : UIConstants.restColor
             }
         }
     }

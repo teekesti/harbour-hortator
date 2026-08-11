@@ -28,10 +28,9 @@ Page {
 
     SilicaListView {
         id: setListView
-        width: parent.width // - margin?
-
+        width: parent.width
         anchors.top: parent.top
-        anchors.bottom: summaryBar.top
+        anchors.bottom: toolAndSummaryRow.top
         anchors.bottomMargin: Theme.paddingMedium
 
         header: PageHeader {
@@ -180,8 +179,8 @@ Page {
                                     return Theme.errorColor
                                 }
                                 return isWorkout
-                                        ? Theme.rgba(Theme.highlightBackgroundColor, 0.25)
-                                        : Theme.rgba(Theme.highlightDimmerColor, 0.10)
+                                        ? UIConstants.workColor
+                                        : UIConstants.restColor
                             }
 
                             Column {
@@ -283,51 +282,64 @@ Page {
         }
     }
 
-    SummaryBar {
-        id: summaryBar
-        width: parent.width - 2 * Theme.horizontalPageMargin
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: buttonRow.top
-        anchors.bottomMargin: Theme.paddingMedium
-        playSequence: exerciseTimer.playSequenceSummary
-    }
-
-    Row {
-        id: buttonRow
-        width: parent.width - 2 * Theme.horizontalPageMargin
-
+    Item {
+        id: toolAndSummaryRow
+        width: parent.width
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: Theme.paddingLarge
 
-        spacing: Theme.paddingMedium
+        SummaryBar {
+            id: summaryBar
+            width: parent.width
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: Theme.paddingMedium
+            playSequence: exerciseTimer.playSequenceSummary
+            barHeight: buttonRow.height + 2 * Theme.paddingMedium
+        }
 
-        IconButton {
-            icon.source: "image://theme/icon-l-add?" + (pressed
-                      ? Theme.highlightColor
-                      : Theme.primaryColor)
-            onClicked: {
-                exerciseTimer.appendDefaultSet()
+
+        Row {
+            id: buttonRow
+            width: parent.width - 2 * Theme.horizontalPageMargin
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: Theme.paddingLarge
+
+            spacing: Theme.paddingMedium
+
+
+            IconButton {
+                icon.source: "image://theme/icon-l-add?" + (pressed
+                          ? Theme.highlightColor
+                          : Theme.primaryColor)
+                onClicked: {
+                    exerciseTimer.appendDefaultSet()
+                }
+             }
+
+            IconButton {
+                icon.source: "image://theme/icon-l-play?" + (pressed
+                          ? Theme.highlightColor
+                          : Theme.primaryColor)
+                enabled: exerciseTimer.allValid
+                onClicked: {
+                    exerciseTimer.start()
+                    pageStack.animatorPush("RunPage.qml")
+                }
+             }
+
+            Label {
+                property string labelPrefix: orientation == Orientation.Portrait ? qsTr("Total") : qsTr("Total Duration")
+                text: labelPrefix + ": " + Qt.formatTime(exerciseTimer.totalDuration, "hh:mm:ss")
+                anchors.verticalCenter: parent.verticalCenter
             }
-         }
 
-        IconButton {
-            icon.source: "image://theme/icon-l-play?" + (pressed
-                      ? Theme.highlightColor
-                      : Theme.primaryColor)
-            enabled: exerciseTimer.allValid
-            onClicked: {
-                exerciseTimer.start()
-                pageStack.animatorPush("RunPage.qml")
-            }
-         }
-
-        Label {
-            property string labelPrefix: orientation == Orientation.Portrait ? qsTr("Total") : qsTr("Total Duration")
-            text: labelPrefix + ": " + Qt.formatTime(exerciseTimer.totalDuration, "hh:mm:ss")
-            anchors.verticalCenter: parent.verticalCenter
         }
     }
+
+
 
 
 

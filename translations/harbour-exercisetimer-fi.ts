@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fi_FI">
 <context>
+    <name>ActivityProgressBar</name>
+    <message>
+        <source>Round %1/%2</source>
+        <translation>Kierros %1/%2</translation>
+    </message>
+</context>
+<context>
     <name>ConfirmReplaceDraftDialog</name>
     <message>
         <source>Replace</source>
@@ -10,13 +17,6 @@
     <message>
         <source>Discard your unsaved changes to the current workout?</source>
         <translation>Hylätäänkö tallentamattomat muutokset nykyiseen harjoitukseen?</translation>
-    </message>
-</context>
-<context>
-    <name>CoverPage</name>
-    <message>
-        <source>My Cover</source>
-        <translation>Kansilehti</translation>
     </message>
 </context>
 <context>
@@ -170,20 +170,8 @@
         <translation>Sarja %1/%2</translation>
     </message>
     <message>
-        <source>Round %1/%2</source>
-        <translation>Kierros %1/%2</translation>
-    </message>
-    <message>
-        <source>Total progress</source>
-        <translation>Kokonaisedistyminen</translation>
-    </message>
-    <message>
         <source>Set round %1/%2</source>
         <translation>Sarjan kierros %1/%2</translation>
-    </message>
-    <message>
-        <source>Current exercise</source>
-        <translation>Nykyinen harjoitus</translation>
     </message>
 </context>
 <context>
@@ -214,6 +202,17 @@
     <message>
         <source>Mute all sounds</source>
         <translation>Mykistä kaikki äänet</translation>
+    </message>
+</context>
+<context>
+    <name>UIConstants</name>
+    <message>
+        <source>Current exercise</source>
+        <translation>Nykyinen harjoitus</translation>
+    </message>
+    <message>
+        <source>Total progress</source>
+        <translation>Kokonaisedistyminen</translation>
     </message>
 </context>
 </TS>
