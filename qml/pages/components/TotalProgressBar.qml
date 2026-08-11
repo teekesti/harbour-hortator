@@ -3,7 +3,17 @@ import Sailfish.Silica 1.0
 import "./"
 
 Item {
+    property bool showLabel: true
+    property color backgroundColor: "transparent"
+    property real backgroundRadius: 0
+
     height: Theme.itemSizeExtraLarge
+
+    Rectangle {
+        anchors.fill: parent
+        color: backgroundColor
+        radius: backgroundRadius
+    }
 
     SummaryBar {
         anchors.fill: parent
@@ -19,7 +29,7 @@ Item {
         maximumValue: 1
         enabled: false
         value: exerciseTimer.totalProgress
-        label: UIConstants.totalProgressLabel
+        label: showLabel? UIConstants.totalProgressLabel : ""
         valueText: Qt.formatTime(exerciseTimer.totalRunningTime, "hh:mm:ss") + "/" +
                    Qt.formatTime(exerciseTimer.totalDuration, "hh:mm:ss")
     }

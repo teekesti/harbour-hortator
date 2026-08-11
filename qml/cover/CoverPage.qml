@@ -15,7 +15,7 @@ CoverBackground {
             top: parent.top
             margins: Theme.paddingMedium
         }
-        spacing: Theme.paddingMedium
+        spacing: Theme.paddingLarge
 
         Label {
             width: parent.width
@@ -25,23 +25,11 @@ CoverBackground {
             truncationMode: TruncationMode.Fade
         }
 
-        Column {
-            width: parent.width
-            spacing: Theme.paddingSmall / 2
-
-            Label {
-                font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
-                text: UIConstants.currentActivityLabel
-            }
-
-            ActivityProgressBar {
-                width: parent.width
-            }
-        }
-
         TotalProgressBar {
             width: parent.width
+            showLabel: false
+            backgroundColor: Theme.rgba(Theme.overlayBackgroundColor, 0.7)
+            backgroundRadius: Theme.paddingSmall
         }
     }
 
