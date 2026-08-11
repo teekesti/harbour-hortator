@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     auto app = SailfishApp::application(argc, argv);
     auto view = SailfishApp::createView();
     QDir qmlDir = QDir(SailfishApp::pathTo("qml").toLocalFile());
+    view->engine()->addImportPath(qmlDir.path());
     view->setSource(QUrl::fromLocalFile(qmlDir.filePath("harbour-exercisetimer.qml")));
     QQmlContext *context = view->rootContext();
     ExerciseTimer *exerciseTimer = new ExerciseTimer(app);

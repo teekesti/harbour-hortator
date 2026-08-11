@@ -1,4 +1,6 @@
+ singleton UIConstants 1.0 UIConstants.qml
  ValueAdjustmentHorizontal 1.0 ValueAdjustmentHorizontal.qml
  AcceleratingIconButton 1.0 AcceleratingIconButton.qml
  RoundCountAdjustment 1.0 RoundCountAdjustment.qml
  SummaryBar 1.0 SummaryBar.qml
+

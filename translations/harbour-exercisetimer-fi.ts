@@ -13,17 +13,6 @@
     </message>
 </context>
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>Current Exercise</source>
-        <translation>Nykyinen harjoitus</translation>
-    </message>
-    <message>
-        <source>Total Progress</source>
-        <translation>Kokonaisedistyminen</translation>
-    </message>
-</context>
-<context>
     <name>EditExerciseDialog</name>
     <message>
         <source>Done</source>
@@ -178,16 +167,8 @@
         <translation>Kierros %1/%2</translation>
     </message>
     <message>
-        <source>Total progress</source>
-        <translation>Kokonaisedistyminen</translation>
-    </message>
-    <message>
         <source>Set round %1/%2</source>
         <translation>Sarjan kierros %1/%2</translation>
-    </message>
-    <message>
-        <source>Current exercise</source>
-        <translation>Nykyinen harjoitus</translation>
     </message>
 </context>
 <context>
@@ -218,6 +199,17 @@
     <message>
         <source>Mute all sounds</source>
         <translation>Mykistä kaikki äänet</translation>
+    </message>
+</context>
+<context>
+    <name>UIConstants</name>
+    <message>
+        <source>Current exercise</source>
+        <translation>Nykyinen harjoitus</translation>
+    </message>
+    <message>
+        <source>Total progress</source>
+        <translation>Kokonaisedistyminen</translation>
     </message>
 </context>
 </TS>

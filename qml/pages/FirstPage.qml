@@ -179,8 +179,8 @@ Page {
                                     return Theme.errorColor
                                 }
                                 return isWorkout
-                                        ? Theme.rgba(Theme.highlightBackgroundColor, 0.25)
-                                        : Theme.rgba(Theme.highlightDimmerColor, 0.10)
+                                        ? UIConstants.workColor
+                                        : UIConstants.restColor
                             }
 
                             Column {

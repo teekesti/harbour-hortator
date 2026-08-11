@@ -13,17 +13,6 @@
     </message>
 </context>
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>Current Exercise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Total Progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>EditExerciseDialog</name>
     <message>
         <source>Done</source>
@@ -169,10 +158,6 @@
 <context>
     <name>RunPage</name>
     <message>
-        <source>Total progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Set %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -182,10 +167,6 @@
     </message>
     <message>
         <source>Set round %1/%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current exercise</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -216,6 +197,17 @@
     </message>
     <message>
         <source>Mute all sounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UIConstants</name>
+    <message>
+        <source>Current exercise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total progress</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../pages/components"
 
 CoverBackground {
     Image {
@@ -31,7 +32,7 @@ CoverBackground {
             Label {
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryColor
-                text: qsTr("Current Exercise")
+                text: UIConstants.currentActivityLabel
             }
 
             Rectangle {
@@ -56,7 +57,7 @@ CoverBackground {
             Label {
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryColor
-                text: qsTr("Total Progress")
+                text: UIConstants.totalProgressLabel
             }
 
             Rectangle {
