@@ -15,16 +15,6 @@ Dialog {
     property string stagedType: exercise ? exercise.activityType : "work"
     property bool stagedIsWork: stagedType === "work"
 
-    // Filtered list of known exercise names for the autocomplete suggestion row.
-    // Re-evaluates whenever nameField.text changes or the library is modified.
-    property var filteredNames: {
-        var _ = exerciseTimer.templateLibrary.count
-        var filter = nameField.text.trim().toLowerCase()
-        var all = exerciseTimer.templateLibrary.allNames().sort()
-        if (filter === "") return all
-        return all.filter(function(n) { return n.toLowerCase().indexOf(filter) >= 0 })
-    }
-
     onAccepted: {
         if (!exercise) {
             return
@@ -45,69 +35,14 @@ Dialog {
             acceptText: qsTr("Done")
         }
 
-        // Name field and suggestion list are grouped with no spacing between
-        // them so suggestions appear flush below the input.
-        Column {
+        TextField {
+            id: nameField
             width: parent.width
-            spacing: 0
-
-            TextField {
-                id: nameField
-                width: parent.width
-                label: qsTr("Exercise name")
-                placeholderText: qsTr("Name (optional)")
-                text: exercise ? exercise.name : ""
-                EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-                EnterKey.onClicked: dialog.accept()
-                rightItem: IconButton {
-                    visible: nameField.text.length > 0
-                    icon.source: "image://theme/icon-m-clear"
-                    onClicked: nameField.text = ""
-                }
-            }
-
-            // Autocomplete suggestion list: visible while the name field has
-            // focus and there is at least one matching history entry. Height
-            // is capped so it stays within the area above the virtual keyboard
-            // and scrolls internally when there are many matches.
-            SilicaListView {
-                id: suggestionList
-                width: parent.width
-                height: Math.min(count * Theme.itemSizeSmall, 4 * Theme.itemSizeSmall)
-                clip: true
-                visible: nameField.activeFocus && dialog.filteredNames.length > 0
-                model: dialog.filteredNames
-
-                delegate: BackgroundItem {
-                    width: suggestionList.width
-                    height: Theme.itemSizeSmall
-
-                    onClicked: {
-                        nameField.text = modelData
-                        nameField.focus = false
-                    }
-
-                    Label {
-                        x: Theme.horizontalPageMargin
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width - x - deleteButton.width - Theme.paddingSmall
-                        text: modelData
-                        elide: Text.ElideRight
-                    }
-
-                    IconButton {
-                        id: deleteButton
-                        anchors {
-                            right: parent.right
-                            verticalCenter: parent.verticalCenter
-                        }
-                        icon.source: "image://theme/icon-m-delete"
-                        onClicked: exerciseTimer.templateLibrary.removeTemplate(modelData)
-                    }
-                }
-
-                VerticalScrollDecorator {}
-            }
+            label: qsTr("Exercise name")
+            placeholderText: qsTr("Name (optional)")
+            text: exercise ? exercise.name : ""
+            EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+            EnterKey.onClicked: dialog.accept()
         }
 
         Row {
