@@ -30,6 +30,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE int count() const;
+    Q_INVOKABLE QStringList allNames() const;
 
     /*! Creates a template under name, or overwrites the existing one
     matched by name with these defaults. */

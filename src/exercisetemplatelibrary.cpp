@@ -1,5 +1,6 @@
 #include "exercisetemplatelibrary.h"
 
+#include <QStringList>
 #include <QStandardPaths>
 #include <QDir>
 #include <QFile>
@@ -65,6 +66,17 @@ QHash<int, QByteArray> ExerciseTemplateLibrary::roleNames() const
 int ExerciseTemplateLibrary::count() const
 {
     return mEntries.size();
+}
+
+QStringList ExerciseTemplateLibrary::allNames() const
+{
+    QStringList names;
+    names.reserve(mEntries.size());
+    for (const Entry &entry : mEntries)
+    {
+        names.append(entry.name);
+    }
+    return names;
 }
 
 void ExerciseTemplateLibrary::upsertTemplate(const QString &name, int mins, int secs, int reps)
