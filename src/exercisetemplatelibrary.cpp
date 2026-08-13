@@ -207,7 +207,7 @@ int ExerciseTemplateLibrary::indexOfName(const QString &name) const
 {
     for (int i = 0; i < mEntries.size(); ++i)
     {
-        if (mEntries.at(i).name == name)
+        if (mEntries.at(i).name.compare(name, Qt::CaseInsensitive) == 0)
         {
             return i;
         }
