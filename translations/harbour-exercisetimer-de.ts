@@ -202,6 +202,10 @@
         <source>Mute all sounds</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Skip last rest</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>UIConstants</name>

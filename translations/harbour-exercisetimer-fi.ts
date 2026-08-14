@@ -203,6 +203,10 @@
         <source>Mute all sounds</source>
         <translation>Mykistä kaikki äänet</translation>
     </message>
+    <message>
+        <source>Skip last rest</source>
+        <translation>Ohita viimeinen lepo</translation>
+    </message>
 </context>
 <context>
     <name>UIConstants</name>

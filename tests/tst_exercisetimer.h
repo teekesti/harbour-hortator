@@ -40,6 +40,12 @@ private slots:
     void playSequenceFlattensSetAndExerciseRounds();
     void positionPropertiesDuringPlayback();
     void outOfRangeSetIndexIsNoOp();
+
+    void skipLastRestDefaultsToFalse();
+    void skipLastRestToggleAndPersists();
+    void skipLastRestSkipsWhenLastItemIsRest();
+    void skipLastRestNoOpWhenLastItemIsWork();
+    void skipLastRestNoOpWhenFlagOff();
 };
 
 #endif // TST_EXERCISETIMER_H

@@ -513,6 +513,87 @@ void TstExerciseTimer::historySortsMostRecentlyPlayedFirst()
              QString("First"));
 }
 
+void TstExerciseTimer::skipLastRestDefaultsToFalse()
+{
+    ExerciseTimer timer(nullptr, false);
+    QCOMPARE(timer.skipLastRest(), false);
+}
+
+void TstExerciseTimer::skipLastRestToggleAndPersists()
+{
+    ExerciseTimer timer(nullptr, false);
+    QCOMPARE(timer.skipLastRest(), false);
+
+    QSignalSpy spy(&timer, &ExerciseTimer::skipLastRestChanged);
+    timer.setSkipLastRest(true);
+    QCOMPARE(timer.skipLastRest(), true);
+    QCOMPARE(spy.count(), 1);
+
+    timer.setSkipLastRest(true); // no-op, same value
+    QCOMPARE(spy.count(), 1);
+
+    ExerciseTimer freshTimer(nullptr, false);
+    QCOMPARE(freshTimer.skipLastRest(), true);
+}
+
+void TstExerciseTimer::skipLastRestSkipsWhenLastItemIsRest()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(0);
+    timer.setSkipLastRest(true);
+    timer.addSet(setWithOneExercise("work", 0, 1));
+    timer.addSet(setWithOneExercise("rest", 0, 1));
+
+    timer.start();
+    QCOMPARE(timer.currentActivity()->activityType(), QString("work"));
+
+    QSignalSpy finishedSpy(&timer, &ExerciseTimer::allExercisesFinished);
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+
+    // The last rest must be skipped — allExercisesFinished fires immediately.
+    QCOMPARE(finishedSpy.count(), 1);
+}
+
+void TstExerciseTimer::skipLastRestNoOpWhenLastItemIsWork()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(0);
+    timer.setSkipLastRest(true);
+    timer.addSet(setWithOneExercise("work", 0, 1));
+    timer.addSet(setWithOneExercise("work", 0, 1));
+
+    timer.start();
+    QSignalSpy finishedSpy(&timer, &ExerciseTimer::allExercisesFinished);
+
+    // Finishing first work advances to second work, not done yet.
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(finishedSpy.count(), 0);
+    QCOMPARE(timer.currentActivity()->activityType(), QString("work"));
+
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(finishedSpy.count(), 1);
+}
+
+void TstExerciseTimer::skipLastRestNoOpWhenFlagOff()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(0);
+    // skipLastRest defaults to false — no explicit setSkipLastRest call
+    timer.addSet(setWithOneExercise("work", 0, 1));
+    timer.addSet(setWithOneExercise("rest", 0, 1));
+
+    timer.start();
+    QSignalSpy finishedSpy(&timer, &ExerciseTimer::allExercisesFinished);
+
+    // Without the flag the rest should play; only after finishing it do we get done.
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(finishedSpy.count(), 0);
+    QCOMPARE(timer.currentActivity()->activityType(), QString("rest"));
+
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseFinished");
+    QCOMPARE(finishedSpy.count(), 1);
+}
+
 void TstExerciseTimer::outOfRangeSetIndexIsNoOp()
 {
     ExerciseTimer timer(nullptr, false);
