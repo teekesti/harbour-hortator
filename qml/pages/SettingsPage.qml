@@ -69,6 +69,12 @@ Page {
                 checked: exerciseTimer.muteSounds
                 onCheckedChanged: exerciseTimer.muteSounds = checked
             }
+
+            TextSwitch {
+                text: qsTr("Skip last rest")
+                checked: exerciseTimer.skipLastRest
+                onCheckedChanged: exerciseTimer.skipLastRest = checked
+            }
         }
     }
 }

@@ -39,6 +39,8 @@ class ExerciseTimer : public QObject
                NOTIFY endWarningTimeChanged)
     Q_PROPERTY(bool muteSounds READ muteSounds WRITE setMuteSounds
                NOTIFY muteSoundsChanged)
+    Q_PROPERTY(bool skipLastRest READ skipLastRest WRITE setSkipLastRest
+               NOTIFY skipLastRestChanged)
     Q_PROPERTY(QTime totalRunningTime READ totalRunningTime NOTIFY
                totalRunningTimeChanged)
     Q_PROPERTY(TimedExercise* currentActivity READ currentActivity NOTIFY
@@ -89,6 +91,7 @@ public:
     /*! True if all sound effects (countdown, round-start/end, rep,
     all-done) are suppressed */
     bool muteSounds() const;
+    bool skipLastRest() const;
     /*! The cumulative running time of all activities*/
     QTime totalRunningTime() const;
     /*! Return a pointer to the current activity */
@@ -133,6 +136,7 @@ signals:
     void startDelayChanged(int seconds);
     void endWarningTimeChanged(int seconds);
     void muteSoundsChanged(bool muted);
+    void skipLastRestChanged(bool skip);
     /*! Emitted when the current activity is close to its end,
     according to mEndNotificationTime */
     void currentExerciseCloseToEnd();
@@ -176,6 +180,7 @@ public slots:
     void setStartDelay(int seconds);
     void setEndWarningTime(int seconds);
     void setMuteSounds(bool mute);
+    void setSkipLastRest(bool skip);
     /*! Saves a snapshot of the Draft into History under the given name.
     Requires the Draft to currently be allValid (ADR-0012); returns false
     and does nothing otherwise. On success, the Draft is marked as
@@ -287,6 +292,8 @@ private: //data
     int mEndNotificationTime;
     /*! True if all sound effects are suppressed */
     bool mMuteSounds;
+    /*! True if the final rest in the play sequence should be skipped */
+    bool mSkipLastRest;
     /*! The duration after starting the current exercise, after which
     the end notification should be sent*/
     QTime mCurrentExerciseEndNotificationTime;

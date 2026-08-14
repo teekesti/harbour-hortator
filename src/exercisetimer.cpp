@@ -30,7 +30,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     mStartDelay(5), mRunning(false), mWaitingToStart(false),
     mNotifyReps(false),
     mRepSeparationMilliSecs(0), mCheckRepTimer(false),
-    mEndNotificationTime(3), mMuteSounds(false),
+    mEndNotificationTime(3), mMuteSounds(false), mSkipLastRest(false),
     mSendEndNotification(false), mCountdownTracker(0),
     mCurrentRepNumber(0), mCurrentProgress(0), mTotalProgress(0),
     mAllValid(false)
@@ -47,6 +47,10 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     if (settings.contains("mute sounds"))
     {
         mMuteSounds = settings.value("mute sounds").toBool();
+    }
+    if (settings.contains("skip last rest"))
+    {
+        mSkipLastRest = settings.value("skip last rest").toBool();
     }
     mModel = new ExerciseListModel(this);
     connect(mModel, &ExerciseListModel::totalDurationChanged,
@@ -595,31 +599,39 @@ void ExerciseTimer::onCurrentExerciseFinished()
         // Check if there is a next activity to perform
         if (mPlaySequence.size() > mCurrentExerciseIndex + 1)
         {
-            // There's an exercise
-            mCurrentExerciseIndex += 1;
-            // Check if the next activity is work or rest. If it is work,
-            // do not play round end sound for the just ended round. Instead
-            // the round start sound will be played. If the next round is rest,
-            // play the round end sound.
-            if (getExercise(mCurrentExerciseIndex)->activityType() == "rest")
+            int nextIndex = mCurrentExerciseIndex + 1;
+            bool nextIsLastRest = mSkipLastRest
+                && nextIndex == mPlaySequence.size() - 1
+                && getExercise(nextIndex)->activityType() == "rest";
+            if (nextIsLastRest)
             {
-                if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RoundEndSound);
+                mCountdownTimer->stop();
+                emit allExercisesFinished();
+                mTotalRunningTime.setHMS(0, 0, 0);
+                emit totalRunningTimeChanged(mTotalRunningTime);
             }
-            TRACE1("Switching to activity %1", mCurrentExerciseIndex + 1);
-            playCurrentExercise();
-
+            else
+            {
+                // Check if the next activity is work or rest. If it is work,
+                // do not play round end sound for the just ended round. Instead
+                // the round start sound will be played. If the next round is rest,
+                // play the round end sound.
+                mCurrentExerciseIndex = nextIndex;
+                if (getExercise(mCurrentExerciseIndex)->activityType() == "rest")
+                {
+                    if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RoundEndSound);
+                }
+                TRACE1("Switching to activity %1", mCurrentExerciseIndex + 1);
+                playCurrentExercise();
+            }
         }
         else
         {
             emit allExercisesFinished();
             mTotalRunningTime.setHMS(0, 0, 0);
             emit totalRunningTimeChanged(mTotalRunningTime);
-
         }
-
-
     }
-
 }
 
 //------------------------------------------------------------------------------
@@ -855,6 +867,22 @@ void ExerciseTimer::setMuteSounds(bool mute)
 //
 //------------------------------------------------------------------------------
 //
+bool ExerciseTimer::skipLastRest() const
+{
+    return mSkipLastRest;
+}
+
+void ExerciseTimer::setSkipLastRest(bool skip)
+{
+    if (skip != mSkipLastRest)
+    {
+        mSkipLastRest = skip;
+        emit skipLastRestChanged(mSkipLastRest);
+        QSettings settings;
+        settings.setValue("skip last rest", mSkipLastRest);
+    }
+}
+
 void ExerciseTimer::onCountDownForSound(int number)
 {
     if (mPlayer && !mMuteSounds)
