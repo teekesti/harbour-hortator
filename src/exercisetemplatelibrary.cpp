@@ -1,6 +1,7 @@
 #include "exercisetemplatelibrary.h"
 
 #include <QStringList>
+#include <algorithm>
 #include <QStandardPaths>
 #include <QDir>
 #include <QFile>
@@ -101,8 +102,14 @@ void ExerciseTemplateLibrary::upsertTemplate(const QString &name, int mins, int 
         entry.mins = mins;
         entry.secs = secs;
         entry.reps = reps;
-        beginInsertRows(QModelIndex(), mEntries.size(), mEntries.size());
-        mEntries.append(entry);
+        int pos = 0;
+        while (pos < mEntries.size() &&
+               mEntries.at(pos).name.compare(name, Qt::CaseInsensitive) < 0)
+        {
+            ++pos;
+        }
+        beginInsertRows(QModelIndex(), pos, pos);
+        mEntries.insert(pos, entry);
         endInsertRows();
         emit countChanged();
     }
@@ -179,6 +186,9 @@ void ExerciseTemplateLibrary::load()
             mEntries.append(entry);
         }
     }
+    std::sort(mEntries.begin(), mEntries.end(), [](const Entry &a, const Entry &b) {
+        return a.name.compare(b.name, Qt::CaseInsensitive) < 0;
+    });
 }
 
 void ExerciseTemplateLibrary::save() const
@@ -207,7 +217,7 @@ int ExerciseTemplateLibrary::indexOfName(const QString &name) const
 {
     for (int i = 0; i < mEntries.size(); ++i)
     {
-        if (mEntries.at(i).name == name)
+        if (mEntries.at(i).name.compare(name, Qt::CaseInsensitive) == 0)
         {
             return i;
         }

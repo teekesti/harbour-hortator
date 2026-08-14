@@ -20,7 +20,7 @@ Dialog {
     property var filteredNames: {
         var _ = exerciseTimer.templateLibrary.count
         var filter = nameField.text.trim().toLowerCase()
-        var all = exerciseTimer.templateLibrary.allNames().sort()
+        var all = exerciseTimer.templateLibrary.allNames()
         if (filter === "") return all
         return all.filter(function(n) { return n.toLowerCase().indexOf(filter) >= 0 })
     }
