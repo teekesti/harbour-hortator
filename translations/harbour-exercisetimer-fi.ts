@@ -12,15 +12,15 @@
     <name>ConfirmCancelWorkoutDialog</name>
     <message>
         <source>Cancel workout</source>
-        <translation type="unfinished"></translation>
+        <translation>Peruuta harjoitus</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Jatka harjoitusta</translation>
     </message>
     <message>
         <source>Cancel the current workout? Your progress will be lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>Peruutetaanko nykyinen harjoitus? Edistymistä ei tallenneta.</translation>
     </message>
 </context>
 <context>
@@ -158,7 +158,7 @@
     </message>
     <message>
         <source>Play directly</source>
-        <translation type="unfinished"></translation>
+        <translation>Aloita heti</translation>
     </message>
 </context>
 <context>
@@ -192,7 +192,7 @@
     </message>
     <message>
         <source>Cancel workout</source>
-        <translation type="unfinished"></translation>
+        <translation>Peruuta harjoitus</translation>
     </message>
 </context>
 <context>
