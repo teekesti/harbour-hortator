@@ -60,8 +60,8 @@ Page {
 
             menu: ContextMenu {
                 MenuItem {
-                    text: qsTr("Open in editor")
-                    onClicked: openEntry(model.entryId)
+                    text: qsTr("Play directly")
+                    onClicked: playEntry(model.entryId)
                 }
                 MenuItem {
                     text: qsTr("Delete")
@@ -71,7 +71,7 @@ Page {
                 }
             }
 
-            onClicked: playEntry(model.entryId)
+            onClicked: openEntry(model.entryId)
 
             Column {
                 id: historyColumn

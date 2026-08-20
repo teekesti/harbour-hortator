@@ -138,12 +138,12 @@
         <translation>Tallenna kelvollinen harjoitus vetovalikosta nähdäksesi sen tässä</translation>
     </message>
     <message>
-        <source>Open in editor</source>
-        <translation>Avaa muokkaimessa</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Poista</translation>
+    </message>
+    <message>
+        <source>Play directly</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
