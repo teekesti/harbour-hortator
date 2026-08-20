@@ -66,10 +66,10 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
+    <name>ExerciseRow</name>
     <message>
-        <source>Configure exercises</source>
-        <translation>Lisää ja muokkaa harjoituksia</translation>
+        <source>Edit exercise</source>
+        <translation>Muokkaa harjoitusta</translation>
     </message>
     <message>
         <source>Work</source>
@@ -79,6 +79,13 @@
         <source>Rest</source>
         <translation>Lepo</translation>
     </message>
+</context>
+<context>
+    <name>FirstPage</name>
+    <message>
+        <source>Configure exercises</source>
+        <translation>Lisää ja muokkaa harjoituksia</translation>
+    </message>
     <message>
         <source>Total</source>
         <translation>Kesto</translation>
@@ -86,11 +93,6 @@
     <message>
         <source>Total Duration</source>
         <translation>Kokonaiskesto</translation>
-    </message>
-    <message>
-        <source>Set %1</source>
-        <translatorcomment>Jokainen harjoitus tai lepo kuuuluu täsmälleen yhteen sarjaan</translatorcomment>
-        <translation>Sarja %1</translation>
     </message>
     <message>
         <source>Remove set</source>
@@ -115,10 +117,6 @@
     <message>
         <source>New workout</source>
         <translation>Uusi harjoitus</translation>
-    </message>
-    <message>
-        <source>Edit exercise</source>
-        <translation>Muokkaa harjoitusta</translation>
     </message>
 </context>
 <context>
@@ -183,6 +181,13 @@
     <message>
         <source>Workout name</source>
         <translation>Harjoituksen nimi</translation>
+    </message>
+</context>
+<context>
+    <name>SetCard</name>
+    <message>
+        <source>Set %1</source>
+        <translation>Sarja %1</translation>
     </message>
 </context>
 <context>

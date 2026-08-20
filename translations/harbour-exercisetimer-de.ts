@@ -66,9 +66,9 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
+    <name>ExerciseRow</name>
     <message>
-        <source>Configure exercises</source>
+        <source>Edit exercise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -79,16 +79,19 @@
         <source>Rest</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>FirstPage</name>
+    <message>
+        <source>Configure exercises</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Total Duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -113,10 +116,6 @@
     </message>
     <message>
         <source>New workout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Edit exercise</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -181,6 +180,13 @@
     </message>
     <message>
         <source>Workout name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SetCard</name>
+    <message>
+        <source>Set %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -5,4 +5,6 @@
  SummaryBar 1.0 SummaryBar.qml
  ActivityProgressBar 1.0 ActivityProgressBar.qml
  TotalProgressBar 1.0 TotalProgressBar.qml
+ SetCard 1.0 SetCard.qml
+ ExerciseRow 1.0 ExerciseRow.qml
 
