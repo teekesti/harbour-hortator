@@ -27,7 +27,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     mCurrentExerciseDuration(QTime(0, 0, 0)), mCurrentExerciseIndex(0),
     mTotalRunningTime(QTime(0, 0, 0)), mCurrentRunningTime(QTime(0, 0, 0)),
     mStartTime(QTime(0, 0, 0)), mTimerInterval(100), mTimerID(0),
-    mStartDelay(5), mRunning(false), mWaitingToStart(false),
+    mStartDelay(5), mRunning(false), mPaused(false), mWaitingToStart(false),
     mNotifyReps(false),
     mRepSeparationMilliSecs(0), mCheckRepTimer(false),
     mEndNotificationTime(3), mMuteSounds(false), mSkipLastRest(false),
@@ -205,6 +205,11 @@ void ExerciseTimer::start()
     {
         return;
     }
+    if (mPaused)
+    {
+        mPaused = false;
+        emit pausedChanged(mPaused);
+    }
     rebuildPlaySequence();
     if (mPlaySequence.isEmpty())
     {
@@ -214,6 +219,7 @@ void ExerciseTimer::start()
     {
         // There's a delay before really starting.
         mWaitingToStart = true;
+        emit waitingToStartChanged(mWaitingToStart);
         QTimer::singleShot(mStartDelay*1000, this,
                            SLOT(startAfterDelay()));
         startCountDown(mStartDelay);
@@ -251,6 +257,8 @@ void ExerciseTimer::pause()
     emit currentRunningTimeChanged(mCurrentRunningTime);
     mRunning = false;
     emit runningStatusChanged(mRunning);
+    mPaused = true;
+    emit pausedChanged(mPaused);
 
 }
 
@@ -260,6 +268,11 @@ void ExerciseTimer::pause()
 //
 void ExerciseTimer::reset()
 {
+    if (mWaitingToStart)
+    {
+        mWaitingToStart = false;
+        emit waitingToStartChanged(mWaitingToStart);
+    }
     pause();
     rebuildPlaySequence();
     mCurrentRunningTime.setHMS(0, 0, 0);
@@ -271,6 +284,8 @@ void ExerciseTimer::reset()
     emit currentDurationChanged(currentDuration());
     mCurrentRepNumber = 0;
     emit notifyRep(mCurrentRepNumber);
+    mPaused = false;
+    emit pausedChanged(mPaused);
 
 }
 
@@ -463,6 +478,16 @@ QTime ExerciseTimer::currentDuration()
 bool ExerciseTimer::running() const
 {
     return mRunning;
+}
+
+bool ExerciseTimer::isPaused() const
+{
+    return mPaused;
+}
+
+bool ExerciseTimer::isWaitingToStart() const
+{
+    return mWaitingToStart;
 }
 
 //------------------------------------------------------------------------------
@@ -726,7 +751,10 @@ int ExerciseTimer::startDelay() const
 //
 void ExerciseTimer::startAfterDelay()
 {
+    if (!mWaitingToStart)
+        return;
     mWaitingToStart = false;
+    emit waitingToStartChanged(mWaitingToStart);
     playCurrentExercise();
 }
 

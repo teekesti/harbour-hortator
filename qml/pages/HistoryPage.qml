@@ -26,7 +26,7 @@ Page {
             exerciseTimer.loadHistoryEntry(entryId)
             exerciseTimer.history.markPlayed(entryId)
             exerciseTimer.start()
-            pageStack.animatorPush(Qt.resolvedUrl("RunPage.qml"))
+            pageStack.animatorReplace(Qt.resolvedUrl("RunPage.qml"))
         })
     }
 

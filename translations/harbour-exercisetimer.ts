@@ -9,6 +9,21 @@
     </message>
 </context>
 <context>
+    <name>ConfirmCancelWorkoutDialog</name>
+    <message>
+        <source>Cancel workout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Continue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel the current workout? Your progress will be lost.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfirmReplaceDraftDialog</name>
     <message>
         <source>Replace</source>
@@ -173,6 +188,10 @@
     </message>
     <message>
         <source>Set round %1/%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel workout</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

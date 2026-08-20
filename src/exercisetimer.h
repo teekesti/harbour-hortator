@@ -33,6 +33,8 @@ class ExerciseTimer : public QObject
     Q_PROPERTY(QTime currentDuration READ currentDuration NOTIFY
                currentDurationChanged)
     Q_PROPERTY(bool running READ running NOTIFY runningStatusChanged)
+    Q_PROPERTY(bool paused READ isPaused NOTIFY pausedChanged)
+    Q_PROPERTY(bool waitingToStart READ isWaitingToStart NOTIFY waitingToStartChanged)
     Q_PROPERTY(int startDelay READ startDelay WRITE setStartDelay
                NOTIFY startDelayChanged)
     Q_PROPERTY(int endWarningTime READ endWarningTime WRITE setEndWarningTime
@@ -83,6 +85,8 @@ public:
     QTime currentRunningTime() const;
     QTime currentDuration();
     bool running() const;
+    bool isPaused() const;
+    bool isWaitingToStart() const;
     /*! Time after which the exercises really start*/
     int startDelay() const;
     /*! Time, in seconds, when a warning before the end of the activity is
@@ -129,6 +133,8 @@ signals:
     void currentRunningTimeChanged(QTime currentRunningTime);
     void currentDurationChanged(QTime currentDuration);
     void runningStatusChanged(bool running);
+    void pausedChanged(bool paused);
+    void waitingToStartChanged(bool waiting);
     void currentExerciseFinished();
     void allExercisesFinished();
     /*! Emitted when a repetition should be done */
@@ -277,6 +283,8 @@ private: //data
     int mStartDelay;
     /*! True when running, false when stopped or paused */
     bool mRunning;
+    /*! True when paused (started at least once but not currently running) */
+    bool mPaused;
     /*! True if the startDelay period is running  */
     bool mWaitingToStart;
 
