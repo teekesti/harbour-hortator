@@ -10,77 +10,86 @@ Column {
     property int setIndex
     property bool highlighted
 
-    spacing: Theme.paddingSmall
-
     Rectangle {
-        id: setHeaderBackground
+        id: card
         width: parent.width - 2 * Theme.horizontalPageMargin
         anchors.horizontalCenter: parent.horizontalCenter
-        height: setHeaderRow.height + Theme.paddingMedium
-        radius: Theme.paddingSmall
+        height: cardColumn.height + Theme.paddingMedium
+        radius: Theme.paddingMedium
 
-        color: {
-            if (!exerciseSet || !exerciseSet.isValid) {
-                return Theme.errorColor
-            }
-            if (highlighted) {
-                return Theme.rgba(Theme.highlightColor, Theme.opacityLow)
-            }
-            return Theme.rgba(Theme.highlightBackgroundColor, 0.4)
-        }
+        border.width: 1
+        border.color: (!exerciseSet || !exerciseSet.isValid)
+                      ? Theme.errorColor
+                      : Theme.rgba(Theme.highlightBackgroundColor, 0.5)
 
-        Row {
-            id: setHeaderRow
-            anchors {
-                left: parent.left; right: parent.right
-                verticalCenter: parent.verticalCenter
-                leftMargin: Theme.horizontalPageMargin
-                rightMargin: Theme.horizontalPageMargin
-            }
-            spacing: Theme.paddingMedium
+        color: highlighted
+               ? Theme.rgba(Theme.highlightColor, Theme.opacityLow)
+               : Theme.rgba(Theme.highlightBackgroundColor, 0.1)
 
-            Label {
-                text: qsTr("Set %1").arg(setIndex + 1)
-                font.bold: true
-                anchors.verticalCenter: parent.verticalCenter
-            }
+        Column {
+            id: cardColumn
+            width: parent.width
+            anchors.top: parent.top
+            anchors.topMargin: Theme.paddingSmall
 
-            RoundCountAdjustment {
-                id: setRoundsAdjustment
-                value: exerciseSet ? exerciseSet.rounds : 1
-                minValue: 1
-                maxValue: 99
-            }
-            Binding { target: exerciseSet; property: "rounds"; value: setRoundsAdjustment.value }
+            Row {
+                id: setHeaderRow
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+                height: implicitHeight + Theme.paddingSmall
+                spacing: Theme.paddingMedium
 
-            IconButton {
-                anchors.verticalCenter: parent.verticalCenter
-                icon.source: "image://theme/icon-m-add?" + (pressed
-                          ? Theme.highlightColor
-                          : Theme.primaryColor)
-
-                property bool longPressed: false
-
-                onPressed: longPressed = false
-                onPressAndHold: {
-                    longPressed = true
-                    pageStack.push(Qt.resolvedUrl("../PickExerciseTemplateDialog.qml"),
-                                   {setIndex: setIndex})
+                Label {
+                    text: qsTr("Set %1").arg(setIndex + 1)
+                    font.bold: true
+                    anchors.verticalCenter: parent.verticalCenter
                 }
-                onClicked: if (!longPressed) exerciseTimer.addDefaultExerciseToSet(setIndex)
+
+                RoundCountAdjustment {
+                    id: setRoundsAdjustment
+                    value: exerciseSet ? exerciseSet.rounds : 1
+                    minValue: 1
+                    maxValue: 99
+                }
+                Binding { target: exerciseSet; property: "rounds"; value: setRoundsAdjustment.value }
+
+                IconButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    icon.source: "image://theme/icon-m-add?" + (pressed
+                              ? Theme.highlightColor
+                              : Theme.primaryColor)
+
+                    property bool longPressed: false
+
+                    onPressed: longPressed = false
+                    onPressAndHold: {
+                        longPressed = true
+                        pageStack.push(Qt.resolvedUrl("../PickExerciseTemplateDialog.qml"),
+                                       {setIndex: setIndex})
+                    }
+                    onClicked: if (!longPressed) exerciseTimer.addDefaultExerciseToSet(setIndex)
+                }
             }
-        }
-    }
 
-    Repeater {
-        id: exerciseRepeater
-        model: exerciseSet ? exerciseSet.count : 0
+            Rectangle {
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: 1
+                color: Theme.rgba(Theme.highlightBackgroundColor, 0.4)
+                visible: exerciseSet && exerciseSet.count > 0
+            }
 
-        delegate: ExerciseRow {
-            width: setCard.width
-            setIndex: setCard.setIndex
-            exerciseIndex: index
-            exercise: exerciseSet ? exerciseSet.at(index) : null
+            Repeater {
+                id: exerciseRepeater
+                model: exerciseSet ? exerciseSet.count : 0
+
+                delegate: ExerciseRow {
+                    width: card.width
+                    setIndex: setCard.setIndex
+                    exerciseIndex: index
+                    exercise: exerciseSet ? exerciseSet.at(index) : null
+                }
+            }
         }
     }
 }

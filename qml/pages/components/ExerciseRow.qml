@@ -20,6 +20,10 @@ ListItem {
             onClicked: pageStack.push(Qt.resolvedUrl("../EditExerciseDialog.qml"),
                                        {exercise: exercise})
         }
+        MenuItem {
+            text: qsTr("Remove exercise")
+            onClicked: exerciseTimer.removeExerciseFromSet(setIndex, exerciseIndex)
+        }
     }
 
     Rectangle {
@@ -102,13 +106,7 @@ ListItem {
                     Binding { target: exercise; property: "secs"; value: secondsAdjustment.value }
                 }
 
-                IconButton {
-                    anchors.verticalCenter: parent.verticalCenter
-                    icon.source: "image://theme/icon-m-delete?" + (pressed
-                              ? Theme.highlightColor
-                              : Theme.primaryColor)
-                    onClicked: exerciseTimer.removeExerciseFromSet(setIndex, exerciseIndex)
-                }
+
             }
         }
     }
