@@ -104,6 +104,12 @@ Page {
         width: parent.width
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
+        height: summaryBar.barHeight + Theme.paddingMedium
+
+        Rectangle {
+            anchors.fill: parent
+            color: Theme.overlayBackgroundColor
+        }
 
         SummaryBar {
             id: summaryBar

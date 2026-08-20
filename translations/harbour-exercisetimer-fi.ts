@@ -79,6 +79,10 @@
         <source>Rest</source>
         <translation>Lepo</translation>
     </message>
+    <message>
+        <source>Remove exercise</source>
+        <translation>Poista harjoitus</translation>
+    </message>
 </context>
 <context>
     <name>FirstPage</name>
