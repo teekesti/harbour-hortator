@@ -707,7 +707,7 @@ void ExerciseTimer::onRunningStatusChanged(bool running)
 void ExerciseTimer::doRepetition(int repNumber)
 {
     FUTR();
-    if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RepSound);
+    if (mPlayer && !mMuteSounds && repNumber > 0) mPlayer->playSound(SoundPlayer::RepSound);
     FUNC_TRACE(QString("Time now: %1")
                .arg(mCurrentRunningTime.toString("mm:ss.zz")));
     TRACE1("Did rep number %1", repNumber);
