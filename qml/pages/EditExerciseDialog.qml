@@ -10,6 +10,8 @@ import "components"
 Dialog {
     id: dialog
 
+    allowedOrientations: Orientation.All
+
     property var exercise
 
     property string stagedType: exercise ? exercise.activityType : "work"

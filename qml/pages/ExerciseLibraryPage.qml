@@ -7,6 +7,7 @@ import Sailfish.Silica 1.0
 Page {
     id: page
 
+    allowedOrientations: Orientation.All
     property int remorseTimeout: 2000 // milliseconds
 
     SilicaListView {
