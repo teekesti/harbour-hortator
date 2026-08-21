@@ -9,6 +9,21 @@
     </message>
 </context>
 <context>
+    <name>ConfirmCancelWorkoutDialog</name>
+    <message>
+        <source>Cancel workout</source>
+        <translation>Peruuta harjoitus</translation>
+    </message>
+    <message>
+        <source>Continue</source>
+        <translation>Jatka harjoitusta</translation>
+    </message>
+    <message>
+        <source>Cancel the current workout? Your progress will be lost.</source>
+        <translation>Peruutetaanko nykyinen harjoitus? Edistymistä ei tallenneta.</translation>
+    </message>
+</context>
+<context>
     <name>ConfirmReplaceDraftDialog</name>
     <message>
         <source>Replace</source>
@@ -138,12 +153,12 @@
         <translation>Tallenna kelvollinen harjoitus vetovalikosta nähdäksesi sen tässä</translation>
     </message>
     <message>
-        <source>Open in editor</source>
-        <translation>Avaa muokkaimessa</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Poista</translation>
+    </message>
+    <message>
+        <source>Play directly</source>
+        <translation>Aloita heti</translation>
     </message>
 </context>
 <context>
@@ -174,6 +189,10 @@
     <message>
         <source>Set round %1/%2</source>
         <translation>Sarjan kierros %1/%2</translation>
+    </message>
+    <message>
+        <source>Cancel workout</source>
+        <translation>Peruuta harjoitus</translation>
     </message>
 </context>
 <context>

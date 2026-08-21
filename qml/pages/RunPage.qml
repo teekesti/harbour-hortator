@@ -11,6 +11,17 @@ Page {
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
+    backNavigation: !exerciseTimer.running && !exerciseTimer.paused && !exerciseTimer.waitingToStart
+
+    property bool _cancelConfirmed: false
+
+    onStatusChanged: {
+        if (status === PageStatus.Active && _cancelConfirmed) {
+            _cancelConfirmed = false
+            pageStack.pop()
+        }
+    }
+
     DisplayBlanking {
             preventBlanking: runPage.status === PageStatus.Active && exerciseTimer.running
         }
@@ -20,7 +31,24 @@ Page {
         enabled: exerciseTimer.running
     }
 
-    Flow {
+    SilicaFlickable {
+        anchors.fill: parent
+        contentHeight: parent.height
+
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Cancel workout")
+                onClicked: {
+                    var dialog = pageStack.push(Qt.resolvedUrl("ConfirmCancelWorkoutDialog.qml"))
+                    dialog.accepted.connect(function() {
+                        exerciseTimer.reset()
+                        _cancelConfirmed = true
+                    })
+                }
+            }
+        }
+
+        Flow {
         flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
         anchors.fill: parent
 
@@ -150,8 +178,7 @@ Page {
 
             }
         }
-    }
-
-
-
+        } // Flow
+    } // SilicaFlickable
 }
+

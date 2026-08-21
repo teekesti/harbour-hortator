@@ -26,7 +26,7 @@ Page {
             exerciseTimer.loadHistoryEntry(entryId)
             exerciseTimer.history.markPlayed(entryId)
             exerciseTimer.start()
-            pageStack.animatorPush(Qt.resolvedUrl("RunPage.qml"))
+            pageStack.animatorReplace(Qt.resolvedUrl("RunPage.qml"))
         })
     }
 
@@ -60,8 +60,8 @@ Page {
 
             menu: ContextMenu {
                 MenuItem {
-                    text: qsTr("Open in editor")
-                    onClicked: openEntry(model.entryId)
+                    text: qsTr("Play directly")
+                    onClicked: playEntry(model.entryId)
                 }
                 MenuItem {
                     text: qsTr("Delete")
@@ -71,7 +71,7 @@ Page {
                 }
             }
 
-            onClicked: playEntry(model.entryId)
+            onClicked: openEntry(model.entryId)
 
             Column {
                 id: historyColumn
