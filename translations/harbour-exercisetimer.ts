@@ -247,4 +247,27 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>WorkoutHistory</name>
+    <message>
+        <source>%1m %2s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n set(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n exercise(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>%1 · %2 · %3 (%4 work / %5 rest)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

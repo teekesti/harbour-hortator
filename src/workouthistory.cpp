@@ -185,12 +185,17 @@ QString WorkoutHistory::summarize(const QJsonArray &workoutJson)
             restSeconds += duration;
         }
     }
-    return QString("%1 sets · %2 exercises · %3 min (%4 work / %5 rest)")
-            .arg(setCount)
-            .arg(exerciseCount)
-            .arg(totalSeconds / 60)
-            .arg(workSeconds / 60)
-            .arg(restSeconds / 60);
+    auto fmtTime = [](int s) {
+        return WorkoutHistory::tr("%1m %2s")
+                .arg(s / 60)
+                .arg(s % 60, 2, 10, QChar('0'));
+    };
+    return tr("%1 · %2 · %3 (%4 work / %5 rest)")
+            .arg(tr("%n set(s)", "", setCount))
+            .arg(tr("%n exercise(s)", "", exerciseCount))
+            .arg(fmtTime(totalSeconds))
+            .arg(fmtTime(workSeconds))
+            .arg(fmtTime(restSeconds));
 }
 
 QString WorkoutHistory::storageFilePath() const

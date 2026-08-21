@@ -247,4 +247,29 @@
         <translation>Kokonaisedistyminen</translation>
     </message>
 </context>
+<context>
+    <name>WorkoutHistory</name>
+    <message>
+        <source>%1m %2s</source>
+        <translation>%1 min %2 s</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n set(s)</source>
+        <translation>
+            <numerusform>%n sarja</numerusform>
+            <numerusform>%n sarjaa</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n exercise(s)</source>
+        <translation>
+            <numerusform>%n harjoitus</numerusform>
+            <numerusform>%n harjoitusta</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>%1 · %2 · %3 (%4 work / %5 rest)</source>
+        <translation>%1 · %2 · %3 (%4 työtä / %5 lepoa)</translation>
+    </message>
+</context>
 </TS>
