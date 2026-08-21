@@ -10,6 +10,7 @@ import "components"
 Page {
     id: historyPage
 
+    allowedOrientations: Orientation.All
     property int remorseTimeout: 2000 // milliseconds
 
     function withDraftConfirmation(action) {

@@ -7,6 +7,7 @@ import Sailfish.Silica 1.0
 Dialog {
     id: dialog
 
+    allowedOrientations: Orientation.All
     property alias workoutName: nameField.text
 
     canAccept: workoutName.trim().length > 0
