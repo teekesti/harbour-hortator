@@ -50,68 +50,84 @@ ListItem {
 
             Label {
                 width: parent.width
-                visible: exercise && exercise.name.length > 0
+                visible: orientation === Orientation.Portrait && exercise && exercise.name.length > 0
                 text: exercise ? exercise.name : ""
                 truncationMode: TruncationMode.Fade
             }
 
-            Row {
+            Item {
                 id: exerciseContentRow
                 width: parent.width
-                spacing: Theme.paddingMedium
+                height: controlsRow.height
 
-                Flow {
-                    flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
+                Row {
+                    id: controlsRow
+                    spacing: Theme.paddingMedium
                     anchors.verticalCenter: parent.verticalCenter
 
-                    Button {
-                        id: activityTypeButton
-                        width: roundsAdjustment.width
-                        text: isWorkout ? qsTr("Work") : qsTr("Rest")
-                        color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
-                        onClicked: if (exercise) exercise.toggleActivityType()
+                    Flow {
+                        flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Button {
+                            id: activityTypeButton
+                            width: roundsAdjustment.width
+                            text: isWorkout ? qsTr("Work") : qsTr("Rest")
+                            color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
+                            onClicked: if (exercise) exercise.toggleActivityType()
+                        }
+
+                        RoundCountAdjustment {
+                            id: roundsAdjustment
+                            height: activityTypeButton.height
+                            value: exercise ? exercise.rounds : 1
+                            minValue: 1
+                            maxValue: 99
+                        }
+
+                        Binding { target: exercise; property: "rounds"; value: roundsAdjustment.value }
                     }
 
-                    RoundCountAdjustment {
-                        id: roundsAdjustment
-                        height: activityTypeButton.height
-                        value: exercise ? exercise.rounds : 1
-                        minValue: 1
-                        maxValue: 99
-                    }
+                    Flow {
+                        id: timeAdjustment
+                        flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
+                        spacing: 0.5 * Theme.paddingSmall
+                        anchors.verticalCenter: parent.verticalCenter
 
-                    Binding { target: exercise; property: "rounds"; value: roundsAdjustment.value }
+                        ValueAdjustmentHorizontal {
+                            id: minutesAdjustment
+                            height: activityTypeButton.height
+                            value: exercise ? exercise.mins : 0
+                            maxValue: 99
+                            unitLabel: "m"
+                        }
+
+                        ValueAdjustmentHorizontal {
+                            id: secondsAdjustment
+                            height: activityTypeButton.height
+                            width: minutesAdjustment.width
+                            value: exercise ? exercise.secs : 0
+                            maxValue: 59
+                            unitLabel: "s"
+                            step: 5
+                        }
+
+                        Binding { target: exercise; property: "mins"; value: minutesAdjustment.value }
+                        Binding { target: exercise; property: "secs"; value: secondsAdjustment.value }
+                    }
                 }
 
-                Flow {
-                    id: timeAdjustment
-                    flow: orientation == Orientation.Portrait ? Flow.TopToBottom : Flow.LeftToRight
-                    spacing: 0.5 * Theme.paddingSmall
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    ValueAdjustmentHorizontal {
-                        id: minutesAdjustment
-                        height: activityTypeButton.height
-                        value: exercise ? exercise.mins : 0
-                        maxValue: 99
-                        unitLabel: "m"
+                Label {
+                    visible: orientation !== Orientation.Portrait && exercise && exercise.name.length > 0
+                    text: exercise ? exercise.name : ""
+                    anchors {
+                        left: controlsRow.right
+                        leftMargin: Theme.paddingMedium
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
                     }
-
-                    ValueAdjustmentHorizontal {
-                        id: secondsAdjustment
-                        height: activityTypeButton.height
-                        width: minutesAdjustment.width
-                        value: exercise ? exercise.secs : 0
-                        maxValue: 59
-                        unitLabel: "s"
-                        step: 5
-                    }
-
-                    Binding { target: exercise; property: "mins"; value: minutesAdjustment.value }
-                    Binding { target: exercise; property: "secs"; value: secondsAdjustment.value }
+                    truncationMode: TruncationMode.Fade
                 }
-
-
             }
         }
     }
