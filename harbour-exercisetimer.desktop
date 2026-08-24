@@ -14,7 +14,7 @@ Name[fi]=Piiskuri
 
 [X-Sailjail]
 # Replace with your organization as a reverse domain name
-OrganizationName=com.appiukko
+OrganizationName=io.github.teekesti
 # ApplicationName does not have to be identical to Name
 ApplicationName=Tempo
 # Add the required permissions here
