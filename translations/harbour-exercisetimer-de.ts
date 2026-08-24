@@ -2,6 +2,38 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de">
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1</source>
+        <extracomment>Version label on the About page, %1 is the version number</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An interval timer for timed work and rest sets. Build a workout as a list of exercises, then run it with a countdown, progress bars, and audio cues for reps and round transitions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Usage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add exercises using the “+” button, set work and rest durations and the number of repetitions, then tap the play button to start the workout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sound credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ActivityProgressBar</name>
     <message>
         <source>Round %1/%2</source>
@@ -137,6 +169,10 @@
         <source>New workout</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HistoryPage</name>
@@ -233,6 +269,17 @@
     </message>
     <message>
         <source>Skip last rest</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SoundCreditsPage</name>
+    <message>
+        <source>Sound credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All sounds are from freesound.org. Files were resampled or trimmed from the originals.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -11,6 +11,9 @@
 #include "exercisetemplatelibrary.h"
 #include "eoqttrace.h"
 
+#ifndef APP_VERSION
+#define APP_VERSION "unknown"
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -53,6 +56,7 @@ int main(int argc, char *argv[])
     context->setContextProperty("exerciseTimer", exerciseTimer);
     context->setContextProperty("exerciseListModel", model);
     context->setContextProperty("applicationDisplayName", app->applicationDisplayName());
+    context->setContextProperty("appVersion", QString(APP_VERSION));
     //return SailfishApp::main(argc, argv);
     view->show();
     return app->exec();
