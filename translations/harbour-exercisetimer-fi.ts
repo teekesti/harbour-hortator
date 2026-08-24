@@ -5,32 +5,32 @@
     <name>AboutPage</name>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoja sovelluksesta</translation>
     </message>
     <message>
         <source>Version %1</source>
         <extracomment>Version label on the About page, %1 is the version number</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Versio %1</translation>
     </message>
     <message>
         <source>An interval timer for timed work and rest sets. Build a workout as a list of exercises, then run it with a countdown, progress bars, and audio cues for reps and round transitions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervalliajastin työ- ja lepojaksoja varten. Kokoa harjoitus harjoitusluettelona ja suorita se lähtölaskennalla, edistymispalkeilla sekä äänivihjeillä toistoja ja kierroksenvaihtoja varten.</translation>
     </message>
     <message>
         <source>Usage</source>
-        <translation type="unfinished"></translation>
+        <translation>Käyttö</translation>
     </message>
     <message>
-        <source>Add exercises using the “+” button, set work and rest durations and the number of repetitions, then tap the play button to start the workout.</source>
-        <translation type="unfinished"></translation>
+        <source>Add exercises using the &quot;+&quot; button, set work and rest durations and the number of repetitions, then tap the play button to start the workout.</source>
+        <translation>Lisää harjoituksia &quot;+&quot;-painikkeella, aseta työ- ja lepokestot sekä toistojen määrä, ja aloita harjoitus painamalla toistopainiketta.</translation>
     </message>
     <message>
         <source>Source code</source>
-        <translation type="unfinished"></translation>
+        <translation>Lähdekoodi</translation>
     </message>
     <message>
         <source>Sound credits</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänten tekijät</translation>
     </message>
 </context>
 <context>
@@ -171,7 +171,7 @@
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoja</translation>
     </message>
 </context>
 <context>
@@ -276,11 +276,11 @@
     <name>SoundCreditsPage</name>
     <message>
         <source>Sound credits</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänten tekijät</translation>
     </message>
     <message>
         <source>All sounds are from freesound.org. Files were resampled or trimmed from the originals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaikki äänet ovat peräisin freesound.org-sivustolta. Tiedostoja on uudelleennäytteenotettu tai katkaistu alkuperäisistä.</translation>
     </message>
 </context>
 <context>
