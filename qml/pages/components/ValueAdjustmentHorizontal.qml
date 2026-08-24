@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import Sailfish.Silica 1.0
 
 Rectangle {
@@ -10,14 +10,20 @@ Rectangle {
     property string unitLabel: ""
 
     width: contentRow.width + 2 * Theme.paddingSmall
-    height: contentRow.height + Theme.paddingSmall
+    height: contentRow.height
     radius: Theme.paddingSmall
     color: Theme.rgba(Theme.highlightBackgroundColor, 0.15)
+
+    TextMetrics {
+        id: maxTextMetrics
+        font.pixelSize: Theme.fontSizeMedium
+        text: root.maxValue.toString() + " " + root.unitLabel
+    }
 
     Row {
         id: contentRow
         anchors.centerIn: parent
-        spacing: 0 //Theme.paddingSmall * 0.5
+        spacing: 0
 
         AcceleratingIconButton {
             id: decrementButton
@@ -30,6 +36,8 @@ Rectangle {
         Label {
            text: root.value.toString() + " " + root.unitLabel
            font.pixelSize: Theme.fontSizeMedium
+           width: maxTextMetrics.width
+           horizontalAlignment: Text.AlignHCenter
            anchors.verticalCenter: parent.verticalCenter
         }
 

@@ -9,14 +9,14 @@ Rectangle {
     property int step: 1
 
     width: contentRow.width + 2 * Theme.paddingSmall
-    height: contentRow.height + Theme.paddingSmall
+    height: contentRow.height
     radius: Theme.paddingSmall
     color: Theme.rgba(Theme.highlightBackgroundColor, 0.15)
 
     Row {
         id: contentRow
         anchors.centerIn: parent
-        spacing: 0 //Theme.paddingSmall * 0.5
+        spacing: 0
 
         AcceleratingIconButton {
             id: decrementButton

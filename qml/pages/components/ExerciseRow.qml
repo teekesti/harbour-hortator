@@ -27,7 +27,7 @@ ListItem {
     }
 
     Rectangle {
-        anchors { fill: parent; margins: Theme.paddingSmall }
+        anchors { fill: parent}
         radius: Theme.paddingSmall
 
         color: {
@@ -66,6 +66,7 @@ ListItem {
 
                     Button {
                         id: activityTypeButton
+                        width: roundsAdjustment.width
                         text: isWorkout ? qsTr("Work") : qsTr("Rest")
                         color: isWorkout ? Theme.primaryColor : Theme.secondaryColor
                         onClicked: if (exercise) exercise.toggleActivityType()
@@ -73,6 +74,7 @@ ListItem {
 
                     RoundCountAdjustment {
                         id: roundsAdjustment
+                        height: activityTypeButton.height
                         value: exercise ? exercise.rounds : 1
                         minValue: 1
                         maxValue: 99
@@ -89,6 +91,7 @@ ListItem {
 
                     ValueAdjustmentHorizontal {
                         id: minutesAdjustment
+                        height: activityTypeButton.height
                         value: exercise ? exercise.mins : 0
                         maxValue: 99
                         unitLabel: "m"
@@ -96,6 +99,8 @@ ListItem {
 
                     ValueAdjustmentHorizontal {
                         id: secondsAdjustment
+                        height: activityTypeButton.height
+                        width: minutesAdjustment.width
                         value: exercise ? exercise.secs : 0
                         maxValue: 59
                         unitLabel: "s"
