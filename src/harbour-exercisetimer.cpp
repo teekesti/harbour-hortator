@@ -23,14 +23,14 @@ int main(int argc, char *argv[])
     //   - SailfishApp::pathToMainQml() to get a QUrl to the main QML file
     //
     // To display the view, call "show()" (will show fullscreen on device).
-    qmlRegisterType<ExerciseTimer>("com.appiukko.exercisetimer", 1, 0, "ExerciseTimer");
-    qmlRegisterType<ExerciseListModel>("com.appiukko.exercisetimer", 1, 0, "ExerciseListModel");
-    qmlRegisterType<TimedExercise>("com.appiukko.exercisetimer", 1, 0, "TimedExercise");
-    qmlRegisterUncreatableType<ExerciseSet>("com.appiukko.exercisetimer", 1, 0, "ExerciseSet",
+    qmlRegisterType<ExerciseTimer>("io.github.teekesti.exercisetimer", 1, 0, "ExerciseTimer");
+    qmlRegisterType<ExerciseListModel>("io.github.teekesti.exercisetimer", 1, 0, "ExerciseListModel");
+    qmlRegisterType<TimedExercise>("io.github.teekesti.exercisetimer", 1, 0, "TimedExercise");
+    qmlRegisterUncreatableType<ExerciseSet>("io.github.teekesti.exercisetimer", 1, 0, "ExerciseSet",
             "ExerciseSet instances are created by ExerciseTimer, not from QML");
-    qmlRegisterUncreatableType<WorkoutHistory>("com.appiukko.exercisetimer", 1, 0, "WorkoutHistory",
+    qmlRegisterUncreatableType<WorkoutHistory>("io.github.teekesti.exercisetimer", 1, 0, "WorkoutHistory",
             "WorkoutHistory is created by ExerciseTimer, not from QML");
-    qmlRegisterUncreatableType<ExerciseTemplateLibrary>("com.appiukko.exercisetimer", 1, 0,
+    qmlRegisterUncreatableType<ExerciseTemplateLibrary>("io.github.teekesti.exercisetimer", 1, 0,
             "ExerciseTemplateLibrary", "ExerciseTemplateLibrary is created by ExerciseTimer, not from QML");
     auto app = SailfishApp::application(argc, argv);
     auto view = SailfishApp::createView();

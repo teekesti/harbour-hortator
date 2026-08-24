@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import com.appiukko.exercisetimer 1.0
+import io.github.teekesti.exercisetimer 1.0
 import "."
 
 ListItem {
