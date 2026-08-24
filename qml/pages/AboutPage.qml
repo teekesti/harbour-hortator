@@ -50,7 +50,7 @@ Page {
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 wrapMode: Text.WordWrap
-                text: qsTr("Add exercises using the “+” button, set work and rest durations and the number of repetitions, then tap the play button to start the workout.")
+                text: qsTr("Add exercises using the \"+\" button, set work and rest durations and the number of repetitions, then tap the play button to start the workout.")
             }
 
             SectionHeader {
