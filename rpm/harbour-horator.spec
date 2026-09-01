@@ -1,4 +1,4 @@
-Name:       harbour-exercisetimer
+Name:       harbour-horator
 
 Summary:    Exercise timer with sound
 Version:    0.1
