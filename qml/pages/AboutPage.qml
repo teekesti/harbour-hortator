@@ -22,7 +22,7 @@ Page {
             Label {
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
-                text: qsTr(applicationDisplayName)
+                text: applicationDisplayName
                 font.pixelSize: Theme.fontSizeLarge
                 color: Theme.highlightColor
             }
@@ -65,7 +65,7 @@ Page {
                 width: parent.width
                 height: sourceLabel.height + 2 * Theme.paddingSmall
                 onClicked: {
-                    if (!Qt.openUrlExternally("https://github.com/teekesti/harbour-exercisetimer"))
+                    if (!Qt.openUrlExternally("https://github.com/teekesti/harbour-horator"))
                         console.warn("Failed to open source URL")
                 }
 
@@ -75,7 +75,7 @@ Page {
                     y: Theme.paddingSmall
                     width: parent.width - 2 * Theme.horizontalPageMargin
                     wrapMode: Text.WrapAnywhere
-                    text: "https://github.com/teekesti/harbour-exercisetimer"
+                    text: "https://github.com/teekesti/harbour-horator"
                     color: Theme.primaryColor
                     font.underline: true
                 }

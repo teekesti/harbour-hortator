@@ -10,15 +10,15 @@
 #   - translation filenames have to be changed
 
 # The name of your application
-TARGET = harbour-exercisetimer
+TARGET = harbour-horator
 QT += core multimedia
 
 CONFIG += sailfishapp qml_debug
 
-VERSION = $$system(grep '^Version:' rpm/harbour-exercisetimer.spec | sed 's/Version:[[:space:]]*//')
+VERSION = $$system(grep '^Version:' rpm/harbour-horator.spec | sed 's/Version:[[:space:]]*//')
 DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE APP_VERSION=\\\"$$VERSION\\\"
 
-SOURCES += src/harbour-exercisetimer.cpp \
+SOURCES += src/harbour-horator.cpp \
     src/exerciselistmodel.cpp \
     src/exerciseset.cpp \
     src/exercisetimer.cpp \
@@ -27,7 +27,7 @@ SOURCES += src/harbour-exercisetimer.cpp \
     src/workouthistory.cpp \
     src/exercisetemplatelibrary.cpp
 
-DISTFILES += qml/harbour-exercisetimer.qml \
+DISTFILES += qml/harbour-horator.qml \
     qml/cover/CoverPage.qml \
     qml/pages/AboutPage.qml \
     qml/pages/SoundCreditsPage.qml \
@@ -49,12 +49,12 @@ DISTFILES += qml/harbour-exercisetimer.qml \
     qml/pages/components/ActivityProgressBar.qml \
     qml/pages/components/TotalProgressBar.qml \
     qml/images/kettlebell_stopwatch_with_background.png \
-    rpm/harbour-exercisetimer.changes.in \
-    rpm/harbour-exercisetimer.changes.run.in \
-    rpm/harbour-exercisetimer.spec \
+    rpm/harbour-horator.changes.in \
+    rpm/harbour-horator.changes.run.in \
+    rpm/harbour-horator.spec \
     translations/*.ts \
-    harbour-exercisetimer.desktop \
-    translations/harbour-exercisetimer-fi.ts
+    harbour-horator.desktop \
+    translations/harbour-horator-fi.ts
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
@@ -62,11 +62,7 @@ SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 # following CONFIG line
 CONFIG += sailfishapp_i18n
 
-# German translation is enabled as an example. If you aren't
-# planning to localize your app, remember to comment out the
-# following TRANSLATIONS line. And also do not forget to
-# modify the localized app name in the the .desktop file.
-TRANSLATIONS += translations/harbour-exercisetimer-de.ts translations/harbour-exercisetimer-fi.ts
+TRANSLATIONS += translations/harbour-horator-de.ts translations/harbour-horator-fi.ts
 
 HEADERS += \
     src/eoqttrace.h \

@@ -1,4 +1,4 @@
-# Exercise Timer
+# Horator
 
 A Sailfish OS interval/exercise timer. The domain is the structure and playback of a workout: an ordered sequence of timed activities a user steps through.
 
