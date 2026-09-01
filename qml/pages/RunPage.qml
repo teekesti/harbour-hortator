@@ -106,6 +106,24 @@ Page {
                 spacing: Theme.paddingMedium
                 anchors.horizontalCenter: parent.horizontalCenter
 
+                function remainingSecs(duration, elapsed) {
+                    var d = duration.getUTCHours() * 3600 + duration.getUTCMinutes() * 60 + duration.getUTCSeconds()
+                    var e = elapsed.getUTCHours() * 3600 + elapsed.getUTCMinutes() * 60 + elapsed.getUTCSeconds()
+                    return Math.max(0, d - e)
+                }
+
+                function formatSecs(secs) {
+                    var h = Math.floor(secs / 3600)
+                    var m = Math.floor((secs % 3600) / 60)
+                    var s = secs % 60
+                    var ss = s < 10 ? "0" + s : s
+                    if (h > 0) {
+                        var mm = m < 10 ? "0" + m : m
+                        return h + ":" + mm + ":" + ss
+                    }
+                    return m + ":" + ss
+                }
+
                 Label {
                     id: positionLabel
                     width: countDownRect.width - 2 * Theme.horizontalPageMargin
@@ -125,12 +143,33 @@ Page {
                     }
                 }
 
+                Label {
+                    width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: orientation == Orientation.Portrait ? Theme.fontSizeExtraLarge : Theme.fontSizeLarge
+                    font.bold: true
+                    color: Theme.highlightColor
+                    text: parent.formatSecs(parent.remainingSecs(exerciseTimer.currentDuration,
+                                                                  exerciseTimer.currentRunningTime))
+                }
+
                 ActivityProgressBar {
                     width: countDownRect.width - 2 * Theme.horizontalPageMargin
                 }
 
                 TotalProgressBar {
                     width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                }
+
+                Label {
+                    width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.secondaryColor
+                    visible: orientation == Orientation.Portrait
+                    text: qsTr("Workout remaining: %1").arg(
+                              parent.formatSecs(parent.remainingSecs(exerciseTimer.totalDuration,
+                                                                     exerciseTimer.totalRunningTime)))
                 }
 
                 RowLayout {

@@ -510,6 +510,7 @@ void ExerciseTimer::playCurrentExercise()
         if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RoundStartSound);
     }
     mCurrentExerciseDuration = QTime(0, ex->mins(), ex->secs());
+    emit currentDurationChanged(mCurrentExerciseDuration);
     if (ex->activityType() == "work" && ex->rpm() != 0)
     {
         mNotifyReps = true;

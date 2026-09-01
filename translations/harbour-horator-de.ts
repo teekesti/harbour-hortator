@@ -229,6 +229,10 @@
         <source>Cancel workout</source>
         <translation>Training abbrechen</translation>
     </message>
+    <message>
+        <source>Workout remaining: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SaveWorkoutDialog</name>
