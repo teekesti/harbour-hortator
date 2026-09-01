@@ -1,6 +1,6 @@
 # Tempo (harbour-exercisetimer)
 
-A Sailfish OS interval/exercise timer app, similar in purpose to GymBoss. You build
+A Sailfish OS interval/exercise timer app. You build
 a workout as a list of **Sets**, each containing one or more timed **Exercises**
 (work or rest periods), and either the Exercise or the whole Set can be repeated
 for a number of **Rounds**. The app then plays the workout back with a countdown,

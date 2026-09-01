@@ -2,6 +2,37 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fi_FI">
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>About</source>
+        <translation>Tietoja sovelluksesta</translation>
+    </message>
+    <message>
+        <source>Version %1</source>
+        <translation>Versio %1</translation>
+    </message>
+    <message>
+        <source>Usage</source>
+        <translation>Käyttöohje</translation>
+    </message>
+    <message>
+        <source>Source code</source>
+        <translation>Linkki lähdekoodiin</translation>
+    </message>
+    <message>
+        <source>Sound credits</source>
+        <translation>Äänitehosteiden tekijät</translation>
+    </message>
+    <message>
+        <source>A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.</source>
+        <translation>Monipuolinen intervalliajastin harjoittelua varten. Seuraa harjoitustasi helposti lähtölaskennalla, edistymispalkeilla sekä äänivihjeillä toistoja ja kierroksenvaihtoja varten.</translation>
+    </message>
+    <message>
+        <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
+        <translation>Lisää sarjoja näytön alareunassa olevalla &quot;+&quot;-painikkeella. Lisää sarjaan harjoituksia &quot;+&quot;-painikkeella. Yksittäinen napautus lisää oletusharjoituksen ja pitkä painallus avaa harjoitusten kirjaston. Aseta kukin harjoitus työksi tai levoksi ja säädä sen kesto. Kontekstivalikosta voit myös asettaa toistojen määrän kullekin harjoitukselle. Aseta kierrosten määrä koko sarjoille tai yksittäisille harjoituksille. Aloita harjoitus painamalla toistopainiketta.</translation>
+    </message>
+</context>
+<context>
     <name>ActivityProgressBar</name>
     <message>
         <source>Round %1/%2</source>
@@ -137,6 +168,10 @@
         <source>New workout</source>
         <translation>Uusi harjoitus</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation>Tietoja sovelluksesta</translation>
+    </message>
 </context>
 <context>
     <name>HistoryPage</name>
@@ -234,6 +269,17 @@
     <message>
         <source>Skip last rest</source>
         <translation>Ohita viimeinen lepo</translation>
+    </message>
+</context>
+<context>
+    <name>SoundCreditsPage</name>
+    <message>
+        <source>Sound credits</source>
+        <translation>Äänten tekijät</translation>
+    </message>
+    <message>
+        <source>All sounds are from freesound.org. Files were resampled or trimmed from the originals.</source>
+        <translation>Kaikki äänet ovat peräisin freesound.org-sivustolta. Tiedostoja on uudelleennäytteistetty tai lyhennetty alkuperäisistä.</translation>
     </message>
 </context>
 <context>

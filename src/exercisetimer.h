@@ -1,8 +1,7 @@
-/*! ExerciseTimer class does the busines logic of an exercise timer.
-A commercial example of such a timer is GymBoss. ExerciseTimer manages a list
-of timed exercises (defined in class TimedExercise) and rest periods. It has
-methods to start and stop the activities. It notifies the ui for starting,
- stopping, countdown and repetition events. */
+/*! ExerciseTimer class does the business logic of an interval exercise timer.
+It manages a list of timed exercises (defined in class TimedExercise) and rest
+periods, with methods to start and stop activities. It notifies the UI for
+starting, stopping, countdown and repetition events. */
 
 
 #ifndef EXERCISETIMER_H

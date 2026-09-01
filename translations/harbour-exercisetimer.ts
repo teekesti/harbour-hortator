@@ -2,6 +2,37 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Usage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sound credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ActivityProgressBar</name>
     <message>
         <source>Round %1/%2</source>
@@ -137,6 +168,10 @@
         <source>New workout</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HistoryPage</name>
@@ -233,6 +268,17 @@
     </message>
     <message>
         <source>Skip last rest</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SoundCreditsPage</name>
+    <message>
+        <source>Sound credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All sounds are from freesound.org. Files were resampled or trimmed from the originals.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

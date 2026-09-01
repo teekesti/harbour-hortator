@@ -15,7 +15,8 @@ QT += core multimedia
 
 CONFIG += sailfishapp qml_debug
 
-DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE
+VERSION = $$system(grep '^Version:' rpm/harbour-exercisetimer.spec | sed 's/Version:[[:space:]]*//')
+DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE APP_VERSION=\\\"$$VERSION\\\"
 
 SOURCES += src/harbour-exercisetimer.cpp \
     src/exerciselistmodel.cpp \
@@ -28,6 +29,8 @@ SOURCES += src/harbour-exercisetimer.cpp \
 
 DISTFILES += qml/harbour-exercisetimer.qml \
     qml/cover/CoverPage.qml \
+    qml/pages/AboutPage.qml \
+    qml/pages/SoundCreditsPage.qml \
     qml/pages/FirstPage.qml \
     qml/pages/RunPage.qml \
     qml/pages/SettingsPage.qml \
