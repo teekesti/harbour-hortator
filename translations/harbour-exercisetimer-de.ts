@@ -13,11 +13,11 @@
     </message>
     <message>
         <source>Usage</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwendung</translation>
     </message>
     <message>
         <source>Source code</source>
-        <translation type="unfinished"></translation>
+        <translation>Quellcode</translation>
     </message>
     <message>
         <source>Sound credits</source>
@@ -25,11 +25,11 @@
     </message>
     <message>
         <source>A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein vielseitiger Intervall-Timer für das Training. Verfolge dein Training einfach mit Countdown, Fortschrittsbalken und akustischen Signalen für Wiederholungen und Rundenübergänge.</translation>
     </message>
     <message>
         <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Füge Sätze mit der &quot;+&quot;-Schaltfläche am unteren Bildschirmrand hinzu. Füge innerhalb eines Satzes Übungen mit der &quot;+&quot;-Schaltfläche hinzu. Ein einfaches Tippen fügt eine Standardübung hinzu, ein langer Druck öffnet die gespeicherte Übungsbibliothek. Lege jede Übung als Arbeit oder Pause fest und passe ihre Dauer an. Das Kontextmenü lässt dich auch die Anzahl der Wiederholungen für jede Übung festlegen. Lege die Anzahl der Runden für ganze Sätze oder einzelne Übungen fest. Tippe auf die Wiedergabe-Schaltfläche, um das Training zu starten.</translation>
     </message>
 </context>
 <context>
@@ -89,7 +89,7 @@
     </message>
     <message>
         <source>reps</source>
-        <translation type="unfinished">Wdh.</translation>
+        <translation>Wdh.</translation>
     </message>
 </context>
 <context>
