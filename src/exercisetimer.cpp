@@ -679,7 +679,7 @@ void ExerciseTimer::onAllExercisesFinished()
 {
     FUTR();
     if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::AllDoneSound);
-    reset();
+    mCurrentExerciseIndex = 0;
 }
 
 //------------------------------------------------------------------------------
