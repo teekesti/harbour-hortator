@@ -170,7 +170,7 @@
     </message>
     <message>
         <source>About</source>
-        <translation>Tietoja</translation>
+        <translation>Tietoja sovelluksesta</translation>
     </message>
 </context>
 <context>
