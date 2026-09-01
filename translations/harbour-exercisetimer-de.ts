@@ -9,28 +9,27 @@
     </message>
     <message>
         <source>Version %1</source>
-        <extracomment>Version label on the About page, %1 is the version number</extracomment>
         <translation>Version %1</translation>
     </message>
     <message>
-        <source>An interval timer for timed work and rest sets. Build a workout as a list of exercises, then run it with a countdown, progress bars, and audio cues for reps and round transitions.</source>
-        <translation>Ein Intervall-Timer für Arbeit und Ruhephasen. Stelle ein Training als Liste von Übungen zusammen und starte es mit Countdown, Fortschrittsbalken und akustischen Signalen für Wiederholungen und Rundenübergänge.</translation>
-    </message>
-    <message>
         <source>Usage</source>
-        <translation>Verwendung</translation>
-    </message>
-    <message>
-        <source>Add exercises using the &quot;+&quot; button, set work and rest durations and the number of repetitions, then tap the play button to start the workout.</source>
-        <translation>Füge Übungen mit der „+"-Schaltfläche hinzu, stelle Arbeits- und Ruhedauer sowie die Anzahl der Wiederholungen ein und starte das Training mit der Wiedergabe-Schaltfläche.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Source code</source>
-        <translation>Quellcode</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sound credits</source>
         <translation>Tonquellen</translation>
+    </message>
+    <message>
+        <source>A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -90,7 +89,7 @@
     </message>
     <message>
         <source>reps</source>
-        <translation>Wdh.</translation>
+        <translation type="unfinished">Wdh.</translation>
     </message>
 </context>
 <context>

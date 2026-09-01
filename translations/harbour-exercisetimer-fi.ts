@@ -9,28 +9,27 @@
     </message>
     <message>
         <source>Version %1</source>
-        <extracomment>Version label on the About page, %1 is the version number</extracomment>
         <translation>Versio %1</translation>
     </message>
     <message>
-        <source>An interval timer for timed work and rest sets. Build a workout as a list of exercises, then run it with a countdown, progress bars, and audio cues for reps and round transitions.</source>
-        <translation>Intervalliajastin työ- ja lepojaksoja varten. Kokoa harjoitus harjoitusluettelona ja suorita se lähtölaskennalla, edistymispalkeilla sekä äänivihjeillä toistoja ja kierroksenvaihtoja varten.</translation>
-    </message>
-    <message>
         <source>Usage</source>
-        <translation>Käyttö</translation>
-    </message>
-    <message>
-        <source>Add exercises using the &quot;+&quot; button, set work and rest durations and the number of repetitions, then tap the play button to start the workout.</source>
-        <translation>Lisää harjoituksia &quot;+&quot;-painikkeella, aseta työ- ja lepokestot sekä toistojen määrä, ja aloita harjoitus painamalla toistopainiketta.</translation>
+        <translation>Käyttöohje</translation>
     </message>
     <message>
         <source>Source code</source>
-        <translation>Lähdekoodi</translation>
+        <translation>Linkki lähdekoodiin</translation>
     </message>
     <message>
         <source>Sound credits</source>
-        <translation>Äänten tekijät</translation>
+        <translation>Äänitehosteiden tekijät</translation>
+    </message>
+    <message>
+        <source>A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.</source>
+        <translation>Monipuolinen intervalliajastin harjoittelua varten. Seuraa harjoitustasi helposti lähtölaskennalla, edistymispalkeilla sekä äänivihjeillä toistoja ja kierroksenvaihtoja varten.</translation>
+    </message>
+    <message>
+        <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
+        <translation>Lisää sarjoja näytön alareunassa olevalla &quot;+&quot;-painikkeella. Lisää sarjaan harjoituksia &quot;+&quot;-painikkeella. Yksittäinen napautus lisää oletusharjoituksen ja pitkä painallus avaa harjoitusten kirjaston. Aseta kukin harjoitus työksi tai levoksi ja säädä sen kesto. Kontekstivalikosta voit myös asettaa toistojen määrän kullekin harjoitukselle. Aseta kierrosten määrä koko sarjoille tai yksittäisille harjoituksille. Aloita harjoitus painamalla toistopainiketta.</translation>
     </message>
 </context>
 <context>
@@ -280,7 +279,7 @@
     </message>
     <message>
         <source>All sounds are from freesound.org. Files were resampled or trimmed from the originals.</source>
-        <translation>Kaikki äänet ovat peräisin freesound.org-sivustolta. Tiedostoja on uudelleennäytteenotettu tai katkaistu alkuperäisistä.</translation>
+        <translation>Kaikki äänet ovat peräisin freesound.org-sivustolta. Tiedostoja on uudelleennäytteistetty tai lyhennetty alkuperäisistä.</translation>
     </message>
 </context>
 <context>

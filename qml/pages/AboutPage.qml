@@ -1,4 +1,4 @@
-import QtQuick 2.0
+ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
@@ -22,7 +22,7 @@ Page {
             Label {
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
-                text: "harbour-exercisetimer"
+                text: qsTr(applicationDisplayName)
                 font.pixelSize: Theme.fontSizeLarge
                 color: Theme.highlightColor
             }
@@ -30,7 +30,6 @@ Page {
             Label {
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
-                //: Version label on the About page, %1 is the version number
                 text: qsTr("Version %1").arg(appVersion)
                 color: Theme.secondaryColor
             }
@@ -39,7 +38,7 @@ Page {
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 wrapMode: Text.WordWrap
-                text: qsTr("An interval timer for timed work and rest sets. Build a workout as a list of exercises, then run it with a countdown, progress bars, and audio cues for reps and round transitions.")
+                text: qsTr("A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.")
             }
 
             SectionHeader {
@@ -50,7 +49,12 @@ Page {
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 wrapMode: Text.WordWrap
-                text: qsTr("Add exercises using the \"+\" button, set work and rest durations and the number of repetitions, then tap the play button to start the workout.")
+                text: qsTr("Add sets with the \"+\" button at the bottom of the screen. Within a set, add exercises with the \"+\" button. " +
+                           "A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. " +
+                           "Set each exercise as work or rest and adjust its duration. " +
+                           "The context menu also lets you set the number of repetitions for each exercise. " +
+                           "Set the number of rounds for whole sets or individual exercises. " +
+                           "Tap the play button to start the workout.")
             }
 
             SectionHeader {
