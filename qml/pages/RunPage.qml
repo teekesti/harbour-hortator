@@ -72,14 +72,12 @@ Page {
 
         Rectangle {
             id: countDownRect
-            //anchors.horizontalCenter: parent.horizontalCenter
             width: orientation == Orientation.Portrait ? runPage.width : runPage.width / 2
             height: width
             color: Theme.backgroundGlowColor
 
             Label { // Display a large countdown number
                     id: countdownNumber
-                    //anchors.centerIn: parent
                     anchors.fill: parent
                     color: Theme.highlightColor
                     font.bold: true
@@ -106,15 +104,19 @@ Page {
                         {
                             countdownNumber.text = number // number from signal parameter
                             flashCountdownNumber.start()
+                            currentRemainingTimeLabel.opacity = 0
                         }
                         else
                         {
                             countdownNumber.opacity = 0
+                            currentRemainingTimeLabel.opacity = 1
+
                         }
                     }
                 }
 
             Label {
+                id: currentRemainingTimeLabel
                 anchors.fill: parent
                 color: Theme.highlightColor
                 font.bold: true
