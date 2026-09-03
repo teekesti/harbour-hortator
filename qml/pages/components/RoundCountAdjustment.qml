@@ -40,9 +40,12 @@ Rectangle {
             }
 
             Label {
-                anchors.centerIn: parent
+                anchors.right: roundIndicator.right
+                anchors.bottom: roundIndicator.bottom
+                anchors.rightMargin: Theme.paddingLarge
+                anchors.bottomMargin: Theme.paddingMedium + Theme.paddingSmall
                 text: root.value.toString()
-                font.pixelSize: Theme.fontSizeExtraSmall * roundIndicator.labelScaleFactor
+                font.pixelSize: Theme.fontSizeSmall * roundIndicator.labelScaleFactor
                 color: Theme.primaryColor
             }
         }
