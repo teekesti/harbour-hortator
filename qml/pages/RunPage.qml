@@ -72,52 +72,17 @@ Page {
 
         Rectangle {
             id: countDownRect
-            width: orientation == Orientation.Portrait ? runPage.width : runPage.width / 2
+            width: orientation == Orientation.Portrait ? runPage.width : Math.min(runPage.width / 2, runPage.height)
             height: width
             color: Theme.backgroundGlowColor
 
-            Label { // Display a large countdown number
-                    id: countdownNumber
-                    anchors.fill: parent
-                    color: Theme.highlightColor
-                    font.bold: true
-                    style: Text.Raised
-                    font.pixelSize: parent.height * 0.8
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    // Only shown during countdown
-                    opacity: 0
-                    SequentialAnimation  {
-                    id: flashCountdownNumber
-                    NumberAnimation {id: showAnimation; target: countdownNumber;
-                        property: "opacity"; easing.type: Easing.InOutExpo; to: 60; duration: 200 }
-                    NumberAnimation {id: hideAnimation; target: countdownNumber;
-                        property: "opacity"; easing.type: Easing.InOutExpo; to: 0; duration: 500 }
-                    }
-
-                }
-
-                Connections {
-                    target: exerciseTimer
-                    onCountDown: {
-                        if (number > 0)
-                        {
-                            countdownNumber.text = number // number from signal parameter
-                            flashCountdownNumber.start()
-                            currentRemainingTimeLabel.opacity = 0
-                        }
-                        else
-                        {
-                            countdownNumber.opacity = 0
-                            currentRemainingTimeLabel.opacity = 1
-
-                        }
-                    }
-                }
+            property bool isCountingDown: false
+            property int countdownDigit: 0
 
             Label {
-                id: currentRemainingTimeLabel
-                anchors.fill: parent
+                id: countDownLabel
+                anchors.centerIn: parent
+                width: parent.width
                 color: Theme.highlightColor
                 font.bold: true
                 style: Text.Raised
@@ -126,9 +91,34 @@ Page {
                 minimumPixelSize: Theme.fontSizeExtraLarge
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                opacity: flashCountdownNumber.running ? 0 : 1
-                text: runPage.formatSecs(runPage.remainingSecs(exerciseTimer.currentDuration,
-                                                               exerciseTimer.currentRunningTime))
+                opacity: 1
+                text: countDownRect.isCountingDown
+                      ? countDownRect.countdownDigit
+                      : runPage.formatSecs(runPage.remainingSecs(exerciseTimer.currentDuration,
+                                                                 exerciseTimer.currentRunningTime))
+
+                SequentialAnimation {
+                    id: flashAnimation
+                    NumberAnimation { target: countDownLabel; property: "opacity"; easing.type: Easing.InOutExpo; to: 60; duration: 200 }
+                    NumberAnimation { target: countDownLabel; property: "opacity"; easing.type: Easing.InOutExpo; to: 0; duration: 500 }
+                }
+            }
+
+            Connections {
+                target: exerciseTimer
+                onCountDown: {
+                    if (number > 0) {
+                        flashAnimation.stop()
+                        countDownRect.countdownDigit = number
+                        countDownRect.isCountingDown = true
+                        countDownLabel.opacity = 0
+                        flashAnimation.start()
+                    } else {
+                        flashAnimation.stop()
+                        countDownRect.isCountingDown = false
+                        countDownLabel.opacity = 1
+                    }
+                }
             }
 
         }
