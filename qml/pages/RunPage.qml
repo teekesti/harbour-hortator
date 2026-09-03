@@ -14,6 +14,7 @@ Page {
     backNavigation: !exerciseTimer.running && !exerciseTimer.paused && !exerciseTimer.waitingToStart
 
     property bool _cancelConfirmed: false
+    property bool isWorkout: exerciseTimer.currentActivity.activityType === "work"
 
     function remainingSecs(duration, elapsed) {
         var d = duration.getUTCHours() * 3600 + duration.getUTCMinutes() * 60 + duration.getUTCSeconds()
@@ -84,8 +85,9 @@ Page {
                 anchors.centerIn: parent
                 width: parent.width
                 color: Theme.highlightColor
-                font.bold: true
                 style: Text.Raised
+                styleColor: isWorkout ? UIConstants.workColor : UIConstants.restColor
+                font.bold: true
                 font.pixelSize: parent.height * 0.8
                 fontSizeMode: Text.Fit
                 minimumPixelSize: Theme.fontSizeExtraLarge
@@ -124,18 +126,22 @@ Page {
         }
 
         Item {
-            width: countDownRect.width
-            height: countDownRect.height
+            width:  orientation == Orientation.Portrait ? runPage.width : runPage.width - countDownRect.width
+            height: orientation == Orientation.Portrait ? runPage.height - countDownRect.height : runPage.height
 
             Column {
-                spacing: Theme.paddingMedium
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.fill: parent
+                anchors.margins: Theme.paddingLarge
+                spacing: Theme.paddingLarge
+
+                property real itemWidth : parent.width - 2 * Theme.paddingLarge
 
                 Label {
                     id: positionLabel
-                    width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                    width: parent.itemWidth
                     horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: Theme.fontSizeSmall
+                    font.pixelSize: Theme.fontSizeLarge
+                    font.bold: true
                     color: Theme.secondaryColor
                     visible: text.length > 0
                     text: {
@@ -151,19 +157,19 @@ Page {
                 }
 
                 ActivityProgressBar {
-                    width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                    width: parent.itemWidth
                 }
 
                 TotalProgressBar {
-                    width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                    width: parent.itemWidth
                 }
 
                 Label {
-                    width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                    width: parent.itemWidth
                     horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: Theme.fontSizeSmall
+                    font.pixelSize: Theme.fontSizeLarge
                     color: Theme.secondaryColor
-                    visible: orientation == Orientation.Portrait
+                    //visible: orientation == Orientation.Portrait
                     text: qsTr("Workout remaining: %1").arg(
                               runPage.formatSecs(runPage.remainingSecs(exerciseTimer.totalDuration,
                                                                        exerciseTimer.totalRunningTime)))
@@ -173,7 +179,7 @@ Page {
 
                     id: playControls
                     spacing: Theme.paddingLarge
-                    width: countDownRect.width - 2 * Theme.horizontalPageMargin
+                    width: parent.itemWidth
 
                     IconButton {
                         icon.source: "image://theme/icon-l-play?" + (pressed
