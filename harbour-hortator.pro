@@ -10,15 +10,15 @@
 #   - translation filenames have to be changed
 
 # The name of your application
-TARGET = harbour-horator
+TARGET = harbour-hortator
 QT += core multimedia
 
 CONFIG += sailfishapp qml_debug
 
-VERSION = $$system(grep '^Version:' rpm/harbour-horator.spec | sed 's/Version:[[:space:]]*//')
+VERSION = $$system(grep '^Version:' rpm/harbour-hortator.spec | sed 's/Version:[[:space:]]*//')
 DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE APP_VERSION=\\\"$$VERSION\\\"
 
-SOURCES += src/harbour-horator.cpp \
+SOURCES += src/harbour-hortator.cpp \
     src/exerciselistmodel.cpp \
     src/exerciseset.cpp \
     src/exercisetimer.cpp \
@@ -27,7 +27,7 @@ SOURCES += src/harbour-horator.cpp \
     src/workouthistory.cpp \
     src/exercisetemplatelibrary.cpp
 
-DISTFILES += qml/harbour-horator.qml \
+DISTFILES += qml/harbour-hortator.qml \
     qml/cover/CoverPage.qml \
     qml/pages/AboutPage.qml \
     qml/pages/SoundCreditsPage.qml \
@@ -49,12 +49,12 @@ DISTFILES += qml/harbour-horator.qml \
     qml/pages/components/ActivityProgressBar.qml \
     qml/pages/components/TotalProgressBar.qml \
     qml/images/kettlebell_stopwatch_with_background.png \
-    rpm/harbour-horator.changes.in \
-    rpm/harbour-horator.changes.run.in \
-    rpm/harbour-horator.spec \
+    rpm/harbour-hortator.changes.in \
+    rpm/harbour-hortator.changes.run.in \
+    rpm/harbour-hortator.spec \
     translations/*.ts \
-    harbour-horator.desktop \
-    translations/harbour-horator-fi.ts
+    harbour-hortator.desktop \
+    translations/harbour-hortator-fi.ts
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
@@ -62,7 +62,7 @@ SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 # following CONFIG line
 CONFIG += sailfishapp_i18n
 
-TRANSLATIONS += translations/harbour-horator-de.ts translations/harbour-horator-fi.ts
+TRANSLATIONS += translations/harbour-hortator-de.ts translations/harbour-hortator-fi.ts
 
 HEADERS += \
     src/eoqttrace.h \

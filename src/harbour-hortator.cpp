@@ -17,7 +17,7 @@
 
 int main(int argc, char *argv[])
 {
-    // SailfishApp::main() will display "qml/harbour-horator.qml", if you need more
+    // SailfishApp::main() will display "qml/harbour-hortator.qml", if you need more
     // control over initialization, you can use:
     //
     //   - SailfishApp::application(int, char *[]) to get the QGuiApplication *
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     auto view = SailfishApp::createView();
     QDir qmlDir = QDir(SailfishApp::pathTo("qml").toLocalFile());
     view->engine()->addImportPath(qmlDir.path());
-    view->setSource(QUrl::fromLocalFile(qmlDir.filePath("harbour-horator.qml")));
+    view->setSource(QUrl::fromLocalFile(qmlDir.filePath("harbour-hortator.qml")));
     QQmlContext *context = view->rootContext();
     ExerciseTimer *exerciseTimer = new ExerciseTimer(app);
     ExerciseListModel *model = exerciseTimer->exerciseListModel();

@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
     // Isolate QSettings (used by ExerciseTimer) from the real application's
     // configuration so running tests never touches the user's saved settings.
     QStandardPaths::setTestModeEnabled(true);
-    QCoreApplication::setOrganizationName("harbour-horator-tests");
-    QCoreApplication::setApplicationName("harbour-horator-tests");
+    QCoreApplication::setOrganizationName("harbour-hortator-tests");
+    QCoreApplication::setApplicationName("harbour-hortator-tests");
 
     int result = 0;
 

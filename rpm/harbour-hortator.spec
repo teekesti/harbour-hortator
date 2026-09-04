@@ -1,10 +1,10 @@
-Name:       harbour-horator
+Name:       harbour-hortator
 
 Summary:    Exercise timer with sound
 Version:    0.1
 Release:    1
 License:    LICENSE
-URL:        https://github.com/teekesti/harbour-horator
+URL:        https://github.com/teekesti/harbour-hortator
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2

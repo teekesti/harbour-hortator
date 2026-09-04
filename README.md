@@ -1,4 +1,4 @@
-# Horator (harbour-horator)
+# Hortator (harbour-hortator)
 
 A Sailfish OS interval/exercise timer app. You build
 a workout as a list of **Sets**, each containing one or more timed **Exercises**
@@ -32,7 +32,7 @@ This is a Sailfish OS application — built and run via the **Sailfish SDK**
 (SailfishOS-Build-Engine + Sailfish IDE/SFDK), not a plain desktop Qt build,
 since it links against `sailfishapp` and `Sailfish.Silica`.
 
-- Open `harbour-horator.pro` in Sailfish IDE / Qt Creator with the
+- Open `harbour-hortator.pro` in Sailfish IDE / Qt Creator with the
   Sailfish SDK kit, or build with `sfdk build` from the SDK toolchain.
 - Translations live in `translations/*.ts` (`fi`, `de`); `CONFIG +=
   sailfishapp_i18n` regenerates `.qm` files at build time.

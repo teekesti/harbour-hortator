@@ -65,7 +65,7 @@ Page {
                 width: parent.width
                 height: sourceLabel.height + 2 * Theme.paddingSmall
                 onClicked: {
-                    if (!Qt.openUrlExternally("https://github.com/teekesti/harbour-horator"))
+                    if (!Qt.openUrlExternally("https://github.com/teekesti/harbour-hortator"))
                         console.warn("Failed to open source URL")
                 }
 
@@ -75,7 +75,7 @@ Page {
                     y: Theme.paddingSmall
                     width: parent.width - 2 * Theme.horizontalPageMargin
                     wrapMode: Text.WrapAnywhere
-                    text: "https://github.com/teekesti/harbour-horator"
+                    text: "https://github.com/teekesti/harbour-hortator"
                     color: Theme.primaryColor
                     font.underline: true
                 }

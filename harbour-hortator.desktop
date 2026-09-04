@@ -1,14 +1,14 @@
 [Desktop Entry]
 Type=Application
 X-Nemo-Application-Type=silica-qt5
-Icon=harbour-horator
-Exec=harbour-horator
-Name=Horator
+Icon=harbour-hortator
+Exec=harbour-hortator
+Name=Hortator
 
 [X-Sailjail]
 # Replace with your organization as a reverse domain name
 OrganizationName=io.github.teekesti
 # ApplicationName does not have to be identical to Name
-ApplicationName=Horator
+ApplicationName=Hortator
 # Add the required permissions here
 Permissions=Audio
