@@ -4,6 +4,7 @@
 Makefile
 *.o
 moc_*.cpp
+*.reapeaks
 RPMS/
 documentation.list
 translations/*.qm

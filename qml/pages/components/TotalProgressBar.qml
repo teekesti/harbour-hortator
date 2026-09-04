@@ -29,7 +29,7 @@ Item {
         maximumValue: 1
         enabled: false
         value: exerciseTimer.totalProgress
-        label: showLabel? UIConstants.totalProgressLabel : ""
+        label: showLabel? qsTr("Total progress") : ""
         valueText: Qt.formatTime(exerciseTimer.totalRunningTime, "hh:mm:ss") + "/" +
                    Qt.formatTime(exerciseTimer.totalDuration, "hh:mm:ss")
     }

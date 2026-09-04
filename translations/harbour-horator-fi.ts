@@ -25,11 +25,11 @@
     </message>
     <message>
         <source>A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.</source>
-        <translation>Monipuolinen intervalliajastin harjoittelua varten. Seuraa harjoitustasi helposti lähtölaskennalla, edistymispalkeilla sekä äänivihjeillä toistoja ja kierroksenvaihtoja varten.</translation>
+        <translation>Monipuolinen intervalliajastin harjoittelua varten. Seuraa treeniäsi helposti lähtölaskennalla, edistymispalkeilla sekä äänivihjeillä toistoja ja kierroksenvaihtoja varten.</translation>
     </message>
     <message>
         <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
-        <translation>Lisää sarjoja näytön alareunassa olevalla &quot;+&quot;-painikkeella. Lisää sarjaan harjoituksia &quot;+&quot;-painikkeella. Yksittäinen napautus lisää oletusharjoituksen ja pitkä painallus avaa harjoitusten kirjaston. Aseta kukin harjoitus työksi tai levoksi ja säädä sen kesto. Kontekstivalikosta voit myös asettaa toistojen määrän kullekin harjoitukselle. Aseta kierrosten määrä koko sarjoille tai yksittäisille harjoituksille. Aloita harjoitus painamalla toistopainiketta.</translation>
+        <translation>Lisää sarjoja näytön alareunassa olevalla &quot;+&quot;-painikkeella. Lisää sarjaan harjoituksia &quot;+&quot;-painikkeella. Yksittäinen napautus lisää oletusharjoituksen ja pitkä painallus avaa harjoitusten kirjaston. Aseta kukin harjoitus työksi tai levoksi ja säädä sen kesto. Kontekstivalikosta voit myös asettaa toistojen määrän kullekin harjoitukselle. Aseta kierrosten määrä koko sarjoille tai yksittäisille harjoituksille. Aloita treeni painamalla toistopainiketta.</translation>
     </message>
 </context>
 <context>
@@ -43,15 +43,15 @@
     <name>ConfirmCancelWorkoutDialog</name>
     <message>
         <source>Cancel workout</source>
-        <translation>Peruuta harjoitus</translation>
+        <translation>Peruuta treeni</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation>Jatka harjoitusta</translation>
+        <translation>Jatka treeniä</translation>
     </message>
     <message>
         <source>Cancel the current workout? Your progress will be lost.</source>
-        <translation>Peruutetaanko nykyinen harjoitus? Edistymistä ei tallenneta.</translation>
+        <translation>Peruutetaanko nykyinen treeni? Edistymistä ei tallenneta.</translation>
     </message>
 </context>
 <context>
@@ -62,7 +62,7 @@
     </message>
     <message>
         <source>Discard your unsaved changes to the current workout?</source>
-        <translation>Hylätäänkö tallentamattomat muutokset nykyiseen harjoitukseen?</translation>
+        <translation>Hylätäänkö tallentamattomat muutokset nykyiseen treeniin?</translation>
     </message>
 </context>
 <context>
@@ -181,11 +181,11 @@
     </message>
     <message>
         <source>No saved workouts yet</source>
-        <translation>Ei tallennettuja harjoituksia</translation>
+        <translation>Ei tallennettuja treenejä</translation>
     </message>
     <message>
         <source>Save a valid workout from the pull-down menu to see it here</source>
-        <translation>Tallenna kelvollinen harjoitus vetovalikosta nähdäksesi sen tässä</translation>
+        <translation>Tallenna treeni vetovalikosta nähdäksesi sen tässä</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -227,7 +227,19 @@
     </message>
     <message>
         <source>Cancel workout</source>
-        <translation>Peruuta harjoitus</translation>
+        <translation>Peruuta treeni</translation>
+    </message>
+    <message>
+        <source>Workout remaining: %1</source>
+        <translation>Treeniä jäljellä: %1</translation>
+    </message>
+    <message>
+        <source>Work</source>
+        <translation>Työ</translation>
+    </message>
+    <message>
+        <source>Rest</source>
+        <translation>Lepo</translation>
     </message>
 </context>
 <context>
@@ -238,7 +250,7 @@
     </message>
     <message>
         <source>Workout name</source>
-        <translation>Harjoituksen nimi</translation>
+        <translation>Treenin nimi</translation>
     </message>
 </context>
 <context>
@@ -283,11 +295,7 @@
     </message>
 </context>
 <context>
-    <name>UIConstants</name>
-    <message>
-        <source>Current exercise</source>
-        <translation>Nykyinen harjoitus</translation>
-    </message>
+    <name>TotalProgressBar</name>
     <message>
         <source>Total progress</source>
         <translation>Kokonaisedistyminen</translation>

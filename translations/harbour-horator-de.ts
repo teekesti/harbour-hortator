@@ -229,6 +229,18 @@
         <source>Cancel workout</source>
         <translation>Training abbrechen</translation>
     </message>
+    <message>
+        <source>Workout remaining: %1</source>
+        <translation>Verbleibendes Training: %1</translation>
+    </message>
+    <message>
+        <source>Work</source>
+        <translation>Arbeit</translation>
+    </message>
+    <message>
+        <source>Rest</source>
+        <translation>Pause</translation>
+    </message>
 </context>
 <context>
     <name>SaveWorkoutDialog</name>
@@ -283,11 +295,7 @@
     </message>
 </context>
 <context>
-    <name>UIConstants</name>
-    <message>
-        <source>Current exercise</source>
-        <translation>Aktuelle Übung</translation>
-    </message>
+    <name>TotalProgressBar</name>
     <message>
         <source>Total progress</source>
         <translation>Gesamtfortschritt</translation>
