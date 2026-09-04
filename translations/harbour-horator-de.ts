@@ -231,7 +231,15 @@
     </message>
     <message>
         <source>Workout remaining: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbleibendes Training: %1</translation>
+    </message>
+    <message>
+        <source>Work</source>
+        <translation>Arbeit</translation>
+    </message>
+    <message>
+        <source>Rest</source>
+        <translation>Pause</translation>
     </message>
 </context>
 <context>
@@ -287,11 +295,7 @@
     </message>
 </context>
 <context>
-    <name>UIConstants</name>
-    <message>
-        <source>Current exercise</source>
-        <translation>Aktuelle Übung</translation>
-    </message>
+    <name>TotalProgressBar</name>
     <message>
         <source>Total progress</source>
         <translation>Gesamtfortschritt</translation>

@@ -123,6 +123,7 @@ Page {
                 }
             }
 
+
         }
 
         Item {
@@ -136,25 +137,40 @@ Page {
 
                 property real itemWidth : parent.width - 2 * Theme.paddingLarge
 
-                Label {
-                    id: positionLabel
+                Column {
                     width: parent.itemWidth
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: Theme.fontSizeLarge
-                    font.bold: true
-                    color: Theme.secondaryColor
-                    visible: text.length > 0
-                    text: {
-                        var parts = [UIConstants.currentActivityLabel]
-                        if (exerciseTimer.currentSetCount > 1) {
-                            parts.push(qsTr("Set %1/%2").arg(exerciseTimer.currentSetNumber).arg(exerciseTimer.currentSetCount))
+
+                    Label {
+                        truncationMode: TruncationMode.Fade
+                        font.pixelSize: Theme.fontSizeLarge
+                        font.bold: true
+                        color: Theme.secondaryColor
+                        text: {
+                            var exerciseName = exerciseTimer.currentActivity.name
+                            return exerciseName ? exerciseName : isWorkout ? qsTr("Work") : qsTr("Rest")
                         }
-                        if (exerciseTimer.currentSetRoundCount > 1) {
-                            parts.push(qsTr("Set round %1/%2").arg(exerciseTimer.currentSetRoundNumber).arg(exerciseTimer.currentSetRoundCount))
+                    }
+
+                    Label {
+                        id: positionLabel
+                        font.pixelSize: Theme.fontSizeLarge
+                        font.bold: true
+                        color: Theme.secondaryColor
+                        visible: text.length > 0
+                        text: {
+                            var parts = []
+                            if (exerciseTimer.currentSetCount > 1) {
+                                parts.push(qsTr("Set %1/%2").arg(exerciseTimer.currentSetNumber).arg(exerciseTimer.currentSetCount))
+                            }
+                            if (exerciseTimer.currentSetRoundCount > 1) {
+                                parts.push(qsTr("Set round %1/%2").arg(exerciseTimer.currentSetRoundNumber).arg(exerciseTimer.currentSetRoundCount))
+                            }
+                            return parts.join(" · ")
                         }
-                        return parts.join(" · ")
                     }
                 }
+
+
 
                 ActivityProgressBar {
                     width: parent.itemWidth
