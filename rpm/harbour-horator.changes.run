@@ -4,7 +4,7 @@
 # Workaround: run sfdk-changelog from a real /tmp directory so that its
 # temp files land on a normal filesystem, while GIT_DIR/GIT_WORK_TREE
 # point back to the actual repository.
-REPO_DIR="$(pwd)"
+REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 TMP_WORKDIR="$(mktemp -d /tmp/sfdk-changelog.XXX)"
 trap 'rm -rf "$TMP_WORKDIR"' EXIT
 cd "$TMP_WORKDIR"
