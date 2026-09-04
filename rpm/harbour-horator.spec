@@ -4,7 +4,7 @@ Summary:    Exercise timer with sound
 Version:    0.1
 Release:    1
 License:    LICENSE
-URL:        http://example.org/
+URL:        https://github.com/teekesti/harbour-horator
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
@@ -15,8 +15,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-A timer app to be for example at the gym when doing sets.
-
+A versatile interval timer for workouts
 
 %prep
 %setup -q -n %{name}-%{version}

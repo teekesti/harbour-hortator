@@ -1,0 +1,15 @@
+#!/bin/bash
+# sfdk-changelog uses `look` with mmap(), which fails on SFTP-mounted
+# filesystems (the build engine mounts the host repo via SFTP/FUSE).
+# Workaround: run sfdk-changelog from a real /tmp directory so that its
+# temp files land on a normal filesystem, while GIT_DIR/GIT_WORK_TREE
+# point back to the actual repository.
+REPO_DIR="$(pwd)"
+TMP_WORKDIR="$(mktemp -d /tmp/sfdk-changelog.XXX)"
+trap 'rm -rf "$TMP_WORKDIR"' EXIT
+cd "$TMP_WORKDIR"
+
+# Write [Tag] entries in annotated tag messages for each release; the
+# default sfdk-changelog extracts lines matching "[Short] Description"
+# from both commit messages and tag annotation bodies.
+GIT_DIR="$REPO_DIR/.git" GIT_WORK_TREE="$REPO_DIR" sfdk-changelog

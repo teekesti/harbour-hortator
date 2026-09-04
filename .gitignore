@@ -5,6 +5,7 @@ Makefile
 *.o
 moc_*.cpp
 *.reapeaks
+sfdk-changelog.tag-info.*
 RPMS/
 documentation.list
 translations/*.qm
