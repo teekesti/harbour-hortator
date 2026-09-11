@@ -80,12 +80,6 @@ Page {
                     font.underline: true
                 }
             }
-
-            Button {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Sound credits")
-                onClicked: pageStack.push(Qt.resolvedUrl("SoundCreditsPage.qml"))
-            }
         }
 
         VerticalScrollDecorator {}

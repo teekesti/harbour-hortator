@@ -30,7 +30,6 @@ SOURCES += src/harbour-hortator.cpp \
 DISTFILES += qml/harbour-hortator.qml \
     qml/cover/CoverPage.qml \
     qml/pages/AboutPage.qml \
-    qml/pages/SoundCreditsPage.qml \
     qml/pages/FirstPage.qml \
     qml/pages/RunPage.qml \
     qml/pages/SettingsPage.qml \
