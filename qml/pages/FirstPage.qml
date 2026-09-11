@@ -226,14 +226,16 @@ Page {
         // order the way a plain Item would. A high explicit z guarantees
         // this stays on top regardless.
         z: 1000
-        // Anchored to whichever edge is farthest from the current hint's
-        // target, so the label doesn't cover the very control it
-        // describes (step 1's target sits in the bottom button row).
+        // Flips the background gradient's fade direction between steps;
+        // no longer affects placement (see anchors.verticalCenter below),
+        // which is now fixed regardless of hintStep.
         invert: hintStep === 1
-        // Binding y directly (rather than toggling anchors.top/bottom
-        // between a real AnchorLine and undefined) avoids a Qt 5.6 quirk
-        // where an anchor doesn't reliably clear once bound to undefined.
-        y: invert ? 0 : parent.height - height
+        // A fixed, centered position (rather than anchoring to whichever
+        // page edge is farthest from the current hint's target) avoids
+        // both overlapping the target control's own text/controls and
+        // being clipped at the bottom edge, which the previous
+        // per-step top/bottom placement suffered from.
+        anchors.verticalCenter: parent.verticalCenter
         visible: hintStep > 0 && hintStep < 4
         text: {
             switch (hintStep) {
@@ -243,6 +245,9 @@ Page {
             default: return ""
             }
         }
+        bottomMargin: Theme.paddingLarge
+        topMargin: Theme.paddingLarge
+        backgroundColor: Theme.backgroundGlowColor
     }
 
 

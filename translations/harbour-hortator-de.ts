@@ -170,15 +170,15 @@
     </message>
     <message>
         <source>Tap to add a new set</source>
-        <translation type="unfinished"></translation>
+        <translation>Tippen, um einen neuen Satz hinzuzufügen</translation>
     </message>
     <message>
         <source>Tap to add an exercise, press and hold to pick a saved one</source>
-        <translation type="unfinished"></translation>
+        <translation>Tippen, um eine Übung hinzuzufügen, gedrückt halten, um eine gespeicherte auszuwählen</translation>
     </message>
     <message>
         <source>Press and hold to edit or remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedrückt halten, um zu bearbeiten oder zu entfernen</translation>
     </message>
 </context>
 <context>
