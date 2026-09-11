@@ -20,10 +20,6 @@
         <translation>Linkki lähdekoodiin</translation>
     </message>
     <message>
-        <source>Sound credits</source>
-        <translation>Äänitehosteiden tekijät</translation>
-    </message>
-    <message>
         <source>A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.</source>
         <translation>Monipuolinen intervalliajastin harjoittelua varten. Seuraa treeniäsi helposti lähtölaskennalla, edistymispalkeilla sekä äänivihjeillä toistoja ja kierroksenvaihtoja varten.</translation>
     </message>
@@ -281,17 +277,6 @@
     <message>
         <source>Skip last rest</source>
         <translation>Ohita viimeinen lepo</translation>
-    </message>
-</context>
-<context>
-    <name>SoundCreditsPage</name>
-    <message>
-        <source>Sound credits</source>
-        <translation>Äänten tekijät</translation>
-    </message>
-    <message>
-        <source>All sounds are from freesound.org. Files were resampled or trimmed from the originals.</source>
-        <translation>Kaikki äänet ovat peräisin freesound.org-sivustolta. Tiedostoja on uudelleennäytteistetty tai lyhennetty alkuperäisistä.</translation>
     </message>
 </context>
 <context>

@@ -20,10 +20,6 @@
         <translation>Quellcode</translation>
     </message>
     <message>
-        <source>Sound credits</source>
-        <translation>Tonquellen</translation>
-    </message>
-    <message>
         <source>A versatile interval timer for workouts. Easily follow your workout with a countdown, progress bars, and audio cues for repetitions and round transitions.</source>
         <translation>Ein vielseitiger Intervall-Timer für das Training. Verfolge dein Training einfach mit Countdown, Fortschrittsbalken und akustischen Signalen für Wiederholungen und Rundenübergänge.</translation>
     </message>
@@ -281,17 +277,6 @@
     <message>
         <source>Skip last rest</source>
         <translation>Letzte Pause überspringen</translation>
-    </message>
-</context>
-<context>
-    <name>SoundCreditsPage</name>
-    <message>
-        <source>Sound credits</source>
-        <translation>Tonquellen</translation>
-    </message>
-    <message>
-        <source>All sounds are from freesound.org. Files were resampled or trimmed from the originals.</source>
-        <translation>Alle Töne stammen von freesound.org. Die Dateien wurden gegenüber den Originalen neu abgetastet oder gekürzt.</translation>
     </message>
 </context>
 <context>
