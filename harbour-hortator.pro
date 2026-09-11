@@ -52,6 +52,11 @@ DISTFILES += qml/harbour-hortator.qml \
     rpm/harbour-hortator.changes.in \
     rpm/harbour-hortator.changes.run.in \
     rpm/harbour-hortator.spec \
+    sounds/bell-high_C.wav \
+    sounds/bell-low_C.wav \
+    sounds/big_fanfare_in_C.wav \
+    sounds/countdown_bell_G.wav \
+    sounds/vocoder_whipbell.wav \
     translations/*.ts \
     harbour-hortator.desktop \
     translations/harbour-hortator-fi.ts
