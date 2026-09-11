@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
         // doesn't read as having unsaved changes.
         exerciseTimer->appendDefaultSet();
         exerciseTimer->markDraftSynced();
+        exerciseTimer->setShowFirstUseHints(true);
     }
     TRACE1("model contains %1 items", model->size());
     context->setContextProperty("exerciseTimer", exerciseTimer);

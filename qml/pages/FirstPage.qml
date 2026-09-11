@@ -12,6 +12,45 @@ Page {
     allowedOrientations: Orientation.All
     property int remorseTimeout: 2000 // milliseconds
 
+    // First-use hint sequence (#14, ADR-0019): 0 = inactive, 1-3 = the
+    // three hint steps in on-screen order, 4 = finished/cancelled.
+    // Started only when exerciseTimer.showFirstUseHints is true (the app
+    // just started with an empty Draft, re-seeded with the default
+    // Set/Exercise); re-derived fresh on every launch, never persisted.
+    property int hintStep: 0
+
+    function cancelHints() {
+        if (hintStep > 0 && hintStep < 4) {
+            hintStep = 4
+        }
+    }
+
+    // exerciseTimer isn't registered as a context property yet during
+    // this Page's own construction (it's created by main() after the
+    // initial QML tree is built - see the similar, pre-existing
+    // "exerciseTimer is not defined" Connections warnings from
+    // harbour-hortator.qml), so reading it can't happen from
+    // Component.onCompleted or an immediate onStatusChanged. Deferring
+    // to the next event loop iteration (interval: 0) guarantees main()
+    // has already finished registering it by the time this fires.
+    Timer {
+        id: hintEligibilityTimer
+        interval: 0
+        onTriggered: {
+            if (exerciseTimer.showFirstUseHints) {
+                hintStep = 1
+            }
+        }
+    }
+
+    Component.onCompleted: hintEligibilityTimer.start()
+
+    onStatusChanged: {
+        if (status === PageStatus.Deactivating) {
+            cancelHints()
+        }
+    }
+
     function newWorkout() {
         if (exerciseTimer.draftDirty) {
             var dialog = pageStack.push(Qt.resolvedUrl("ConfirmReplaceDraftDialog.qml"))
@@ -89,6 +128,12 @@ Page {
                 width: parent.width
                 anchors.top: parent.top
                 anchors.topMargin: Theme.paddingSmall
+
+                activateAddHint: listPage.hintStep === 2 && setIndex === 0
+                activateExerciseContextMenuHint: listPage.hintStep === 3 && setIndex === 0
+                onAddHintFinished: listPage.hintStep = 3
+                onContextMenuHintFinished: listPage.hintStep = 4
+                onHintInteracted: listPage.cancelHints()
             }
 
             Component {
@@ -138,11 +183,19 @@ Page {
 
 
             IconButton {
+                id: addSetButton
                 icon.source: "image://theme/icon-l-add?" + (pressed
                           ? Theme.highlightColor
                           : Theme.primaryColor)
                 onClicked: {
                     exerciseTimer.appendDefaultSet()
+                    cancelHints()
+                }
+
+                FirstUseHint {
+                    anchors.centerIn: parent
+                    active: hintStep === 1
+                    onFinished: hintStep = 2
                 }
              }
 
@@ -166,7 +219,31 @@ Page {
         }
     }
 
-
+    InteractionHintLabel {
+        // toolAndSummaryRow (and its own background Rectangle) paints
+        // above this item despite being declared first - Page apparently
+        // doesn't guarantee sibling paint order follows declaration
+        // order the way a plain Item would. A high explicit z guarantees
+        // this stays on top regardless.
+        z: 1000
+        // Anchored to whichever edge is farthest from the current hint's
+        // target, so the label doesn't cover the very control it
+        // describes (step 1's target sits in the bottom button row).
+        invert: hintStep === 1
+        // Binding y directly (rather than toggling anchors.top/bottom
+        // between a real AnchorLine and undefined) avoids a Qt 5.6 quirk
+        // where an anchor doesn't reliably clear once bound to undefined.
+        y: invert ? 0 : parent.height - height
+        visible: hintStep > 0 && hintStep < 4
+        text: {
+            switch (hintStep) {
+            case 1: return qsTr("Tap to add a new set")
+            case 2: return qsTr("Tap to add an exercise, press and hold to pick a saved one")
+            case 3: return qsTr("Press and hold to edit or remove")
+            default: return ""
+            }
+        }
+    }
 
 
 

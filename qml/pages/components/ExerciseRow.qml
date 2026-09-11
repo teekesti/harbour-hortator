@@ -12,6 +12,15 @@ ListItem {
 
     property bool isWorkout: exercise ? exercise.activityType === "work" : false
 
+    // First-use hint (#14, ADR-0019): points out the press-and-hold
+    // context menu below. activateContextMenuHint is driven by the page
+    // orchestrating the hint sequence; this row just reports back.
+    property bool activateContextMenuHint: false
+    signal contextMenuHintFinished()
+    signal hintInteracted()
+
+    onMenuOpenChanged: if (menuOpen) hintInteracted()
+
     contentHeight: exerciseContentColumn.height
 
     menu: ContextMenu {
@@ -130,5 +139,11 @@ ListItem {
                 }
             }
         }
+    }
+
+    FirstUseHint {
+        anchors.centerIn: parent
+        active: activateContextMenuHint
+        onFinished: exerciseRow.contextMenuHintFinished()
     }
 }

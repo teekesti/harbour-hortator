@@ -10,6 +10,16 @@ Column {
     property int setIndex
     property bool highlighted
 
+    // First-use hints (#14, ADR-0019): activateAddHint points out this
+    // card's own add-exercise button; activateExerciseContextMenuHint is
+    // forwarded to the first exercise row. Driven by the page
+    // orchestrating the hint sequence; this card just reports back.
+    property bool activateAddHint: false
+    property bool activateExerciseContextMenuHint: false
+    signal addHintFinished()
+    signal contextMenuHintFinished()
+    signal hintInteracted()
+
     Rectangle {
         id: card
         width: parent.width - 2 * Theme.horizontalPageMargin
@@ -64,10 +74,22 @@ Column {
                     onPressed: longPressed = false
                     onPressAndHold: {
                         longPressed = true
+                        setCard.hintInteracted()
                         pageStack.push(Qt.resolvedUrl("../PickExerciseTemplateDialog.qml"),
                                        {setIndex: setIndex})
                     }
-                    onClicked: if (!longPressed) exerciseTimer.addDefaultExerciseToSet(setIndex)
+                    onClicked: {
+                        if (!longPressed) {
+                            exerciseTimer.addDefaultExerciseToSet(setIndex)
+                            setCard.hintInteracted()
+                        }
+                    }
+
+                    FirstUseHint {
+                        anchors.centerIn: parent
+                        active: activateAddHint
+                        onFinished: setCard.addHintFinished()
+                    }
                 }
             }
 
@@ -88,6 +110,9 @@ Column {
                     setIndex: setCard.setIndex
                     exerciseIndex: index
                     exercise: exerciseSet ? exerciseSet.at(index) : null
+                    activateContextMenuHint: setCard.activateExerciseContextMenuHint && index === 0
+                    onContextMenuHintFinished: setCard.contextMenuHintFinished()
+                    onHintInteracted: setCard.hintInteracted()
                 }
             }
         }

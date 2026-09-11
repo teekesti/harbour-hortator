@@ -71,6 +71,12 @@ class ExerciseTimer : public QObject
     occurrence, for the editor's Summary Bar (see ADR-0013). */
     Q_PROPERTY(QVariantList playSequenceSummary READ playSequenceSummary
                NOTIFY playSequenceChanged)
+    /*! True when the app just started with an empty Draft, which was
+    just re-seeded with the default Set/Exercise. Not persisted - it is
+    a point-in-time condition set once by main() after construction, not
+    a "hints already shown" flag (see ADR-0019). */
+    Q_PROPERTY(bool showFirstUseHints READ showFirstUseHints
+               NOTIFY showFirstUseHintsChanged)
 
 public:
     /*! Construct a new ExerciseTimer object.
@@ -122,6 +128,7 @@ public:
     ExerciseTemplateLibrary* templateLibrary() const;
     bool isDraftDirty() const;
     QVariantList playSequenceSummary() const;
+    bool showFirstUseHints() const;
     /*! Path the Draft is auto-persisted to. Exposed so tests can isolate
     themselves from the real per-user draft file. */
     static QString draftFilePath();
@@ -155,6 +162,7 @@ signals:
     void validityChanged(bool allValid);
     void draftDirtyChanged(bool dirty);
     void playSequenceChanged();
+    void showFirstUseHintsChanged(bool show);
 
 public slots:
     void addSet(ExerciseSet* set, int pos = -1);
@@ -205,6 +213,10 @@ public slots:
     after seeding a brand new install's default Set, so a never-touched
     fresh install doesn't read as dirty. */
     void markDraftSynced();
+    /*! Called by main() after construction, once, when it finds the
+    Draft empty and re-seeds it with the default Set/Exercise. Not
+    persisted; see ADR-0019. */
+    void setShowFirstUseHints(bool show);
 
 
 private slots:
@@ -336,6 +348,8 @@ private: //data
     /*! Debounces saveDraftNow() so rapid edits don't write to disk on
     every keystroke. */
     QTimer* mDraftSaveTimer;
+    /*! See showFirstUseHints(). Not persisted. */
+    bool mShowFirstUseHints;
 
 private: // methods
     /*! Return the pointer of the exercise at index i in mPlaySequence */
