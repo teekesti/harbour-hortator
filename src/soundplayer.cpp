@@ -43,27 +43,29 @@ void SoundPlayer::playCountDownSound(int number)
 //
 void SoundPlayer::setupSounds()
 {
-    // Countdown sounds
+    // Countdown sounds. The architecture allows separate sounds for counting from 10 to 0,
+    // but setting here the same bell sound for counts 3 to 1 and no sound for the others.
+    QSoundEffect* emptySound = new QSoundEffect(this);
     QDir soundDir = QDir(SailfishApp::pathTo("sounds").toLocalFile());
+    QSoundEffect* countdownBell = new QSoundEffect(this);
+    countdownBell->setSource(QUrl::fromLocalFile(soundDir.filePath("countdown_bell_G.wav")));
+
     for (int i =  0; i < 11; i++)
     {
-        mCountdownSounds[i] = new QSoundEffect(this);
+        if (i >= 1 && i<= 3)
+        {
+            mCountdownSounds[i] = countdownBell;
+        }
+        else {
+            mCountdownSounds[i] = emptySound;
+        }
+
     }
-    mCountdownSounds[1]->setSource(QUrl::fromLocalFile(soundDir.filePath("one.wav")));
-    mCountdownSounds[2]->setSource(QUrl::fromLocalFile(soundDir.filePath("two.wav")));
-    mCountdownSounds[3]->setSource(QUrl::fromLocalFile(soundDir.filePath("three.wav")));
-    mCountdownSounds[4]->setSource(QUrl::fromLocalFile(soundDir.filePath("four.wav")));
-    mCountdownSounds[5]->setSource(QUrl::fromLocalFile(soundDir.filePath("five.wav")));
-    mCountdownSounds[6]->setSource(QUrl::fromLocalFile(soundDir.filePath("six.wav")));
-    mCountdownSounds[7]->setSource(QUrl::fromLocalFile(soundDir.filePath("seven.wav")));
-    mCountdownSounds[8]->setSource(QUrl::fromLocalFile(soundDir.filePath("eight.wav")));
-    mCountdownSounds[9]->setSource(QUrl::fromLocalFile(soundDir.filePath("nine.wav")));
-    mCountdownSounds[10]->setSource(QUrl::fromLocalFile(soundDir.filePath("ten.wav")));
-    mDefaultSound.setSource(QUrl::fromLocalFile(soundDir.filePath("beep.wav")));
-    mRoundStartSound.setSource(QUrl::fromLocalFile(soundDir.filePath("boxing-bell-1.wav")));
-    mRoundEndSound.setSource(QUrl::fromLocalFile(soundDir.filePath("boxing-bell-3.wav")));
-    mRepSound.setSource(QUrl::fromLocalFile(soundDir.filePath("61234__sapht__snes-startup.wav")));
-    mAllDoneSound.setSource(QUrl::fromLocalFile(soundDir.filePath("62176__robinhood76__00504-brass-fanfare-4.wav")));
+    // Also no source set for mDefaultSound, the default sound for counts > 10
+    mRoundStartSound.setSource(QUrl::fromLocalFile(soundDir.filePath("bell-high_C.wav")));
+    mRoundEndSound.setSource(QUrl::fromLocalFile(soundDir.filePath("bell-low_C.wav")));
+    mRepSound.setSource(QUrl::fromLocalFile(soundDir.filePath("vocoder_whipbell.wav")));
+    mAllDoneSound.setSource(QUrl::fromLocalFile(soundDir.filePath("big_fanfare_in_C.wav")));
 
 }
 
