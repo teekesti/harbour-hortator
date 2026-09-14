@@ -33,6 +33,11 @@ private slots:
     void currentActivityOnEmptyModel();
     void startOnEmptyModelIsNoOp();
     void startThenPauseTransitionsRunning();
+    void pauseDuringStartDelayFreezesAndResumesFromRemainingCount();
+    void resumingMidExercisePauseDoesNotReplayStartDelay();
+    void resumingMidExercisePauseDoesNotReplaySetupSideEffects();
+    void resumingAfterPauseDuringEndOfExerciseWarningGoesStraightBackToRunning();
+    void resetDuringStartDelayClearsWaitingAndPausedFlags();
 
     void emptySetBlocksValidity();
     void noSetsBlocksValidity();

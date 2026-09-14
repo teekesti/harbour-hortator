@@ -312,6 +312,147 @@ void TstExerciseTimer::startThenPauseTransitionsRunning()
     QCOMPARE(runningSpy.at(1).at(0).toBool(), false);
 }
 
+void TstExerciseTimer::pauseDuringStartDelayFreezesAndResumesFromRemainingCount()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(5);
+    timer.addSet(setWithOneExercise("work", 0, 2));
+
+    QSignalSpy countDownSpy(&timer, &ExerciseTimer::countDown);
+
+    timer.start();
+    QVERIFY(timer.isWaitingToStart());
+    QVERIFY(!timer.running());
+    QCOMPARE(countDownSpy.count(), 1);
+    QCOMPARE(countDownSpy.last().at(0).toInt(), 5);
+
+    // Simulate one real tick of the countdown timer elapsing.
+    QMetaObject::invokeMethod(&timer, "onCountDown");
+    QCOMPARE(countDownSpy.count(), 2);
+    QCOMPARE(countDownSpy.last().at(0).toInt(), 4);
+
+    timer.pause();
+    QVERIFY(timer.isPaused());
+    QVERIFY(timer.isWaitingToStart()); // still mid-countdown, just frozen
+    QVERIFY(!timer.running());
+    QCOMPARE(countDownSpy.count(), 2); // pausing itself emits nothing new
+
+    // Resuming must continue from the remaining count (3), not restart
+    // a fresh 5-second delay (ADR-0020).
+    timer.start();
+    QVERIFY(!timer.isPaused());
+    QVERIFY(timer.isWaitingToStart());
+    QVERIFY(!timer.running());
+
+    QMetaObject::invokeMethod(&timer, "onCountDown");
+    QCOMPARE(countDownSpy.last().at(0).toInt(), 3);
+}
+
+void TstExerciseTimer::resumingMidExercisePauseDoesNotReplayStartDelay()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(5);
+    timer.addSet(setWithOneExercise("work", 0, 2));
+
+    QSignalSpy countDownSpy(&timer, &ExerciseTimer::countDown);
+
+    timer.start(); // enters the Start Delay countdown
+    QCOMPARE(countDownSpy.count(), 1);
+
+    // Simulate the delay elapsing and the exercise actually starting.
+    QMetaObject::invokeMethod(&timer, "startAfterDelay");
+    QVERIFY(timer.running());
+    QVERIFY(!timer.isWaitingToStart());
+
+    timer.pause();
+    QVERIFY(!timer.running());
+    QVERIFY(timer.isPaused());
+    QVERIFY(!timer.isWaitingToStart());
+
+    // Resuming a mid-exercise pause must go straight back into the
+    // exercise, not replay the Start Delay countdown (ADR-0020).
+    timer.start();
+    QVERIFY(timer.running());
+    QVERIFY(!timer.isPaused());
+    QVERIFY(!timer.isWaitingToStart());
+    QCOMPARE(countDownSpy.count(), 1); // no fresh Start Delay emission
+}
+
+void TstExerciseTimer::resumingMidExercisePauseDoesNotReplaySetupSideEffects()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(0);
+    timer.addSet(setWithOneExercise("work", 0, 10));
+
+    timer.start();
+    QVERIFY(timer.running());
+
+    timer.pause();
+    QVERIFY(timer.isPaused());
+
+    QSignalSpy activitySpy(&timer, &ExerciseTimer::currentActivityChanged);
+    QSignalSpy durationSpy(&timer, &ExerciseTimer::currentDurationChanged);
+
+    // Resuming a mid-exercise pause must not replay the fresh-start setup
+    // (round-start sound, activity/duration re-announcement, re-arming an
+    // End-of-exercise Warning that may have already fired) - only the
+    // tick loop itself restarts (ADR-0020).
+    timer.start();
+    QVERIFY(timer.running());
+    QCOMPARE(activitySpy.count(), 0);
+    QCOMPARE(durationSpy.count(), 0);
+}
+
+void TstExerciseTimer::resumingAfterPauseDuringEndOfExerciseWarningGoesStraightBackToRunning()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(0); // skip the lead-in, go straight to running
+    timer.addSet(setWithOneExercise("work", 0, 10));
+
+    QSignalSpy countDownSpy(&timer, &ExerciseTimer::countDown);
+
+    timer.start();
+    QVERIFY(timer.running());
+
+    // Simulate the tick loop noticing the exercise is close to its end;
+    // this reuses the same countdown timer as the Start Delay (ADR-0020).
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseCloseToEnd");
+    QCOMPARE(countDownSpy.count(), 1); // the warning's first tick (e.g. "3")
+
+    timer.pause();
+    QVERIFY(!timer.running());
+    QVERIFY(timer.isPaused());
+    QVERIFY(!timer.isWaitingToStart());
+
+    // Resuming must go straight back to running - it must not be mistaken
+    // for a resume-mid-Start-Delay just because the shared countdown timer
+    // happened to be active when paused.
+    timer.start();
+    QVERIFY(timer.running());
+    QVERIFY(!timer.isPaused());
+    QVERIFY(!timer.isWaitingToStart());
+    QCOMPARE(countDownSpy.count(), 1); // no new Start Delay emission
+}
+
+void TstExerciseTimer::resetDuringStartDelayClearsWaitingAndPausedFlags()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(5);
+    timer.addSet(setWithOneExercise("work", 0, 2));
+
+    timer.start();
+    timer.pause();
+    QVERIFY(timer.isPaused());
+    QVERIFY(timer.isWaitingToStart());
+
+    timer.reset();
+
+    QVERIFY(!timer.isPaused());
+    QVERIFY(!timer.isWaitingToStart());
+    QVERIFY(!timer.running());
+    QCOMPARE(timer.currentRunningTime(), QTime(0, 0, 0));
+}
+
 void TstExerciseTimer::emptySetBlocksValidity()
 {
     ExerciseTimer timer(nullptr, false);
