@@ -304,6 +304,10 @@ private: //data
     bool mPaused;
     /*! True if the startDelay period is running  */
     bool mWaitingToStart;
+    /*! Set by pause() to whether mCountdownTimer (Start Delay or
+    End-of-exercise Warning) was actually active and got stopped - so
+    start() knows whether to restart it on resume (ADR-0020). */
+    bool mCountdownTimerWasActiveOnPause;
 
     /*! True if events for repetitions are sent (e.g. a sound is played) */
     bool mNotifyReps;

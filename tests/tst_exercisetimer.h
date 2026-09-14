@@ -37,6 +37,7 @@ private slots:
     void resumingMidExercisePauseDoesNotReplayStartDelay();
     void resumingMidExercisePauseDoesNotReplaySetupSideEffects();
     void resumingAfterPauseDuringEndOfExerciseWarningGoesStraightBackToRunning();
+    void resumingAfterPauseDuringEndOfExerciseWarningRestartsCountdownTimer();
     void resetDuringStartDelayClearsWaitingAndPausedFlags();
 
     void emptySetBlocksValidity();

@@ -28,6 +28,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     mTotalRunningTime(QTime(0, 0, 0)), mCurrentRunningTime(QTime(0, 0, 0)),
     mStartTime(QTime(0, 0, 0)), mTimerInterval(100), mTimerID(0),
     mStartDelay(5), mRunning(false), mPaused(false), mWaitingToStart(false),
+    mCountdownTimerWasActiveOnPause(false),
     mNotifyReps(false),
     mRepSeparationMilliSecs(0), mCheckRepTimer(false),
     mEndNotificationTime(3), mMuteSounds(false), mSkipLastRest(false),
@@ -209,13 +210,14 @@ void ExerciseTimer::start()
     {
         mPaused = false;
         emit pausedChanged(mPaused);
-        if (mWaitingToStart)
+        if (mCountdownTimerWasActiveOnPause)
         {
-            // Resume the frozen Start Delay countdown from its preserved
-            // remaining value - do not restart it (ADR-0020).
+            // Resume whichever countdown (Start Delay or End-of-exercise
+            // Warning) was frozen, from its preserved remaining value -
+            // do not restart it from scratch (ADR-0020).
             mCountdownTimer->start(1000);
         }
-        else
+        if (!mWaitingToStart)
         {
             // Resume a mid-exercise pause directly - the Start Delay (if
             // any) already played once, at the very beginning.
@@ -255,8 +257,10 @@ void ExerciseTimer::pause()
     }
     // Freeze whichever countdown (Start Delay or End-of-exercise Warning)
     // happens to be ticking, so it resumes from where it left off instead
-    // of continuing in the background while paused (ADR-0020).
-    if (mCountdownTimer->isActive())
+    // of continuing in the background while paused (ADR-0020). Remembered
+    // so start() knows whether to restart it on resume.
+    mCountdownTimerWasActiveOnPause = mCountdownTimer->isActive();
+    if (mCountdownTimerWasActiveOnPause)
     {
         mCountdownTimer->stop();
     }

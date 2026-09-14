@@ -6,6 +6,8 @@ This only works because the Start Delay and End-of-exercise Warning countdowns a
 
 `start()`'s resume path had to stop assuming "resuming from pause" always means "replay the full Start Delay" — that was only true by coincidence, because until now nothing could pause *during* the delay itself. It now branches on what was paused (mid-exercise vs. mid-Start-Delay) instead of restarting the delay unconditionally, which also fixes a latent bug: resuming an ordinary mid-exercise pause was replaying the entire Start Delay countdown before continuing, which was never intended.
 
+`start()`'s resume must also restart `mCountdownTimer` whenever `pause()` actually stopped it — not only in the Start-Delay branch. The first implementation of this ADR missed the case where `mCountdownTimer` was stopped mid-*Warning* (i.e. mid-exercise, not mid-Start-Delay): resuming never restarted it, so the countdown UI got stuck showing the frozen digit for the rest of that exercise and the next one, since `countDown(0)` — the signal the UI relies on to switch back to the remaining-time display — was never reached. `pause()` now records whether it actually stopped `mCountdownTimer` (`mCountdownTimerWasActiveOnPause`), and `start()` restarts it on resume whenever that's true, independent of which of the two countdowns it was.
+
 ## Considered Options
 
 - A separate `countdownPaused` property, keeping `paused`/`waitingToStart` mutually exclusive. Rejected: it would need its own wiring through every consumer of `paused`, for no behavioral difference from the compound-state reading.

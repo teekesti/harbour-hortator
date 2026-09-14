@@ -434,6 +434,29 @@ void TstExerciseTimer::resumingAfterPauseDuringEndOfExerciseWarningGoesStraightB
     QCOMPARE(countDownSpy.count(), 1); // no new Start Delay emission
 }
 
+void TstExerciseTimer::resumingAfterPauseDuringEndOfExerciseWarningRestartsCountdownTimer()
+{
+    ExerciseTimer timer(nullptr, false);
+    timer.setStartDelay(0);
+    timer.addSet(setWithOneExercise("work", 0, 10));
+
+    timer.start();
+    QMetaObject::invokeMethod(&timer, "onCurrentExerciseCloseToEnd");
+
+    timer.pause();
+    timer.start(); // resume
+
+    QSignalSpy countDownSpy(&timer, &ExerciseTimer::countDown);
+    // Unlike the rest of this suite, this needs a real wait: it's
+    // checking that the actual QTimer driving the End-of-exercise
+    // Warning resumes ticking on its own after being paused mid-warning.
+    // A direct slot invocation can't distinguish "restarted" from
+    // "never restarted at all" - which is exactly the bug (#reported
+    // after ADR-0020: the countdown UI got stuck) being guarded against.
+    QTRY_COMPARE_WITH_TIMEOUT(countDownSpy.count(), 1, 3000);
+    QCOMPARE(countDownSpy.at(0).at(0).toInt(), 2);
+}
+
 void TstExerciseTimer::resetDuringStartDelayClearsWaitingAndPausedFlags()
 {
     ExerciseTimer timer(nullptr, false);
