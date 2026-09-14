@@ -610,3 +610,23 @@ void TstExerciseTimer::outOfRangeSetIndexIsNoOp()
     QCOMPARE(timer.exerciseListModel()->at(0)->count(), 1);
     QCOMPARE(modifySpy.count(), 0);
 }
+
+void TstExerciseTimer::showFirstUseHintsDefaultsFalseAndIsNotPersisted()
+{
+    ExerciseTimer timer(nullptr, false);
+    QCOMPARE(timer.showFirstUseHints(), false);
+
+    QSignalSpy spy(&timer, &ExerciseTimer::showFirstUseHintsChanged);
+    timer.setShowFirstUseHints(true);
+    QCOMPARE(timer.showFirstUseHints(), true);
+    QCOMPARE(spy.count(), 1);
+
+    timer.setShowFirstUseHints(true); // no-op, same value
+    QCOMPARE(spy.count(), 1);
+
+    // Unlike muteSounds/skipLastRest, this reflects a point-in-time
+    // condition set by the caller after construction (see ADR-0019) -
+    // it must never be persisted via QSettings.
+    ExerciseTimer freshTimer(nullptr, false);
+    QCOMPARE(freshTimer.showFirstUseHints(), false);
+}

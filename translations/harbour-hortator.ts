@@ -168,6 +168,18 @@
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Tap to add a new set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tap to add an exercise, press and hold to pick a saved one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press and hold to edit or remove</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HistoryPage</name>

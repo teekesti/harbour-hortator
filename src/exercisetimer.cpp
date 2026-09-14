@@ -33,7 +33,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     mEndNotificationTime(3), mMuteSounds(false), mSkipLastRest(false),
     mSendEndNotification(false), mCountdownTracker(0),
     mCurrentRepNumber(0), mCurrentProgress(0), mTotalProgress(0),
-    mAllValid(false)
+    mAllValid(false), mShowFirstUseHints(false)
 {
     QSettings settings;
     if (settings.contains("start delay"))
@@ -909,6 +909,24 @@ void ExerciseTimer::setSkipLastRest(bool skip)
         emit skipLastRestChanged(mSkipLastRest);
         QSettings settings;
         settings.setValue("skip last rest", mSkipLastRest);
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+//
+bool ExerciseTimer::showFirstUseHints() const
+{
+    return mShowFirstUseHints;
+}
+
+void ExerciseTimer::setShowFirstUseHints(bool show)
+{
+    if (show != mShowFirstUseHints)
+    {
+        mShowFirstUseHints = show;
+        emit showFirstUseHintsChanged(mShowFirstUseHints);
     }
 }
 

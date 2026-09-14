@@ -7,3 +7,4 @@
  TotalProgressBar 1.0 TotalProgressBar.qml
  SetCard 1.0 SetCard.qml
  ExerciseRow 1.0 ExerciseRow.qml
+ FirstUseHint 1.0 FirstUseHint.qml

@@ -46,6 +46,8 @@ private slots:
     void skipLastRestSkipsWhenLastItemIsRest();
     void skipLastRestNoOpWhenLastItemIsWork();
     void skipLastRestNoOpWhenFlagOff();
+
+    void showFirstUseHintsDefaultsFalseAndIsNotPersisted();
 };
 
 #endif // TST_EXERCISETIMER_H

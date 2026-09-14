@@ -168,6 +168,18 @@
         <source>About</source>
         <translation>Tietoja sovelluksesta</translation>
     </message>
+    <message>
+        <source>Tap to add a new set</source>
+        <translation>Lisää uusi sarja napauttamalla</translation>
+    </message>
+    <message>
+        <source>Tap to add an exercise, press and hold to pick a saved one</source>
+        <translation>Lisää harjoitus napauttamalla, valitse tallennettu pitämällä painettuna</translation>
+    </message>
+    <message>
+        <source>Press and hold to edit or remove</source>
+        <translation>Muokkaa tai poista pitämällä painettuna</translation>
+    </message>
 </context>
 <context>
     <name>HistoryPage</name>
