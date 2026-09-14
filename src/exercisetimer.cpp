@@ -28,6 +28,7 @@ ExerciseTimer::ExerciseTimer(QObject *parent, bool enableSound) :
     mTotalRunningTime(QTime(0, 0, 0)), mCurrentRunningTime(QTime(0, 0, 0)),
     mStartTime(QTime(0, 0, 0)), mTimerInterval(100), mTimerID(0),
     mStartDelay(5), mRunning(false), mPaused(false), mWaitingToStart(false),
+    mCountdownTimerWasActiveOnPause(false),
     mNotifyReps(false),
     mRepSeparationMilliSecs(0), mCheckRepTimer(false),
     mEndNotificationTime(3), mMuteSounds(false), mSkipLastRest(false),
@@ -209,6 +210,20 @@ void ExerciseTimer::start()
     {
         mPaused = false;
         emit pausedChanged(mPaused);
+        if (mCountdownTimerWasActiveOnPause)
+        {
+            // Resume whichever countdown (Start Delay or End-of-exercise
+            // Warning) was frozen, from its preserved remaining value -
+            // do not restart it from scratch (ADR-0020).
+            mCountdownTimer->start(1000);
+        }
+        if (!mWaitingToStart)
+        {
+            // Resume a mid-exercise pause directly - the Start Delay (if
+            // any) already played once, at the very beginning.
+            playCurrentExercise(true);
+        }
+        return;
     }
     rebuildPlaySequence();
     if (mPlaySequence.isEmpty())
@@ -220,14 +235,7 @@ void ExerciseTimer::start()
         // There's a delay before really starting.
         mWaitingToStart = true;
         emit waitingToStartChanged(mWaitingToStart);
-        QTimer::singleShot(mStartDelay*1000, this,
-                           SLOT(startAfterDelay()));
         startCountDown(mStartDelay);
-        //mPlayer->playCountDownSound(mStartDelay);
-//        QTimer countdownTimer;
-//        countdownTimer.
-
-
     }
     else
     {
@@ -243,20 +251,32 @@ void ExerciseTimer::start()
 //
 void ExerciseTimer::pause()
 {
-    if (!mRunning)
+    if (!mRunning && !mWaitingToStart)
     {
         return;
     }
-    killTimer(mTimerID);
-    mTimerID = 0; // reset to zero
-    int mSecsSinceLastTimerEvent = mStartTime.elapsed();
+    // Freeze whichever countdown (Start Delay or End-of-exercise Warning)
+    // happens to be ticking, so it resumes from where it left off instead
+    // of continuing in the background while paused (ADR-0020). Remembered
+    // so start() knows whether to restart it on resume.
+    mCountdownTimerWasActiveOnPause = mCountdownTimer->isActive();
+    if (mCountdownTimerWasActiveOnPause)
+    {
+        mCountdownTimer->stop();
+    }
+    if (mRunning)
+    {
+        killTimer(mTimerID);
+        mTimerID = 0; // reset to zero
+        int mSecsSinceLastTimerEvent = mStartTime.elapsed();
 
-    mCurrentRunningTime = mCurrentRunningTime.addMSecs(mSecsSinceLastTimerEvent);
-    mTotalRunningTime = mTotalRunningTime.addMSecs(mSecsSinceLastTimerEvent);
-    emit totalRunningTimeChanged(mTotalRunningTime);
-    emit currentRunningTimeChanged(mCurrentRunningTime);
-    mRunning = false;
-    emit runningStatusChanged(mRunning);
+        mCurrentRunningTime = mCurrentRunningTime.addMSecs(mSecsSinceLastTimerEvent);
+        mTotalRunningTime = mTotalRunningTime.addMSecs(mSecsSinceLastTimerEvent);
+        emit totalRunningTimeChanged(mTotalRunningTime);
+        emit currentRunningTimeChanged(mCurrentRunningTime);
+        mRunning = false;
+        emit runningStatusChanged(mRunning);
+    }
     mPaused = true;
     emit pausedChanged(mPaused);
 
@@ -494,7 +514,7 @@ bool ExerciseTimer::isWaitingToStart() const
 //
 //------------------------------------------------------------------------------
 //
-void ExerciseTimer::playCurrentExercise()
+void ExerciseTimer::playCurrentExercise(bool resuming)
 {
     FUTR();
     if (mRunning || mWaitingToStart)
@@ -502,37 +522,40 @@ void ExerciseTimer::playCurrentExercise()
         return;
     }
 
-    TimedExercise* ex = getExercise(mCurrentExerciseIndex);
-    emit currentActivityChanged(ex);
-    if (ex->activityType() == "work")
+    if (!resuming)
     {
-        // Play the round start sound only for work periods, not for rest
-        if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RoundStartSound);
-    }
-    mCurrentExerciseDuration = QTime(0, ex->mins(), ex->secs());
-    emit currentDurationChanged(mCurrentExerciseDuration);
-    if (ex->activityType() == "work" && ex->rpm() != 0)
-    {
-        mNotifyReps = true;
-        mRepSeparationMilliSecs = (int) 1000 * ex->repSeparation(); //  in secs
-    }
-    else
-    {
-        mNotifyReps = false;
-    }
-    if (mEndNotificationTime > 0)
-    {
-        // A notification will be sent before the end of the current
-        // activity
-
-        // Check that the current period is longer than the pre-warning
-        // time, which may be up to 60 s.
-        if (mCurrentExerciseDuration.minute() >= 1 ||
-                mCurrentExerciseDuration.second() > mEndNotificationTime)
+        TimedExercise* ex = getExercise(mCurrentExerciseIndex);
+        emit currentActivityChanged(ex);
+        if (ex->activityType() == "work")
         {
-            mCurrentExerciseEndNotificationTime =
-                mCurrentExerciseDuration.addSecs(-mEndNotificationTime);
-            mSendEndNotification = true;
+            // Play the round start sound only for work periods, not for rest
+            if (mPlayer && !mMuteSounds) mPlayer->playSound(SoundPlayer::RoundStartSound);
+        }
+        mCurrentExerciseDuration = QTime(0, ex->mins(), ex->secs());
+        emit currentDurationChanged(mCurrentExerciseDuration);
+        if (ex->activityType() == "work" && ex->rpm() != 0)
+        {
+            mNotifyReps = true;
+            mRepSeparationMilliSecs = (int) 1000 * ex->repSeparation(); //  in secs
+        }
+        else
+        {
+            mNotifyReps = false;
+        }
+        if (mEndNotificationTime > 0)
+        {
+            // A notification will be sent before the end of the current
+            // activity
+
+            // Check that the current period is longer than the pre-warning
+            // time, which may be up to 60 s.
+            if (mCurrentExerciseDuration.minute() >= 1 ||
+                    mCurrentExerciseDuration.second() > mEndNotificationTime)
+            {
+                mCurrentExerciseEndNotificationTime =
+                    mCurrentExerciseDuration.addSecs(-mEndNotificationTime);
+                mSendEndNotification = true;
+            }
         }
     }
     mStartTime = QTime::currentTime();
@@ -809,6 +832,13 @@ void ExerciseTimer::onCountDown()
         // it's useful to send also the zero countdown signal, because
         // ui knows it can hide the countdown number.
         emit countDown(0);
+        if (mWaitingToStart)
+        {
+            // This countdown was the Start Delay (as opposed to an
+            // End-of-exercise Warning) reaching zero - actually start
+            // playing now (ADR-0020).
+            startAfterDelay();
+        }
     }
 }
 

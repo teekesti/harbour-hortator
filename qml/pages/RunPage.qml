@@ -202,7 +202,8 @@ Page {
                                   ? Theme.highlightColor
                                   : Theme.primaryColor)
                         Layout.alignment: Qt.AlignLeft
-                        enabled: !exerciseTimer.running
+                        enabled: exerciseTimer.paused
+                                 || (!exerciseTimer.running && !exerciseTimer.waitingToStart)
                         onClicked: {
                             exerciseTimer.start()
                         }
@@ -214,7 +215,8 @@ Page {
                                   ? Theme.highlightColor
                                   : Theme.primaryColor)
                         Layout.alignment: Qt.AlignHCenter
-                        enabled: exerciseTimer.running
+                        enabled: (exerciseTimer.running || exerciseTimer.waitingToStart)
+                                 && !exerciseTimer.paused
                         onClicked: {
                             exerciseTimer.pause()
                         }

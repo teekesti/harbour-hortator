@@ -35,3 +35,17 @@ _Avoid_: Timeline, Progress bar (reserved for playback progress in RunPage)
 **Exercise Template**:
 A named, reusable starting point — `{name, default duration, default reps}` — kept in a flat library independent of any Workout. Copied **by value** into a new Exercise when picked; later edits to either side never propagate. Naming an Exercise implicitly upserts a template by that name (ADR-0009); templates can also be deleted directly from a library page. See ADR-0008, ADR-0009.
 _Avoid_: Library item (use "Exercise Template"), Preset
+
+## Playback
+
+**Start Delay**:
+The lead-in countdown before a Workout's first Exercise begins playing, giving the user time to get ready. Configurable in Settings; a value of zero skips it entirely.
+_Avoid_: Countdown (ambiguous — see End-of-exercise Warning), Lead-in
+
+**End-of-exercise Warning**:
+A countdown fired shortly before a playing Exercise reaches its duration, giving advance notice it's about to end. Configurable in Settings, independent of Start Delay, and driven by the same underlying countdown mechanism (ADR-0020).
+_Avoid_: Countdown (ambiguous — see Start Delay), Warning countdown
+
+**Pause**:
+Freezing a playing Workout's progress — whether mid-Exercise, during the Start Delay, or during an End-of-exercise Warning — preserving the exact remaining time so resuming continues from precisely where it left off (ADR-0020). Distinct from Reset, which discards progress back to the beginning instead of preserving it.
+_Avoid_: Stop

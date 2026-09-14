@@ -225,7 +225,13 @@ private slots:
     void onTotalDurationChanged(int totalDurationChangeSeconds);
     void onCurrentRunningTimeChanged(QTime runTime);
     void onTotalRunningTimeChanged(QTime totalRunTime);
-    void playCurrentExercise();
+    /*! Starts the tick loop for the current activity.
+    @param resuming If true, this is resuming a mid-exercise pause: skip
+    the fresh-start setup (round-start sound, activity/duration
+    announcement, arming the End-of-exercise Warning) and only restart
+    the timer, so pausing and resuming is inaudible and doesn't re-fire
+    a Warning that already fired before the pause (ADR-0020). */
+    void playCurrentExercise(bool resuming = false);
     void onCurrentExerciseFinished();
     void onAllExercisesFinished();
     void onRunningStatusChanged(bool running);
@@ -298,6 +304,10 @@ private: //data
     bool mPaused;
     /*! True if the startDelay period is running  */
     bool mWaitingToStart;
+    /*! Set by pause() to whether mCountdownTimer (Start Delay or
+    End-of-exercise Warning) was actually active and got stopped - so
+    start() knows whether to restart it on resume (ADR-0020). */
+    bool mCountdownTimerWasActiveOnPause;
 
     /*! True if events for repetitions are sent (e.g. a sound is played) */
     bool mNotifyReps;
