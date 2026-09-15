@@ -16,7 +16,9 @@ QT += core multimedia
 CONFIG += sailfishapp qml_debug
 
 VERSION = $$system(grep '^Version:' rpm/harbour-hortator.spec | sed 's/Version:[[:space:]]*//')
-DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE APP_VERSION=\\\"$$VERSION\\\"
+# Uncomment the following to enable debug traces
+# DEFINES += ENABLE_FUNC_TRACE ENABLE_TRACE
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 SOURCES += src/harbour-hortator.cpp \
     src/exerciselistmodel.cpp \

@@ -27,6 +27,26 @@
         <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
         <translation>Lisää sarjoja näytön alareunassa olevalla &quot;+&quot;-painikkeella. Lisää sarjaan harjoituksia &quot;+&quot;-painikkeella. Yksittäinen napautus lisää oletusharjoituksen ja pitkä painallus avaa harjoitusten kirjaston. Aseta kukin harjoitus työksi tai levoksi ja säädä sen kesto. Kontekstivalikosta voit myös asettaa toistojen määrän kullekin harjoitukselle. Aseta kierrosten määrä koko sarjoille tai yksittäisille harjoituksille. Aloita treeni painamalla toistopainiketta.</translation>
     </message>
+    <message>
+        <source>Enjoying this workout timer? This app is fully open-source, ad-free, and respects your privacy. If it helps you stay fit, you can support its maintenance and future updates by buying me a virtual coffee!</source>
+        <translation>Pidätkö tästä treeniajastimesta? Tämä sovellus on avointa lähdekoodia, mainokseton ja kunnioittaa yksityisyyttäsi. Jos se auttaa sinua pysymään kunnossa, voit tukea sen ylläpitoa ja tulevia päivityksiä tarjoamalla minulle virtuaalisen kahvikupillisen!</translation>
+    </message>
+    <message>
+        <source>Several secure payment methods. No registration required.</source>
+        <translation>Useita turvallisia maksutapoja. Rekisteröitymistä ei vaadita.</translation>
+    </message>
+    <message>
+        <source>Support the development</source>
+        <translation>Tue kehitystä</translation>
+    </message>
+    <message>
+        <source>Why &quot;Hortator&quot;?</source>
+        <translation>Miksi &quot;Hortator&quot;?</translation>
+    </message>
+    <message>
+        <source>In Latin, a &quot;hortator&quot; was the officer aboard a galley ship who kept the rowers in rhythm, calling out the pace and encouraging the crew to keep stroke. It seemed like a fitting name for an app whose job is to keep you on pace and encourage you through your workout.</source>
+        <translation>Latinaksi &quot;hortator&quot; tarkoitti soutukaleerin upseeria, joka piti soutajat tahdissa huutamalla tahtia ja rohkaisemalla heitä jatkamaan vetoa. Se tuntui sopivalta nimeltä sovellukselle, jonka tehtävä on pitää sinut tahdissa ja kannustaa sinua treenin läpi.</translation>
+    </message>
 </context>
 <context>
     <name>ActivityProgressBar</name>

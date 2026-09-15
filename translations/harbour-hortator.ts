@@ -27,6 +27,26 @@
         <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Enjoying this workout timer? This app is fully open-source, ad-free, and respects your privacy. If it helps you stay fit, you can support its maintenance and future updates by buying me a virtual coffee!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Several secure payment methods. No registration required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support the development</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Why &quot;Hortator&quot;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In Latin, a &quot;hortator&quot; was the officer aboard a galley ship who kept the rowers in rhythm, calling out the pace and encouraging the crew to keep stroke. It seemed like a fitting name for an app whose job is to keep you on pace and encourage you through your workout.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ActivityProgressBar</name>

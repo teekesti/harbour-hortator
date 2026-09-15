@@ -1,7 +1,7 @@
 Name:       harbour-hortator
 
 Summary:    Exercise timer with sound
-Version:    0.2
+Version:    1.0
 Release:    1
 License:    LICENSE
 URL:        https://github.com/teekesti/harbour-hortator

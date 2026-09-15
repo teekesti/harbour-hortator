@@ -1,4 +1,4 @@
- import QtQuick 2.0
+import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
@@ -7,6 +7,7 @@ Page {
     allowedOrientations: Orientation.All
 
     SilicaFlickable {
+        id: aboutFlickable
         anchors.fill: parent
         contentHeight: column.height + Theme.paddingLarge
 
@@ -80,8 +81,69 @@ Page {
                     font.underline: true
                 }
             }
+
+            SectionHeader {
+                text: qsTr("Support the development")
+            }
+
+            Label {
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.WordWrap
+                font.pixelSize: Theme.fontSizeMedium
+                color: Theme.primaryColor
+                text: qsTr("Enjoying this workout timer? This app is fully open-source, ad-free, " +
+                           "and respects your privacy. If it helps you stay fit, you can support its" +
+                           " maintenance and future updates by buying me a virtual coffee!")
+            }
+
+            Item {
+                width: parent.width
+                height: Theme.paddingLarge
+            }
+
+            BackgroundItem {
+                id: kofiLogo
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                height: Theme.itemSizeSmall
+
+                Image {
+                    source: "../images/kofi_logo.svg"
+                    height: parent.height
+                    fillMode: Image.PreserveAspectFit
+                    anchors.centerIn: parent
+                }
+                onClicked: Qt.openUrlExternally("https://ko-fi.com/teekesti")
+            }
+
+            Label {
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                anchors.horizontalCenter: kofiLogo.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: qsTr("Several secure payment methods. No registration required.")
+                wrapMode: Text.WordWrap
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryColor
+            }
+
+            SectionHeader {
+                text: qsTr("Why \"Hortator\"?")
+            }
+
+            Label {
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.WordWrap
+                text: qsTr("In Latin, a \"hortator\" was the officer aboard a galley ship who kept the rowers in rhythm, " +
+                           "calling out the pace and encouraging the crew to keep stroke. " +
+                           "It seemed like a fitting name for an app whose job is to keep you on pace and encourage you through your workout.")
+            }
+
         }
 
-        VerticalScrollDecorator {}
     }
+
+    VerticalScrollDecorator {flickable: aboutFlickable}
 }
+

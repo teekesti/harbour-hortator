@@ -27,6 +27,26 @@
         <source>Add sets with the &quot;+&quot; button at the bottom of the screen. Within a set, add exercises with the &quot;+&quot; button. A single tap adds a default exercise, and a long press lets you load a saved one from your exercise library. Set each exercise as work or rest and adjust its duration. The context menu also lets you set the number of repetitions for each exercise. Set the number of rounds for whole sets or individual exercises. Tap the play button to start the workout.</source>
         <translation>Füge Sätze mit der &quot;+&quot;-Schaltfläche am unteren Bildschirmrand hinzu. Füge innerhalb eines Satzes Übungen mit der &quot;+&quot;-Schaltfläche hinzu. Ein einfaches Tippen fügt eine Standardübung hinzu, ein langer Druck öffnet die gespeicherte Übungsbibliothek. Lege jede Übung als Arbeit oder Pause fest und passe ihre Dauer an. Das Kontextmenü lässt dich auch die Anzahl der Wiederholungen für jede Übung festlegen. Lege die Anzahl der Runden für ganze Sätze oder einzelne Übungen fest. Tippe auf die Wiedergabe-Schaltfläche, um das Training zu starten.</translation>
     </message>
+    <message>
+        <source>Enjoying this workout timer? This app is fully open-source, ad-free, and respects your privacy. If it helps you stay fit, you can support its maintenance and future updates by buying me a virtual coffee!</source>
+        <translation>Gefällt dir dieser Trainingstimer? Diese App ist vollständig quelloffen, werbefrei und respektiert deine Privatsphäre. Wenn sie dir hilft, fit zu bleiben, kannst du ihre Wartung und zukünftige Updates unterstützen, indem du mir einen virtuellen Kaffee spendierst!</translation>
+    </message>
+    <message>
+        <source>Several secure payment methods. No registration required.</source>
+        <translation>Mehrere sichere Zahlungsmethoden. Keine Registrierung erforderlich.</translation>
+    </message>
+    <message>
+        <source>Support the development</source>
+        <translation>Entwicklung unterstützen</translation>
+    </message>
+    <message>
+        <source>Why &quot;Hortator&quot;?</source>
+        <translation>Warum &quot;Hortator&quot;?</translation>
+    </message>
+    <message>
+        <source>In Latin, a &quot;hortator&quot; was the officer aboard a galley ship who kept the rowers in rhythm, calling out the pace and encouraging the crew to keep stroke. It seemed like a fitting name for an app whose job is to keep you on pace and encourage you through your workout.</source>
+        <translation>Im Lateinischen war ein &quot;hortator&quot; der Offizier an Bord einer Galeere, der die Ruderer im Takt hielt, indem er den Rhythmus ausrief und die Mannschaft zum Durchhalten anspornte. Das schien ein passender Name für eine App zu sein, deren Aufgabe es ist, dich im Takt zu halten und dich durch dein Training zu motivieren.</translation>
+    </message>
 </context>
 <context>
     <name>ActivityProgressBar</name>
